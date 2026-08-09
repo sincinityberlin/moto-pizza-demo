@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>MOTO PIZZA — Detroit Style Pizza, Berlin</title>
+<link rel="icon" href="assets/images/logo.png" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- ==========================================================================
+     NAV
+     ========================================================================== -->
+<header class="nav" data-section="nav">
+  <div class="nav__inner">
+    <nav class="nav__links" aria-label="Hauptnavigation">
+      <a href="#menu">Menu</a>
+      <a href="#detroit">Detroit Style</a>
+      <a href="#about">Über uns</a>
+      <a href="#order">Standort</a>
+    </nav>
+
+    <a href="#order" class="btn btn--pill nav__cta">Jetzt bestellen</a>
+
+    <button class="nav__burger" aria-label="Menü öffnen" aria-expanded="false" id="burgerBtn">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="nav__mobile" id="mobileMenu">
+    <a href="#menu">Menu</a>
+    <a href="#detroit">Detroit Style</a>
+    <a href="#about">Über uns</a>
+    <a href="#order">Standort</a>
+    <a href="#order" class="btn btn--pill">Jetzt bestellen</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ==========================================================================
+       HERO
+       ========================================================================== -->
+  <section class="hero" data-section="hero">
+    <!-- shared line-art icon set for the hero's decorative MOTO/mechanic pattern
+         (see assets/source reference sheet) — defined once, instanced via
+         <use> in each .hero__topping below so the markup below stays short.
+         All white line-art, no fill except small accent dots, to match the
+         reference sheet's pink-background/white-icon look. -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <defs>
+        <g id="icon-gear" stroke="var(--white)" stroke-width="5" fill="none" stroke-linejoin="round">
+          <circle cx="50" cy="50" r="21"/>
+          <circle cx="50" cy="50" r="8"/>
+          <g stroke="none" fill="var(--white)">
+            <rect x="45" y="4" width="10" height="12" rx="2"/>
+            <rect x="45" y="84" width="10" height="12" rx="2"/>
+            <rect x="4" y="45" width="12" height="10" rx="2"/>
+            <rect x="84" y="45" width="12" height="10" rx="2"/>
+            <rect x="45" y="4" width="10" height="12" rx="2" transform="rotate(45 50 50)"/>
+            <rect x="45" y="84" width="10" height="12" rx="2" transform="rotate(45 50 50)"/>
+            <rect x="4" y="45" width="12" height="10" rx="2" transform="rotate(45 50 50)"/>
+            <rect x="84" y="45" width="12" height="10" rx="2" transform="rotate(45 50 50)"/>
+          </g>
+        </g>
+        <g id="icon-piston" stroke="var(--white)" stroke-width="5" fill="none" stroke-linejoin="round" stroke-linecap="round">
+          <rect x="33" y="13" width="34" height="25" rx="4"/>
+          <line x1="42" y1="38" x2="42" y2="47"/>
+          <line x1="58" y1="38" x2="58" y2="47"/>
+          <line x1="50" y1="47" x2="37" y2="87"/>
+          <circle cx="37" cy="87" r="6.5"/>
+        </g>
+        <g id="icon-speedo" stroke="var(--white)" stroke-width="5" fill="none" stroke-linecap="round">
+          <path d="M18 68a32 32 0 0 1 64 0"/>
+          <line x1="50" y1="68" x2="68" y2="44"/>
+          <circle cx="50" cy="68" r="4.5" fill="var(--white)" stroke="none"/>
+          <line x1="18" y1="68" x2="10" y2="68"/>
+          <line x1="82" y1="68" x2="90" y2="68"/>
+          <line x1="50" y1="36" x2="50" y2="28"/>
+        </g>
+        <g id="icon-bearing" stroke="var(--white)" stroke-width="5" fill="none">
+          <circle cx="50" cy="50" r="27"/>
+          <circle cx="50" cy="50" r="11"/>
+          <g fill="var(--white)" stroke="none">
+            <circle cx="50" cy="23" r="3.6"/>
+            <circle cx="73" cy="36.5" r="3.6"/>
+            <circle cx="73" cy="63.5" r="3.6"/>
+            <circle cx="50" cy="77" r="3.6"/>
+            <circle cx="27" cy="63.5" r="3.6"/>
+            <circle cx="27" cy="36.5" r="3.6"/>
+          </g>
+        </g>
+        <g id="icon-clock" stroke="var(--white)" stroke-width="5" fill="none" stroke-linecap="round">
+          <circle cx="50" cy="50" r="27"/>
+          <line x1="50" y1="50" x2="50" y2="29"/>
+          <line x1="50" y1="50" x2="66" y2="56"/>
+        </g>
+        <g id="icon-star" fill="var(--white)" stroke="none">
+          <path d="M50 12c2 21 5 33 17 38-12 5-15 17-17 38-2-21-5-33-17-38 12-5 15-17 17-38z"/>
+        </g>
+        <g id="icon-ring" stroke="var(--white)" fill="none">
+          <circle cx="50" cy="50" r="23" stroke-width="6.5"/>
+          <circle cx="50" cy="50" r="9" stroke-width="4"/>
+        </g>
+        <g id="icon-diamond" stroke="var(--white)" stroke-width="5.5" fill="none" stroke-linejoin="round">
+          <path d="M50 18 L67 50 L50 82 L33 50 Z"/>
+        </g>
+        <g id="icon-cross" stroke="var(--white)" stroke-width="6.5" stroke-linecap="round">
+          <line x1="50" y1="37" x2="50" y2="63"/>
+          <line x1="37" y1="50" x2="63" y2="50"/>
+        </g>
+      </defs>
+    </svg>
+
+    <div class="hero__toppings" aria-hidden="true">
+      <div class="hero__topping hero__topping--gear-1" data-speed="130" data-drift="26" data-rotate="18" data-tilt="-8" data-scale="0.18">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-gear"/></svg>
+      </div>
+      <div class="hero__topping hero__topping--piston-1" data-speed="-140" data-drift="-30" data-rotate="-16" data-tilt="10" data-scale="0.2">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-piston"/></svg>
+      </div>
+      <div class="hero__topping hero__topping--bearing-1" data-speed="90" data-drift="18" data-rotate="14" data-tilt="-14" data-scale="0.14">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-bearing"/></svg>
+      </div>
+      <div class="hero__topping hero__topping--speedo-1" data-speed="-110" data-drift="-22" data-rotate="-24" data-tilt="16" data-scale="0.16">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-speedo"/></svg>
+      </div>
+      <div class="hero__topping hero__topping--star-1" data-speed="60" data-drift="-16" data-rotate="10" data-tilt="20" data-scale="0.1">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-star"/></svg>
+      </div>
+      <div class="hero__topping hero__topping--ring-1" data-speed="-70" data-drift="14" data-rotate="26" data-tilt="-18" data-scale="0.08">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-ring"/></svg>
+      </div>
+      <div class="hero__topping hero__topping--gear-2" data-speed="120" data-drift="24" data-rotate="-12" data-tilt="-6" data-scale="0.18">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-gear"/></svg>
+      </div>
+      <div class="hero__topping hero__topping--piston-2" data-speed="100" data-drift="16" data-rotate="10" data-tilt="9" data-scale="-0.14">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-piston"/></svg>
+      </div>
+      <div class="hero__topping hero__topping--diamond-1" data-speed="50" data-drift="10" data-rotate="16" data-tilt="-12" data-scale="0.08">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-diamond"/></svg>
+      </div>
+      <div class="hero__topping hero__topping--ring-2" data-speed="-60" data-drift="-14" data-rotate="-20" data-tilt="15" data-scale="0.1">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-ring"/></svg>
+      </div>
+      <div class="hero__topping hero__topping--clock-1" data-speed="-100" data-drift="-20" data-rotate="28" data-tilt="-20" data-scale="0.14">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-clock"/></svg>
+      </div>
+      <div class="hero__topping hero__topping--gear-3" data-speed="95" data-drift="18" data-rotate="-14" data-tilt="7" data-scale="0.14">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-gear"/></svg>
+      </div>
+      <div class="hero__topping hero__topping--speedo-2" data-speed="85" data-drift="12" data-rotate="8" data-tilt="11" data-scale="-0.12">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-speedo"/></svg>
+      </div>
+      <div class="hero__topping hero__topping--bearing-2" data-speed="-75" data-drift="-14" data-rotate="12" data-tilt="-9" data-scale="0.1">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-bearing"/></svg>
+      </div>
+      <div class="hero__topping hero__topping--piston-3" data-speed="110" data-drift="20" data-rotate="18" data-tilt="13" data-scale="-0.14">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-piston"/></svg>
+      </div>
+      <div class="hero__topping hero__topping--star-2" data-speed="55" data-drift="-10" data-rotate="20" data-tilt="-17" data-scale="0.08">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-star"/></svg>
+      </div>
+      <div class="hero__topping hero__topping--gear-4" data-speed="-90" data-drift="-16" data-rotate="10" data-tilt="-10" data-scale="0.12">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-gear"/></svg>
+      </div>
+      <div class="hero__topping hero__topping--clock-2" data-speed="80" data-drift="16" data-rotate="-14" data-tilt="14" data-scale="0.1">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-clock"/></svg>
+      </div>
+      <div class="hero__topping hero__topping--cross-1" data-speed="40" data-drift="10" data-rotate="30" data-tilt="25" data-scale="0.06">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-cross"/></svg>
+      </div>
+      <div class="hero__topping hero__topping--star-3" data-speed="-45" data-drift="-10" data-rotate="-26" data-tilt="-22" data-scale="0.06">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-star"/></svg>
+      </div>
+    </div>
+
+    <div class="hero__inner">
+      <img
+        src="assets/images/logo.png"
+        alt="MOTO PIZZA"
+        class="hero__logo"
+      />
+
+      <h1 class="hero__title">
+        <span>CHEESE TO<br>THE EDGE.</span>
+        <span class="hero__title--outline">CRUNCH IN<br>EVERY BITE.</span>
+      </h1>
+
+      <div class="hero__product">
+        <img
+          src="assets/images/hero-pizza-full.png"
+          alt="MOTO Pizza – komplette rechteckige Detroit Style Pizza mit Käse bis zum knusprigen Rand, Tomatensauce, Parmesan und Basilikum"
+          class="hero__product-img"
+          id="heroImg"
+        />
+      </div>
+
+      <div class="hero__actions">
+        <a href="#menu" class="btn btn--solid btn--big magnetic">Speisekarte</a>
+        <a href="#order" class="btn btn--ghost btn--big magnetic">Standorte</a>
+      </div>
+    </div>
+
+    <a href="#marquee" class="hero__scroll" aria-label="Nach unten scrollen">
+      <span></span>
+    </a>
+  </section>
+
+  <!-- ==========================================================================
+       MARQUEE TICKER
+       ========================================================================== -->
+  <div class="marquee" id="marquee" data-section="marquee">
+    <div class="marquee__track">
+      <span>KNUSPRIGE KÄSEKRUSTE</span><span aria-hidden="true">✦</span>
+      <span>25×25 CM DETROIT STYLE</span><span aria-hidden="true">✦</span>
+      <span>FRISCH IM STEINOFEN</span><span aria-hidden="true">✦</span>
+      <span>BERLINS DETROIT PIZZA</span><span aria-hidden="true">✦</span>
+      <span>KNUSPRIGE KÄSEKRUSTE</span><span aria-hidden="true">✦</span>
+      <span>25×25 CM DETROIT STYLE</span><span aria-hidden="true">✦</span>
+      <span>FRISCH IM STEINOFEN</span><span aria-hidden="true">✦</span>
+      <span>BERLINS DETROIT PIZZA</span><span aria-hidden="true">✦</span>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       BRAND STATEMENT
+       ========================================================================== -->
+  <section class="statement" data-section="statement">
+    <p class="statement__text reveal" data-reveal>
+      Wir backen unsere Pizza in der <span class="hl hl--pink">eckigen Stahlform</span> —
+      so wie es die Motor City erfunden hat. Käse bis an den Rand,
+      <span class="hl hl--blue">karamellisiert &amp; kross.</span>
+    </p>
+  </section>
+
+  <!-- ==========================================================================
+       MENU
+       ========================================================================== -->
+  <section class="menu" id="menu" data-section="menu">
+    <div class="menu__bg" aria-hidden="true">
+      <span class="menu__block menu__block--pink"></span>
+      <span class="menu__block menu__block--blue"></span>
+    </div>
+
+    <div class="menu__inner">
+      <div class="menu__head">
+        <h2 class="section-title reveal" data-reveal>UNSERE<br />PIZZEN</h2>
+        <p class="menu__note reveal" data-reveal data-delay="1">
+          Alle Pizzen 25×25&nbsp;cm eckig oder als 45&nbsp;cm New&nbsp;York&nbsp;Style rund. MOTO-Käsemischung inklusive.
+        </p>
+      </div>
+
+      <div class="selector" id="pizzaSelector" data-tone="pink" data-reveal="scale">
+        <div class="selector__stage" id="selStage" tabindex="0" aria-label="Pizza-Auswahl, mit Pfeiltasten oder Wischen bedienbar">
+          <button class="selector__arrow selector__arrow--prev" id="selPrev" aria-label="Vorherige Pizza">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 4l-8 8 8 8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+
+          <div class="selector__track" id="selTrack"><!-- injected by js/main.js from data/menu.js --></div>
+
+          <button class="selector__arrow selector__arrow--next" id="selNext" aria-label="Nächste Pizza">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 4l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+
+        <div class="selector__panel" id="selPanel">
+          <p class="selector__index"><span id="selIndexCurrent">01</span>&nbsp;/&nbsp;<span id="selIndexTotal">10</span></p>
+          <p class="selector__category" id="selCategory">—</p>
+          <h3 class="selector__name" id="selName">—</h3>
+          <p class="selector__short" id="selShort">—</p>
+          <p class="selector__ingredients"><span>Zutaten</span><span id="selIngredients">—</span></p>
+          <p class="selector__price" id="selPrice">—</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       SNACKS
+       ========================================================================== -->
+  <section class="snacks" id="snacks" data-section="snacks">
+    <div class="snacks__inner">
+      <div class="products__head">
+        <h2 class="section-title reveal" data-reveal>SNACKS</h2>
+        <p class="products__note reveal" data-reveal data-delay="1">Die perfekte Ergänzung zur Pizza — süß, hausgemacht, warm serviert.</p>
+      </div>
+      <div class="product-grid" id="snacksGrid"><!-- injected by js/main.js from data/menu.js --></div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       GETRÄNKE
+       ========================================================================== -->
+  <section class="drinks" id="drinks" data-section="drinks">
+    <div class="drinks__inner">
+      <div class="products__head">
+        <h2 class="section-title reveal" data-reveal>GETRÄNKE</h2>
+        <p class="products__note reveal" data-reveal data-delay="1">Erfrischung für zwischendurch — gekühlt serviert.</p>
+      </div>
+      <div class="product-grid product-grid--drinks" id="drinksGrid"><!-- injected by js/main.js from data/menu.js --></div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       WHY DETROIT STYLE
+       ========================================================================== -->
+  <section class="detroit" id="detroit" data-section="detroit">
+    <div class="detroit__head">
+      <p class="detroit__kicker reveal" data-reveal><span aria-hidden="true">◆</span>Das Detroit-Prinzip</p>
+      <h2 class="section-title section-title--light reveal" data-reveal data-delay="1">WARUM<br />DETROIT STYLE?</h2>
+    </div>
+
+    <div class="feature-list">
+
+      <article class="feature reveal" data-reveal>
+        <div class="feature__media">
+          <img src="assets/images/pizza-moto.png" alt="Detroit Style Pizza in der rechteckigen Stahlform" loading="lazy" />
+          <i class="feature__corner feature__corner--tl"></i>
+          <i class="feature__corner feature__corner--br"></i>
+        </div>
+        <div class="feature__content">
+          <span class="feature__num" aria-hidden="true">01</span>
+          <p class="feature__eyebrow">01 — Die Form</p>
+          <h3 class="feature__title">Eckig.<br />Aus gutem Grund.</h3>
+          <p class="feature__text">Detroit Style Pizza wird nicht auf einem klassischen runden Pizzablech gebacken. Sie entsteht in einer tiefen rechteckigen Metallform. Dadurch bekommt der Teig seine charakteristische Höhe und die Pizza ihre unverwechselbare Form.</p>
+        </div>
+      </article>
+
+      <article class="feature feature--reverse feature--blue reveal" data-reveal>
+        <div class="feature__media">
+          <img src="assets/images/pizza-frico.png" alt="Karamellisierter Käserand einer Detroit Style Pizza" loading="lazy" />
+          <i class="feature__corner feature__corner--tl"></i>
+          <i class="feature__corner feature__corner--br"></i>
+        </div>
+        <div class="feature__content">
+          <span class="feature__num" aria-hidden="true">02</span>
+          <p class="feature__eyebrow">02 — Der Rand</p>
+          <h3 class="feature__title">Käse bis<br />zur Kante.</h3>
+          <p class="feature__text">Bei Detroit Style endet der Käse nicht vor dem Rand. Er wird bewusst bis an die Metallform verteilt und karamellisiert beim Backen an den Seiten. Das Ergebnis: ein dunkler, knuspriger Cheese-Crust rund um die Pizza – eines der wichtigsten Merkmale des Detroit Styles.</p>
+        </div>
+      </article>
+
+      <article class="feature reveal" data-reveal>
+        <div class="feature__media">
+          <img src="assets/images/pizza-bighog.png" alt="Hoher, luftiger Teig einer Detroit Style Pizza" loading="lazy" />
+          <i class="feature__corner feature__corner--tl"></i>
+          <i class="feature__corner feature__corner--br"></i>
+        </div>
+        <div class="feature__content">
+          <span class="feature__num" aria-hidden="true">03</span>
+          <p class="feature__eyebrow">03 — Der Teig</p>
+          <h3 class="feature__title">Luftig innen.<br />Knusprig außen.</h3>
+          <p class="feature__text">Der Teig ist deutlich höher und luftiger als bei einer klassischen dünnen Pizza. Beim Backen entsteht ein weicher, luftiger Kern, während Boden und Rand kräftig und knusprig werden.</p>
+        </div>
+      </article>
+
+      <article class="feature feature--reverse feature--blue reveal" data-reveal>
+        <div class="feature__media">
+          <img src="assets/images/pizza-honeyinferno.png" alt="Belag und Sauce einer Detroit Style Pizza" loading="lazy" />
+          <i class="feature__corner feature__corner--tl"></i>
+          <i class="feature__corner feature__corner--br"></i>
+        </div>
+        <div class="feature__content">
+          <span class="feature__num" aria-hidden="true">04</span>
+          <p class="feature__eyebrow">04 — Der Aufbau</p>
+          <h3 class="feature__title">Detroit macht’s<br />anders.</h3>
+          <p class="feature__text">Auch beim Belegen gelten andere Regeln. Käse und Zutaten verteilen sich über die gesamte Pizza bis an die Kanten. Die Tomatensauce kann anschließend charakteristisch oben aufgetragen werden. So entsteht der typische Detroit-Look.</p>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="detroit__statement">
+      <span class="detroit__statement-line detroit__statement-line--outline-blue">
+        <span class="reveal" data-reveal data-delay="0">NICHT</span> <span class="reveal" data-reveal data-delay="1">RUND.</span>
+      </span>
+      <span class="detroit__statement-line detroit__statement-line--outline-pink">
+        <span class="reveal" data-reveal data-delay="2">NICHT</span> <span class="reveal" data-reveal data-delay="3">DÜNN.</span>
+      </span>
+      <span class="detroit__statement-line detroit__statement-line--fill">
+        <span class="reveal" data-reveal data-delay="4">100%</span>
+        <span class="hl hl--pink reveal" data-reveal data-delay="5">DETROIT</span>
+        <span class="hl hl--blue reveal" data-reveal data-delay="6">STYLE.</span>
+      </span>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       ABOUT / BRAND STORY
+       ========================================================================== -->
+  <section class="about" id="about" data-section="about">
+    <div class="about__inner">
+
+      <p class="about__kicker reveal" data-reveal><span aria-hidden="true">▢</span>Unsere Geschichte</p>
+
+      <h2 class="about__title reveal" data-reveal data-delay="1">
+        VON DER <span class="hl hl--pink">MOTOR&nbsp;CITY</span><br />
+        IN DIE <span class="hl hl--blue">HAUPTSTADT.</span>
+      </h2>
+
+      <p class="about__lede reveal" data-reveal data-delay="2">
+        MOTO beginnt dort, wo auch Detroit Pizza ihren Ursprung hat: in Detroit – der Motor City.
+      </p>
+
+      <p class="about__body reveal" data-reveal>
+        Eine Stadt geprägt von Motoren, Werkstätten, Stahl und Menschen, die Dinge mit ihren eigenen Händen
+        erschaffen. Genau in diesem Umfeld entstand eine Pizza, die anders war als alles, was man bis dahin kannte:
+        rechteckig gebacken, mit einem luftigen Teig und Käse bis an den Rand der Stahlform – dort karamellisiert er
+        zu dem knusprigen Rand, für den Detroit Style Pizza heute bekannt ist.
+      </p>
+
+      <p class="about__bridge reveal" data-reveal>
+        MOTO bringt diese Idee<br /><span class="hl hl--blue">nach Berlin.</span>
+      </p>
+
+      <div class="about__rule reveal" data-reveal aria-hidden="true"></div>
+
+      <p class="about__body about__body--center reveal" data-reveal>
+        Denn Detroit und Berlin verbindet mehr, als man auf den ersten Blick denkt. Beide Städte sind rau, direkt und
+        ständig in Bewegung. Alte Industrie trifft auf neue Ideen. Werkstätten werden zu kreativen Räumen. Aus
+        Subkultur entstehen Trends. Und niemand wartet darauf, dass etwas perfekt vorgegeben wird – man macht es
+        einfach selbst.
+      </p>
+
+      <p class="about__standalone reveal" data-reveal>
+        Genau daraus ist <span class="hl hl--pink">MOTO&nbsp;PIZZA</span> entstanden.
+      </p>
+
+      <p class="about__body about__body--center reveal" data-reveal>
+        Wir nehmen die amerikanische Detroit-Style-Pizza und bringen sie in unsere Stadt – mit eigener Handschrift,
+        eigenen Rezepten und Berliner Charakter.
+      </p>
+
+      <ul class="about__marks">
+        <li class="reveal" data-reveal data-delay="0"><span>01</span>Dicker, luftiger Teig.</li>
+        <li class="reveal" data-reveal data-delay="1"><span>02</span>Knusprig karamellisierter Käserand.</li>
+        <li class="reveal" data-reveal data-delay="2"><span>03</span>Kräftige Zutaten.</li>
+        <li class="reveal" data-reveal data-delay="3"><span>04</span>Gebacken in der typischen rechteckigen Form.</li>
+      </ul>
+
+      <div class="about__finale">
+        <span class="about__finale-line">
+          <span class="reveal" data-reveal data-delay="0">DETROIT</span> <span class="reveal" data-reveal data-delay="1">GEBAUT.</span>
+        </span>
+        <span class="about__finale-line about__finale-line--outline">
+          <span class="reveal" data-reveal data-delay="2">BERLIN</span> <span class="reveal" data-reveal data-delay="3">GEDACHT.</span>
+        </span>
+        <span class="about__finale-line about__finale-line--fill">
+          <span class="reveal" data-reveal data-delay="4">MOTO</span> <span class="reveal" data-reveal data-delay="5">GEMACHT.</span>
+        </span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       GALLERY STRIP (infinite auto-scroll)
+       ========================================================================== -->
+  <section class="gallery" data-section="gallery" aria-label="Pizza Galerie" data-reveal="scale">
+    <div class="gallery__track" id="galleryTrack"><!-- injected by js/main.js --></div>
+  </section>
+
+  <!-- ==========================================================================
+       ORDER / LOCATION
+       ========================================================================== -->
+  <section class="order" id="order" data-section="order">
+    <div class="order__inner">
+      <h2 class="section-title reveal" data-reveal>HUNGER?<br /><span class="hl hl--pink">HOL&nbsp;DIR&nbsp;MOTO.</span></h2>
+
+      <div class="order__grid">
+        <div class="order__info reveal" data-reveal data-delay="1">
+          <p class="order__row"><span>Adresse</span>Cuvrystraße 49, 10997 Berlin</p>
+          <p class="order__row"><span>Telefon</span>030&nbsp;000&nbsp;000&nbsp;00</p>
+          <p class="order__row"><span>Web</span>www.motopizza.de</p>
+          <p class="order__row"><span>Lieferzone</span>PLZ 10101</p>
+        </div>
+
+        <div class="order__actions reveal" data-reveal data-delay="2">
+          <a href="#" class="btn btn--solid btn--big magnetic">Online bestellen</a>
+          <a href="#" class="btn btn--ghost btn--big magnetic">Tisch reservieren</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ==========================================================================
+     FOOTER
+     ========================================================================== -->
+<footer class="footer" data-section="footer">
+  <img src="assets/images/logo.png" alt="MOTO PIZZA" class="footer__logo" />
+  <p class="footer__meta">© <span id="year"></span> MOTO PIZZA · Detroit Style Pizza · Berlin</p>
+  <p class="footer__demo">Lokale Demo-Website — nicht veröffentlicht.</p>
+</footer>
+
+<script src="data/menu.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

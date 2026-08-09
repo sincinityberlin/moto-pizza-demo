@@ -1,0 +1,1002 @@
+/* ==========================================================================
+   MOTO PIZZA — Design tokens
+   Change colors / type / spacing here to restyle the whole site at once.
+   ========================================================================== */
+:root {
+  /* brand colors, sampled from the MOTO PIZZA logo */
+  --pink: #ec1e8d;
+  --pink-dim: #b8156c;
+  --blue: #16a3e6;
+  --crust: #e8912c;
+  --crust-dark: #b5641a;
+
+  /* base */
+  --ink: #141116;
+  --ink-soft: #211b22;
+  --cream: #fbf4ec;
+  --cream-dim: #f0e6da;
+  --white: #ffffff;
+
+  /* natural food-illustration colors — used ONLY for the decorative hero
+     toppings, never for UI/branding. Pink/blue stay the site's brand
+     colors; these exist so a tomato reads as red, a carrot as orange, etc. */
+  --tomato-red: #e5432c;
+  --tomato-dark: #b82f1c;
+  --carrot-orange: #f2932e;
+  --carrot-dark: #c96f16;
+  --leaf-green: #4f9d3d;
+  --leaf-dark: #356b28;
+  --pepper-yellow: #f5c518;
+  --pepper-yellow-dark: #d9a20f;
+  --onion-cream: #f7ecd9;
+  --onion-purple: #9a6b9e;
+  --mush-beige: #ecdcc0;
+  --mush-dark: #cbb083;
+  --olive-dark: #3a3f2e;
+  --cucumber-flesh: #eaf6df;
+  --lettuce-green: #8fce5c;
+
+  --font-display: "Archivo Black", "Space Grotesk", sans-serif;
+  --font-head: "Space Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
+
+  --container: 1240px;
+  --pad: clamp(20px, 5vw, 64px);
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-bam: cubic-bezier(0.34, 1.56, 0.64, 1); /* gentle overshoot — the hero entrance's "pop" */
+  --radius: 22px;
+}
+
+/* ==========================================================================
+   Reset
+   ========================================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
+body, h1, h2, h3, p, figure { margin: 0; }
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; background: none; border: none; cursor: pointer; }
+ul { list-style: none; margin: 0; padding: 0; }
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 7vw, 5.2rem);
+  line-height: 0.94;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+/* despite the name, this section is now white — "light" here means "the
+   variant used on the Detroit/About/Gallery block", which used to be a dark
+   section and is now white, so it needs dark (not cream) text for contrast */
+.section-title--light { color: var(--ink); }
+
+.hl { position: relative; white-space: nowrap; }
+.hl--pink { color: var(--pink); }
+.hl--blue { color: var(--blue); }
+
+/* ==========================================================================
+   Scroll reveal (see js/main.js IntersectionObserver)
+   Default (bare data-reveal or data-reveal="up") slides up + fades in.
+   Opt into a variant by setting the attribute value:
+     data-reveal="left"  / "right"  — slide in horizontally
+     data-reveal="scale"            — scale up from 0.9 + fade
+   Plays once: js/main.js unobserves the element after it reveals.
+   NOTE: clip-path-based mask reveals must NOT be driven by data-reveal —
+   an element clipped to 0 area can never self-report as intersecting.
+   (see .hero__img below: on-load masks use a plain CSS @keyframes
+   animation instead, so they don't depend on JS/IntersectionObserver
+   timing at all.)
+   ========================================================================== */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+  transition-delay: calc(var(--d, 0) * 90ms);
+  will-change: opacity, transform;
+}
+[data-reveal].is-visible { opacity: 1; transform: translateY(0); }
+
+[data-reveal="left"] { transform: translateX(-40px); }
+[data-reveal="right"] { transform: translateX(40px); }
+[data-reveal="scale"] { transform: scale(0.9); }
+[data-reveal="left"].is-visible,
+[data-reveal="right"].is-visible,
+[data-reveal="scale"].is-visible { transform: translateX(0) scale(1); }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+  }
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 15px 28px;
+  border-radius: 100px;
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  transition: transform 0.35s var(--ease), background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+  will-change: transform;
+}
+.btn--solid { background: var(--pink); color: var(--white); box-shadow: 0 8px 24px -8px rgba(236, 30, 141, 0.55); }
+.btn--solid:hover { background: var(--ink); box-shadow: 0 8px 24px -8px rgba(20, 17, 22, 0.5); }
+.btn--ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 2px var(--ink); }
+.btn--ghost:hover { background: var(--ink); color: var(--cream); }
+.btn--big { padding: 19px 34px; font-size: 1.05rem; }
+.btn--pill { padding: 11px 22px; font-size: 0.85rem; }
+.btn:active { transform: scale(0.96); }
+
+/* ==========================================================================
+   NAV
+   ========================================================================== */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  transition: background 0.4s var(--ease), box-shadow 0.4s var(--ease), padding 0.4s var(--ease);
+  padding: 18px 0;
+}
+.nav.is-scrolled {
+  background: rgba(251, 244, 236, 0.85);
+  backdrop-filter: blur(14px) saturate(1.4);
+  box-shadow: 0 1px 0 rgba(20, 17, 22, 0.08);
+  padding: 10px 0;
+}
+.nav__inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--pad);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.nav__links { display: none; align-items: center; gap: 32px; font-family: var(--font-head); font-weight: 600; font-size: 0.95rem; }
+@media (min-width: 900px) { .nav__links { display: flex; } }
+.nav__links a { position: relative; padding: 4px 0; }
+.nav__links a::after {
+  content: ""; position: absolute; left: 0; right: 100%; bottom: 0; height: 2px;
+  background: var(--pink); transition: right 0.35s var(--ease);
+}
+.nav__links a:hover::after { right: 0; }
+
+.nav__cta { display: none; }
+@media (min-width: 900px) { .nav__cta { display: inline-flex; } }
+
+.nav__burger {
+  display: flex; flex-direction: column; gap: 5px; padding: 6px;
+  margin-left: auto; /* keeps it pinned to the right edge now that .nav__brand is gone —
+                         it's the sole visible flex item on mobile, where space-between
+                         alone would otherwise leave it stuck at the left */
+}
+.nav__burger span { width: 22px; height: 2px; background: var(--ink); transition: transform 0.3s var(--ease), opacity 0.3s var(--ease); }
+.nav__burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav__burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.nav__burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+@media (min-width: 900px) { .nav__burger { display: none; } }
+
+.nav__mobile {
+  max-height: 0; overflow: hidden;
+  background: var(--cream);
+  transition: max-height 0.4s var(--ease);
+  display: flex; flex-direction: column;
+  padding: 0 var(--pad);
+}
+.nav__mobile.is-open { max-height: 320px; padding: 16px var(--pad) 24px; }
+.nav__mobile a { padding: 12px 0; font-family: var(--font-head); font-weight: 600; font-size: 1.1rem; border-bottom: 1px solid rgba(20,17,22,0.08); }
+.nav__mobile .btn { margin-top: 16px; align-self: flex-start; }
+@media (min-width: 900px) { .nav__mobile { display: none; } }
+
+/* ==========================================================================
+   HERO
+   ========================================================================== */
+/* solid brand-pink hero — no photo background, no gradient, no pattern.
+   Single centered column on every breakpoint: logo, slogan, full product
+   pizza, then the CTAs — same reading order on mobile and desktop, just
+   scaled up on larger screens rather than reflowed into two columns. */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: flex-start; /* top-anchored, not vertically centered — keeps the
+                               (now much bigger) logo pinned high, controlled via
+                               padding-top rather than via the viewport midpoint */
+  overflow: hidden;
+  background: var(--pink);
+  padding: 52px var(--pad) 60px; /* sits right at header height, per spec */
+}
+@media (min-width: 900px) { .hero { padding: 60px var(--pad) 72px; } }
+
+.hero__inner {
+  position: relative;
+  z-index: 2;
+  max-width: 980px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: var(--white);
+}
+@media (min-width: 1200px) { .hero__inner { max-width: 1120px; } }
+
+.hero__logo {
+  height: 72px; width: auto;
+  filter: brightness(0) invert(1);
+  margin-bottom: 34px; /* clear gap down to the slogan, now that the logo sits up near the header */
+}
+@media (min-width: 900px) { .hero__logo { height: 108px; margin-bottom: 46px; } }
+
+.hero__title {
+  font-family: var(--font-display);
+  font-size: clamp(3.1rem, 13vw, 5rem);
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 100%;
+}
+@media (min-width: 900px) { .hero__title { font-size: clamp(3rem, 6.4vw, 6.8rem); gap: 10px; max-width: 900px; } }
+@media (min-width: 1200px) { .hero__title { max-width: 1080px; } }
+.hero__title span { display: block; }
+.hero__title--outline {
+  -webkit-text-stroke: 2px var(--blue);
+  color: transparent;
+}
+
+.hero__actions { margin-top: 30px; display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+@media (min-width: 900px) { .hero__actions { margin-top: 40px; } }
+/* hero sits on solid pink — the shared .btn colours would vanish here, so
+   the hero's own CTAs get an inverted (white-first) treatment, scoped to
+   this section only */
+.hero__actions .btn--solid { background: var(--white); color: var(--pink); box-shadow: 0 10px 26px -10px rgba(0, 0, 0, 0.28); }
+.hero__actions .btn--solid:hover { background: var(--ink); color: var(--white); }
+.hero__actions .btn--ghost { color: var(--white); box-shadow: inset 0 0 0 2px var(--white); }
+.hero__actions .btn--ghost:hover { background: var(--white); color: var(--pink); }
+
+.hero__product {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  margin-top: 14px;
+  display: flex; align-items: center; justify-content: center;
+}
+@media (min-width: 900px) { .hero__product { margin-top: 18px; } }
+.hero__product-img {
+  width: 100%; height: auto;
+  max-height: 46vh;
+  object-fit: contain; /* full pizza, all four edges, never cropped or zoomed */
+  filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.22));
+}
+@media (min-width: 900px) { .hero__product-img { max-height: 64vh; } }
+
+.hero__scroll {
+  position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%);
+  z-index: 2; width: 26px; height: 42px; border-radius: 100px;
+  border: 2px solid rgba(255, 255, 255, 0.55);
+  display: flex; justify-content: center; padding-top: 8px;
+}
+.hero__scroll span { width: 4px; height: 8px; border-radius: 4px; background: var(--white); animation: scrollDot 1.6s ease infinite; }
+@keyframes scrollDot { 0% { opacity: 1; transform: translateY(0); } 70% { opacity: 0; transform: translateY(14px); } 100% { opacity: 0; } }
+
+/* extra-tight rhythm on short mobile screens so the complete pizza plus
+   both buttons still land inside the first view without scrolling */
+@media (max-width: 600px) {
+  .hero { padding: 40px var(--pad) 40px; }
+  .hero__logo { height: 52px; margin-bottom: 22px; }
+  .hero__title { font-size: clamp(2.2rem, 10.8vw, 3.1rem); gap: 4px; }
+  .hero__actions { margin-top: 20px; gap: 10px; }
+  .hero__product { margin-top: 10px; }
+  .hero__product-img { max-height: 42vh; }
+}
+
+/* ---- floating topping/parallax decorations ----
+   Purely decorative, white line-art MOTO/mechanic icons (gear, piston,
+   speedometer, bearing, clock, star, ring, diamond, cross — see the
+   <symbol> defs at the top of the hero section), styled after the brand's
+   pink-background/white-icon pattern sheet. Kept white/cream only, not the
+   pink/blue brand palette, which is reserved for UI.
+   Sit behind .hero__inner (z-index 2) so they can never cover the
+   logo/headline/pizza. Absolutely positioned (not fixed) inside the hero,
+   so they scroll away with the section like everything else; js/main.js
+   (initHeroToppingsParallax) layers an extra scroll-linked transform on
+   top of each one — different speed/drift/rotation/scale per element —
+   for the floating depth effect, taking over right where each one's
+   entrance animation (below) lands. */
+.hero__toppings {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+.hero__topping {
+  position: absolute;
+  aspect-ratio: 1 / 1;
+  will-change: transform;
+  filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.2));
+}
+.hero__topping svg { display: block; width: 100%; height: 100%; }
+
+/* size tiers: large (foreground-ish, closest to the reference's big corner
+   pieces), medium, small — the mixed sizing is what gives the frame its
+   depth instead of a flat ring of same-size icons */
+.hero__topping--gear-1        { top: 3%;     left: 2%;   width: clamp(78px, 10vw, 142px); --rest-rot: -8deg; }
+.hero__topping--piston-1      { top: 4%;     right: 2%;  width: clamp(78px, 10vw, 142px); --rest-rot: 10deg; }
+.hero__topping--bearing-1     { top: 15%;    left: 13%;  width: clamp(54px, 7.2vw, 98px); --rest-rot: -14deg; }
+.hero__topping--speedo-1      { top: 9%;     right: 15%; width: clamp(54px, 7.2vw, 98px); --rest-rot: 16deg; }
+.hero__topping--star-1        { top: 58%;    left: 32%;  width: clamp(32px, 4.5vw, 56px); --rest-rot: 20deg; }
+.hero__topping--ring-1        { top: 60%;    right: 33%; width: clamp(32px, 4.5vw, 56px); --rest-rot: -18deg; }
+.hero__topping--gear-2        { top: 19%;    right: 1%;  width: clamp(78px, 10vw, 142px); --rest-rot: -6deg; }
+.hero__topping--piston-2      { top: 33%;    left: 2%;   width: clamp(54px, 7.2vw, 98px); --rest-rot: 9deg; }
+.hero__topping--diamond-1     { top: 44%;    left: 15%;  width: clamp(32px, 4.5vw, 56px); --rest-rot: -12deg; }
+.hero__topping--ring-2        { top: 46%;    right: 16%; width: clamp(32px, 4.5vw, 56px); --rest-rot: 15deg; }
+.hero__topping--clock-1       { top: 39%;    right: 4%;  width: clamp(54px, 7.2vw, 98px); --rest-rot: -20deg; }
+.hero__topping--gear-3        { top: 41%;    left: 4%;   width: clamp(54px, 7.2vw, 98px); --rest-rot: 7deg; }
+.hero__topping--speedo-2      { bottom: 26%; right: 3%;  width: clamp(54px, 7.2vw, 98px); --rest-rot: 11deg; }
+.hero__topping--bearing-2     { bottom: 24%; left: 3%;   width: clamp(54px, 7.2vw, 98px); --rest-rot: -9deg; }
+.hero__topping--piston-3      { bottom: 32%; right: 15%; width: clamp(54px, 7.2vw, 98px); --rest-rot: 13deg; }
+.hero__topping--star-2        { bottom: 34%; left: 16%;  width: clamp(32px, 4.5vw, 56px); --rest-rot: -17deg; }
+.hero__topping--gear-4        { bottom: 4%;  right: 5%;  width: clamp(78px, 10vw, 142px); --rest-rot: -10deg; }
+.hero__topping--clock-2       { bottom: 8%;  left: 5%;   width: clamp(54px, 7.2vw, 98px); --rest-rot: 14deg; }
+.hero__topping--cross-1       { top: 21%;    right: 27%; width: clamp(20px, 3vw, 36px);   --rest-rot: 25deg; }
+.hero__topping--star-3        { top: 55%;    left: 25%;  width: clamp(20px, 3vw, 36px);   --rest-rot: -22deg; }
+
+/* tablet: drop the two exact-duplicate pieces first */
+@media (max-width: 899px) {
+  .hero__topping--gear-2,
+  .hero__topping--gear-3 { display: none; }
+}
+/* phone: thin out a few more of the smallest/least central ones, but stay
+   dense on purpose — the brief is explicit that mobile should NOT collapse
+   back down to just 5-6 toppings */
+@media (max-width: 599px) {
+  .hero__topping--speedo-2,
+  .hero__topping--bearing-2,
+  .hero__topping--star-2,
+  .hero__topping--cross-1 { display: none; }
+}
+
+/* ---- hero entrance choreography (page-load only, not scroll-reveal) ----
+   Runs automatically via CSS animation-delay, independent of JS. Fixed,
+   deliberately sequential order (each stage mostly finishes before the
+   next starts, so it reads as clear steps, not one simultaneous blob):
+     1. headline (text first — line by line, punchy "bam" overshoot)
+     2. pizza slides up from below, ease-out
+     3. all 20 mechanic-icon toppings fall/fly in one at a time (most from
+        above, several from the left/right for variety)
+     4. buttons fade + slide up last
+   The logo rides in quickly right at the very start (barely its own
+   "beat") so it's present without competing with the headline as step 1.
+   ~2.8s total. Each element's own "from" state (opacity 0 + offset) is
+   set inside this same media query so nothing needs hiding via JS and
+   there's no flash of the final state before the animation starts.
+   Toppings hand off to js/main.js's scroll-parallax the moment their
+   entrance ends (see initHeroToppingsParallax's "animationend" listener) —
+   the keyframe's 100% state uses each element's own --rest-rot custom
+   property so that handoff lands exactly where the JS-driven parallax
+   would already have it, with no visible snap. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero__logo { opacity: 0; animation: heroLogoIn 0.45s var(--ease) 0.05s both; }
+
+  .hero__title span { opacity: 0; }
+  .hero__title span:nth-child(1) { animation: heroLineIn 0.5s var(--ease-bam) 0.15s both; }
+  .hero__title span:nth-child(2) { animation: heroLineIn 0.5s var(--ease-bam) 0.26s both; }
+
+  .hero__product { opacity: 0; animation: heroPizzaIn 0.62s var(--ease) 0.78s both; }
+
+  /* toppings fall/fly in one at a time, only once the pizza has landed —
+     most from above (heroToppingIn), several from the side for variety */
+  .hero__topping { opacity: 0; animation: heroToppingIn 0.4s var(--ease) both; }
+  .hero__topping--gear-1        { animation-delay: 1.40s; }
+  .hero__topping--piston-1      { animation-delay: 1.44s; }
+  .hero__topping--bearing-1     { animation-delay: 1.48s; }
+  .hero__topping--speedo-1      { animation-delay: 1.52s; animation-name: heroToppingInRight; }
+  .hero__topping--star-1        { animation-delay: 1.56s; }
+  .hero__topping--ring-1        { animation-delay: 1.60s; }
+  .hero__topping--gear-2        { animation-delay: 1.64s; }
+  .hero__topping--piston-2      { animation-delay: 1.68s; animation-name: heroToppingInLeft; }
+  .hero__topping--diamond-1     { animation-delay: 1.72s; }
+  .hero__topping--ring-2        { animation-delay: 1.76s; }
+  .hero__topping--clock-1       { animation-delay: 1.80s; }
+  .hero__topping--gear-3        { animation-delay: 1.84s; }
+  .hero__topping--speedo-2      { animation-delay: 1.88s; }
+  .hero__topping--bearing-2     { animation-delay: 1.92s; }
+  .hero__topping--piston-3      { animation-delay: 1.96s; }
+  .hero__topping--star-2        { animation-delay: 2.00s; }
+  .hero__topping--gear-4        { animation-delay: 2.04s; animation-name: heroToppingInRight; }
+  .hero__topping--clock-2       { animation-delay: 2.08s; animation-name: heroToppingInLeft; }
+  .hero__topping--cross-1       { animation-delay: 2.12s; }
+  .hero__topping--star-3        { animation-delay: 2.16s; }
+
+  .hero__actions { opacity: 0; animation: heroActionsIn 0.45s var(--ease) 2.4s both; }
+}
+
+@keyframes heroLogoIn {
+  from { opacity: 0; transform: translateY(-22px) scale(0.86); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes heroLineIn {
+  from { opacity: 0; transform: translateY(30px) scale(0.94); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes heroPizzaIn {
+  from { opacity: 0; transform: translateY(64px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes heroActionsIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+/* falls in from clearly above its resting spot — a controlled drop, not a
+   chaotic tumble, so no extra spin beyond settling into --rest-rot */
+@keyframes heroToppingIn {
+  from { opacity: 0; transform: translateY(-100px) scale(0.6) rotate(calc(var(--rest-rot) - 8deg)); }
+  to   { opacity: 1; transform: translateY(0) scale(1) rotate(var(--rest-rot)); }
+}
+/* the handful of toppings that fly in from the side instead of above */
+@keyframes heroToppingInLeft {
+  from { opacity: 0; transform: translateX(-90px) scale(0.6) rotate(calc(var(--rest-rot) - 8deg)); }
+  to   { opacity: 1; transform: translateX(0) scale(1) rotate(var(--rest-rot)); }
+}
+@keyframes heroToppingInRight {
+  from { opacity: 0; transform: translateX(90px) scale(0.6) rotate(calc(var(--rest-rot) - 8deg)); }
+  to   { opacity: 1; transform: translateX(0) scale(1) rotate(var(--rest-rot)); }
+}
+
+/* ==========================================================================
+   MARQUEE
+   ========================================================================== */
+.marquee {
+  background: var(--pink);
+  color: var(--white);
+  overflow: hidden;
+  padding: 16px 0;
+  transform: rotate(-1.2deg) scale(1.02);
+}
+.marquee__track {
+  display: flex; width: max-content; gap: 28px; white-space: nowrap;
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 2.4vw, 1.5rem);
+  text-transform: uppercase;
+  animation: marquee 26s linear infinite;
+}
+.marquee:hover .marquee__track { animation-play-state: paused; }
+.marquee__track span { display: inline-flex; align-items: center; gap: 28px; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ==========================================================================
+   STATEMENT
+   ========================================================================== */
+.statement { padding: min(14vw, 160px) var(--pad) min(12vw, 130px); }
+.statement__text {
+  max-width: 980px; margin: 0 auto; text-align: center;
+  font-family: var(--font-head); font-weight: 500;
+  font-size: clamp(1.5rem, 4.2vw, 2.8rem);
+  line-height: 1.25;
+}
+
+/* ==========================================================================
+   MENU
+   ========================================================================== */
+/* clean white MOTO background with two flat, crisp brand-colour accents —
+   no blur/glow, no dark fields, no dot pattern. Rounded top corners echo
+   the same "lift over the section above" trick used elsewhere (e.g.
+   .detroit); content stays constrained via .menu__inner */
+.menu {
+  position: relative;
+  overflow: hidden;
+  border-radius: 40px 40px 0 0;
+  padding: 90px 0 100px;
+  background: var(--white);
+}
+
+.menu__bg { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.menu__block { position: absolute; border-radius: 50%; }
+.menu__block--pink {
+  top: -16%; left: -12%; width: 46vw; height: 46vw; max-width: 560px; max-height: 560px;
+  background: var(--pink); opacity: 0.08;
+}
+.menu__block--blue {
+  bottom: -18%; right: -10%; width: 50vw; height: 50vw; max-width: 600px; max-height: 600px;
+  background: var(--blue); opacity: 0.08;
+}
+
+.menu__inner { position: relative; z-index: 1; max-width: var(--container); margin: 0 auto; padding: 0 var(--pad); }
+
+.menu__head {
+  display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between;
+  gap: 24px; margin-bottom: 56px;
+}
+.menu__note { max-width: 320px; color: rgba(20, 17, 22, 0.6); font-size: 1rem; }
+
+/* ---- interactive pizza selector ---- */
+/* every pizza sits on a full, flat brand-colour card that alternates
+   pink/blue with the active slide — no dark background, no glow blobs,
+   no dot pattern */
+.selector {
+  --slide-w: 66%;
+  --tone-accent: var(--pink);
+  position: relative;
+  overflow: hidden;
+  border-radius: 32px;
+  padding: 56px 0 44px;
+  transition: background 0.5s ease, box-shadow 0.5s ease;
+  box-shadow: 0 30px 70px -34px color-mix(in srgb, var(--tone-accent) 50%, transparent);
+}
+@media (min-width: 700px)  { .selector { --slide-w: 56%; } }
+@media (min-width: 1000px) { .selector { --slide-w: 40%; padding: 72px 0 56px; } }
+
+.selector[data-tone="pink"] { --tone-accent: var(--pink); background: var(--pink); }
+.selector[data-tone="blue"] { --tone-accent: var(--blue); background: var(--blue); }
+
+.selector__stage {
+  position: relative; z-index: 1;
+  display: flex; align-items: flex-end;
+  padding: 0 var(--pad);
+  outline: none;
+}
+
+/* the arc's viewport: slides are absolutely positioned, anchored to the
+   bottom (the circle's lowest/frontmost point, where the active pizza
+   sits), and placed/rotated/scaled entirely by js/main.js (per-frame,
+   driven by drag position) using plain 2D transforms only — no perspective
+   or 3D, deliberately. No CSS transition here either: the JS rAF loop *is*
+   the animation, for both live dragging and the momentum/snap settle.
+   Height and each slide's height are set inline by measure() in js/main.js. */
+.selector__track {
+  position: relative;
+  width: 100%;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+}
+.selector__track.is-dragging { cursor: grabbing; }
+
+.selector__slide {
+  position: absolute; left: 50%; bottom: 0;
+  width: var(--slide-w);
+  margin-left: calc(var(--slide-w) / -2);
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+.selector__frame {
+  position: relative;
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+}
+.selector__ring {
+  position: absolute; inset: 6%;
+  border: 2px dashed rgba(255, 255, 255, 0.45);
+  border-radius: 50%;
+  animation: selectorSpin 34s linear infinite;
+}
+@keyframes selectorSpin { to { transform: rotate(360deg); } }
+.selector__frame img {
+  max-width: 76%; max-height: 76%;
+  width: auto; height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 28px rgba(0, 0, 0, 0.25));
+  -webkit-user-drag: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+.selector__arrow {
+  position: absolute; top: 50%; z-index: 2;
+  transform: translateY(-50%);
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--white);
+  transition: background 0.3s var(--ease), transform 0.2s var(--ease), color 0.3s var(--ease);
+}
+.selector__arrow--prev { left: 4px; }
+.selector__arrow--next { right: 4px; }
+.selector__arrow:hover { background: var(--white); color: var(--tone-accent); }
+.selector__arrow:active { transform: translateY(-50%) scale(0.88); }
+@media (min-width: 640px) {
+  .selector__arrow--prev { left: 14px; }
+  .selector__arrow--next { right: 14px; }
+}
+@media (max-width: 640px) { .selector__arrow { width: 34px; height: 34px; } }
+
+.selector__panel {
+  position: relative; z-index: 1;
+  max-width: 640px; margin: 36px auto 0; padding: 0 var(--pad);
+  text-align: center; color: var(--white);
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+.selector__panel.is-changing { opacity: 0; transform: translateY(8px); }
+
+.selector__index {
+  font-family: var(--font-head); font-weight: 600; letter-spacing: 0.1em;
+  font-size: 0.8rem; color: rgba(255, 255, 255, 0.7); margin-bottom: 14px;
+}
+.selector__category {
+  font-family: var(--font-head); font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; font-size: 0.85rem; color: var(--white);
+  margin-bottom: 10px;
+}
+.selector__name {
+  font-family: var(--font-display); text-transform: uppercase;
+  font-size: clamp(2rem, 6vw, 3.4rem); line-height: 1; letter-spacing: -0.01em;
+  margin-bottom: 16px;
+}
+.selector__short {
+  font-size: 1.02rem; line-height: 1.6; color: rgba(255, 255, 255, 0.88);
+  margin-bottom: 18px;
+}
+.selector__ingredients {
+  font-size: 0.9rem; line-height: 1.6; color: rgba(255, 255, 255, 0.72);
+  margin-bottom: 22px;
+}
+.selector__ingredients span:first-child {
+  display: block; font-family: var(--font-head); font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase; font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.58); margin-bottom: 6px;
+}
+.selector__price {
+  font-family: var(--font-display); font-size: 1.6rem; color: var(--white);
+}
+
+/* ==========================================================================
+   SNACKS / GETRÄNKE — shared product-grid card component
+   Two lightweight, non-carousel sections between the pizza selector and the
+   Detroit-style story. Same light/white design language, own section per
+   category (kept visually and structurally separate from the 10 pizzas).
+   ========================================================================== */
+.snacks, .drinks {
+  padding: 70px 0;
+  background: var(--white);
+}
+.drinks { background: var(--cream-dim); }
+
+.snacks__inner, .drinks__inner {
+  max-width: var(--container); margin: 0 auto; padding: 0 var(--pad);
+}
+
+.products__head { margin-bottom: 40px; }
+.products__note { max-width: 420px; margin-top: 12px; color: rgba(20, 17, 22, 0.6); font-size: 1rem; }
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+.product-grid--drinks { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+
+.product-card {
+  background: var(--cream-dim);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+.drinks .product-card { background: var(--white); }
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 50px -22px rgba(20, 17, 22, 0.25);
+}
+
+.product-card__media {
+  aspect-ratio: 4 / 3;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+.product-grid--drinks .product-card__media { aspect-ratio: 1 / 1; padding: 16px; }
+.product-card__media img {
+  width: 100%; height: 100%; object-fit: contain;
+  filter: drop-shadow(0 14px 20px rgba(20, 17, 22, 0.16));
+}
+
+.product-card__body { padding: 4px 22px 26px; }
+.product-card__name {
+  font-family: var(--font-display); text-transform: uppercase;
+  font-size: 1.3rem; line-height: 1.1; margin-bottom: 4px;
+}
+.product-card__tag {
+  font-family: var(--font-head); font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; font-size: 0.72rem; color: var(--blue);
+  margin-bottom: 10px;
+}
+.product-card__desc {
+  font-size: 0.92rem; line-height: 1.55; color: rgba(20, 17, 22, 0.68);
+  margin-bottom: 14px;
+}
+.product-card__price {
+  font-family: var(--font-display); font-size: 1.2rem; color: var(--pink);
+}
+
+/* ==========================================================================
+   DETROIT STYLE FEATURE
+   ========================================================================== */
+.detroit {
+  background: var(--white);
+  color: var(--ink);
+  padding: 120px 0 0;
+  border-radius: 40px 40px 0 0;
+  overflow: hidden;
+}
+
+.detroit__head { max-width: var(--container); margin: 0 auto; padding: 0 var(--pad); }
+.detroit__kicker {
+  font-family: var(--font-head); font-weight: 600; letter-spacing: 0.18em;
+  text-transform: uppercase; font-size: 0.8rem; color: var(--blue);
+  margin-bottom: 22px;
+}
+.detroit__kicker span { color: var(--pink); margin-right: 10px; }
+.detroit .section-title { margin: 0 0 20px; }
+
+/* ---- feature rows ---- */
+.feature-list {
+  max-width: var(--container); margin: 56px auto 0; padding: 0 var(--pad);
+}
+
+.feature {
+  --accent: var(--pink);
+  --accent2: var(--blue);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 36px;
+  align-items: center;
+  padding: 56px 0;
+}
+.feature + .feature { border-top: 1px solid rgba(20, 17, 22, 0.12); }
+.feature--blue { --accent: var(--blue); --accent2: var(--pink); }
+
+/* direction-aware reveal: slide in from the side instead of the default translateY */
+.feature[data-reveal] { transform: translateX(-36px); }
+.feature--reverse[data-reveal] { transform: translateX(36px); }
+.feature[data-reveal].is-visible { transform: translateX(0); }
+
+@media (min-width: 860px) {
+  .feature { grid-template-columns: 1fr 1fr; gap: 80px; padding: 100px 0; }
+  .feature--reverse .feature__media { order: 2; }
+  .feature--reverse .feature__content { order: 1; }
+}
+
+.feature__media {
+  position: relative;
+  border-radius: 26px;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: var(--cream-dim);
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  transition: box-shadow 0.5s var(--ease), transform 0.5s var(--ease);
+}
+@media (min-width: 860px) { .feature__media { aspect-ratio: 4 / 5; } }
+/* object-fit: contain (not cover) + padding, so the full pizza — all four
+   corners — is always visible here, never cropped into a close-up. */
+.feature__media img {
+  width: 100%; height: 100%; object-fit: contain; padding: 28px; box-sizing: border-box;
+  transition: transform 0.8s var(--ease);
+}
+.feature:hover .feature__media img { transform: scale(1.03); }
+.feature:hover .feature__media {
+  box-shadow: 0 30px 70px -24px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+.feature__corner { position: absolute; width: 32px; height: 32px; pointer-events: none; }
+.feature__corner--tl { top: 14px; left: 14px; border-top: 3px solid var(--accent); border-left: 3px solid var(--accent); border-radius: 6px 0 0 0; }
+.feature__corner--br { bottom: 14px; right: 14px; border-bottom: 3px solid var(--accent2); border-right: 3px solid var(--accent2); border-radius: 0 0 6px 0; }
+
+.feature__content { max-width: 480px; }
+.feature__num {
+  display: block;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: clamp(3.6rem, 9vw, 6.5rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  -webkit-text-stroke: 2px var(--accent);
+  color: transparent;
+  margin-bottom: 4px;
+}
+.feature__eyebrow {
+  font-family: var(--font-head); font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; font-size: 0.85rem; color: var(--accent);
+  margin-bottom: 16px;
+}
+.feature__title {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  line-height: 1.08;
+  margin-bottom: 20px;
+}
+.feature__text { font-size: 1rem; line-height: 1.75; color: rgba(20, 17, 22, 0.68); }
+
+/* ---- closing statement ---- */
+.detroit__statement {
+  max-width: var(--container); margin: 0 auto; padding: 90px var(--pad) 130px;
+  text-align: center;
+  display: flex; flex-direction: column; gap: 8px;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: clamp(2.2rem, 8vw, 5.6rem);
+  line-height: 1.04;
+  border-top: 1px solid rgba(20, 17, 22, 0.12);
+}
+.detroit__statement-line { display: block; }
+.detroit__statement-line [data-reveal] { display: inline-block; }
+.detroit__statement-line--outline-blue { -webkit-text-stroke: 2px var(--blue); color: transparent; }
+.detroit__statement-line--outline-pink { -webkit-text-stroke: 2px var(--pink); color: transparent; }
+.detroit__statement-line--fill { color: var(--ink); margin-top: 8px; }
+
+/* ==========================================================================
+   ABOUT / BRAND STORY
+   ========================================================================== */
+.about {
+  background: var(--cream-dim);
+  color: var(--ink);
+  padding: min(20vw, 160px) var(--pad) min(16vw, 130px);
+  position: relative;
+  overflow: hidden;
+}
+.about__inner { max-width: 900px; margin: 0 auto; text-align: center; }
+
+.about__kicker {
+  font-family: var(--font-head); font-weight: 600; letter-spacing: 0.18em;
+  text-transform: uppercase; font-size: 0.8rem; color: var(--blue);
+  margin-bottom: 22px;
+}
+.about__kicker span { color: var(--pink); margin-right: 10px; }
+
+.about__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 6vw, 4.2rem);
+  line-height: 1.06;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  margin-bottom: 52px;
+}
+
+.about__lede {
+  font-family: var(--font-head); font-weight: 600;
+  font-size: clamp(1.25rem, 2.8vw, 1.7rem);
+  line-height: 1.45;
+  max-width: 680px;
+  margin: 0 auto 28px;
+}
+
+.about__body {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: rgba(20, 17, 22, 0.68);
+  max-width: 620px;
+  margin: 0 auto;
+}
+.about__body--center { margin-top: 72px; }
+
+.about__bridge {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: clamp(2.6rem, 8vw, 5.6rem);
+  line-height: 1.04;
+  letter-spacing: -0.01em;
+  margin: 88px 0 60px;
+}
+
+.about__rule {
+  width: 110px; height: 3px; margin: 0 auto 88px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--pink), var(--blue), var(--pink));
+  background-size: 220% 100%;
+  animation: aboutRuleShift 5s linear infinite;
+}
+@keyframes aboutRuleShift { to { background-position: -220% 0; } }
+
+.about__standalone {
+  font-family: var(--font-head); font-weight: 700;
+  font-size: clamp(1.4rem, 3.4vw, 2.1rem);
+  line-height: 1.3;
+  max-width: 640px;
+  margin: 40px auto 28px;
+}
+
+.about__marks {
+  list-style: none; margin: 80px auto 0; padding: 0;
+  max-width: 760px;
+  display: grid; grid-template-columns: 1fr; gap: 0;
+  border-top: 1px solid rgba(20, 17, 22, 0.14);
+  text-align: left;
+}
+@media (min-width: 640px) { .about__marks { grid-template-columns: 1fr 1fr; } }
+.about__marks li {
+  display: flex; align-items: baseline; gap: 16px;
+  padding: 22px 6px;
+  border-bottom: 1px solid rgba(20, 17, 22, 0.14);
+  font-family: var(--font-head); font-weight: 600; font-size: 1.05rem;
+}
+.about__marks li span { color: var(--blue); font-size: 0.82rem; font-weight: 700; }
+
+.about__finale {
+  margin-top: 100px;
+  display: flex; flex-direction: column; gap: 4px;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: clamp(2.6rem, 9vw, 6.8rem);
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+}
+.about__finale-line { display: block; }
+.about__finale-line [data-reveal] { display: inline-block; }
+.about__finale-line--outline { -webkit-text-stroke: 2px var(--pink); color: transparent; }
+.about__finale-line--fill { color: var(--blue); }
+
+/* ==========================================================================
+   GALLERY STRIP
+   ========================================================================== */
+.gallery { background: var(--cream-dim); padding: 4px 0 110px; overflow: hidden; }
+.gallery__track { display: flex; width: max-content; gap: 18px; animation: galleryScroll 40s linear infinite; }
+.gallery:hover .gallery__track { animation-play-state: paused; }
+.gallery__item { width: 260px; height: 320px; border-radius: 18px; overflow: hidden; flex: none; background: var(--white); box-shadow: 0 4px 20px -8px rgba(20, 17, 22, 0.15); }
+.gallery__item img { width: 100%; height: 100%; object-fit: contain; padding: 18px; box-sizing: border-box; }
+@keyframes galleryScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ==========================================================================
+   ORDER / LOCATION
+   ========================================================================== */
+.order { padding: 130px var(--pad) 140px; }
+.order__inner { max-width: var(--container); margin: 0 auto; }
+.order__grid {
+  margin-top: 56px;
+  display: grid; grid-template-columns: 1fr; gap: 40px;
+}
+@media (min-width: 760px) { .order__grid { grid-template-columns: 1fr 1fr; align-items: center; } }
+
+.order__row {
+  display: flex; gap: 20px; padding: 18px 0;
+  border-bottom: 1px solid rgba(20,17,22,0.12);
+  font-family: var(--font-head); font-size: 1.05rem;
+}
+.order__row span { flex: 0 0 130px; color: rgba(20,17,22,0.5); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; padding-top: 3px; }
+
+.order__actions { display: flex; flex-direction: column; gap: 16px; align-items: flex-start; }
+@media (min-width: 500px) { .order__actions { flex-direction: row; } }
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+.footer {
+  background: var(--white); color: var(--ink);
+  padding: 56px var(--pad) 40px;
+  text-align: center;
+  border-top: 1px solid rgba(20, 17, 22, 0.08);
+}
+/* on the old dark footer this was forced white via brightness(0) invert(1);
+   on the new white footer the logo shows in its own natural color instead */
+.footer__logo { height: 40px; margin: 0 auto 20px; opacity: 0.9; }
+.footer__meta { font-size: 0.85rem; color: rgba(20,17,22,0.6); }
+.footer__demo { margin-top: 6px; font-size: 0.75rem; color: rgba(20,17,22,0.4); }
+
+/* ==========================================================================
+   Magnetic buttons (JS adds inline transform on mousemove)
+   ========================================================================== */
+.magnetic { will-change: transform; }
