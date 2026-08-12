@@ -539,7 +539,11 @@ body {
    pink/blue with the active slide — no dark background, no glow blobs,
    no dot pattern */
 .selector {
-  --slide-w: 66%;
+  /* pizza should be the section's clear visual centerpiece — sized up
+     ~50% from the previous 66/56/40% (combined with the tighter frame
+     padding below), while still fully contained within its card, never
+     cropped */
+  --slide-w: 86%;
   --tone-accent: var(--pink);
   position: relative;
   overflow: hidden;
@@ -548,8 +552,8 @@ body {
   transition: background 0.5s ease, box-shadow 0.5s ease;
   box-shadow: 0 30px 70px -34px color-mix(in srgb, var(--tone-accent) 50%, transparent);
 }
-@media (min-width: 700px)  { .selector { --slide-w: 56%; } }
-@media (min-width: 1000px) { .selector { --slide-w: 40%; padding: 72px 0 56px; } }
+@media (min-width: 700px)  { .selector { --slide-w: 70%; } }
+@media (min-width: 1000px) { .selector { --slide-w: 52%; padding: 72px 0 56px; } }
 
 .selector[data-tone="pink"] { --tone-accent: var(--pink); background: var(--pink); }
 .selector[data-tone="blue"] { --tone-accent: var(--blue); background: var(--blue); }
@@ -598,7 +602,10 @@ body {
 }
 @keyframes selectorSpin { to { transform: rotate(360deg); } }
 .selector__frame img {
-  max-width: 76%; max-height: 76%;
+  /* fill almost the whole frame — object-fit:contain guarantees the full
+     pizza (all four corners, full crust) stays visible with no crop, no
+     stretch, just a small safety margin against the card edge */
+  max-width: 92%; max-height: 92%;
   width: auto; height: auto;
   object-fit: contain;
   filter: drop-shadow(0 20px 28px rgba(0, 0, 0, 0.25));
