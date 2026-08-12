@@ -242,11 +242,11 @@ body {
 @media (min-width: 1200px) { .hero__inner { max-width: 1120px; } }
 
 .hero__logo {
-  height: 72px; width: auto;
+  height: 100px; width: auto; /* height-only + width:auto preserves aspect ratio, never stretched */
   filter: brightness(0) invert(1);
-  margin-bottom: 34px; /* clear gap down to the slogan, now that the logo sits up near the header */
+  margin-bottom: 44px; /* clear gap down to the slogan, now that the logo sits up near the header */
 }
-@media (min-width: 900px) { .hero__logo { height: 108px; margin-bottom: 46px; } }
+@media (min-width: 900px) { .hero__logo { height: 156px; margin-bottom: 58px; } }
 
 .hero__title {
   font-family: var(--font-display);
@@ -262,9 +262,11 @@ body {
 @media (min-width: 900px) { .hero__title { font-size: clamp(3rem, 6.4vw, 6.8rem); gap: 10px; max-width: 900px; } }
 @media (min-width: 1200px) { .hero__title { max-width: 1080px; } }
 .hero__title span { display: block; }
+/* solid fill, not an outline despite the class name (kept to avoid an
+   HTML rename) — "CHEESE TO THE EDGE." stays white via the plain span,
+   this second line is fully filled in brand blue, no stroke/transparency */
 .hero__title--outline {
-  -webkit-text-stroke: 2px var(--blue);
-  color: transparent;
+  color: var(--blue);
 }
 
 .hero__actions { margin-top: 30px; display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
@@ -306,7 +308,7 @@ body {
    both buttons still land inside the first view without scrolling */
 @media (max-width: 600px) {
   .hero { padding: 40px var(--pad) 40px; }
-  .hero__logo { height: 52px; margin-bottom: 22px; }
+  .hero__logo { height: 76px; margin-bottom: 30px; }
   .hero__title { font-size: clamp(2.2rem, 10.8vw, 3.1rem); gap: 4px; }
   .hero__actions { margin-top: 20px; gap: 10px; }
   .hero__product { margin-top: 10px; }
@@ -347,22 +349,22 @@ body {
 .hero__topping--piston-1      { top: 4%;     right: 2%;  width: clamp(78px, 10vw, 142px); --rest-rot: 10deg; }
 .hero__topping--bearing-1     { top: 15%;    left: 13%;  width: clamp(54px, 7.2vw, 98px); --rest-rot: -14deg; }
 .hero__topping--speedo-1      { top: 9%;     right: 15%; width: clamp(54px, 7.2vw, 98px); --rest-rot: 16deg; }
-.hero__topping--star-1        { top: 58%;    left: 32%;  width: clamp(32px, 4.5vw, 56px); --rest-rot: 20deg; }
-.hero__topping--ring-1        { top: 60%;    right: 33%; width: clamp(32px, 4.5vw, 56px); --rest-rot: -18deg; }
+.hero__topping--pleuel-1      { top: 58%;    left: 32%;  width: clamp(32px, 4.5vw, 56px); --rest-rot: 20deg; }
+.hero__topping--turbo-1       { top: 60%;    right: 33%; width: clamp(32px, 4.5vw, 56px); --rest-rot: -18deg; }
 .hero__topping--gear-2        { top: 19%;    right: 1%;  width: clamp(78px, 10vw, 142px); --rest-rot: -6deg; }
 .hero__topping--piston-2      { top: 33%;    left: 2%;   width: clamp(54px, 7.2vw, 98px); --rest-rot: 9deg; }
-.hero__topping--diamond-1     { top: 44%;    left: 15%;  width: clamp(32px, 4.5vw, 56px); --rest-rot: -12deg; }
-.hero__topping--ring-2        { top: 46%;    right: 16%; width: clamp(32px, 4.5vw, 56px); --rest-rot: 15deg; }
-.hero__topping--clock-1       { top: 39%;    right: 4%;  width: clamp(54px, 7.2vw, 98px); --rest-rot: -20deg; }
+.hero__topping--brakedisc-1   { top: 44%;    left: 15%;  width: clamp(32px, 4.5vw, 56px); --rest-rot: -12deg; }
+.hero__topping--pleuel-2      { top: 46%;    right: 16%; width: clamp(32px, 4.5vw, 56px); --rest-rot: 15deg; }
+.hero__topping--gauge-1       { top: 39%;    right: 4%;  width: clamp(54px, 7.2vw, 98px); --rest-rot: -20deg; }
 .hero__topping--gear-3        { top: 41%;    left: 4%;   width: clamp(54px, 7.2vw, 98px); --rest-rot: 7deg; }
 .hero__topping--speedo-2      { bottom: 26%; right: 3%;  width: clamp(54px, 7.2vw, 98px); --rest-rot: 11deg; }
 .hero__topping--bearing-2     { bottom: 24%; left: 3%;   width: clamp(54px, 7.2vw, 98px); --rest-rot: -9deg; }
 .hero__topping--piston-3      { bottom: 32%; right: 15%; width: clamp(54px, 7.2vw, 98px); --rest-rot: 13deg; }
-.hero__topping--star-2        { bottom: 34%; left: 16%;  width: clamp(32px, 4.5vw, 56px); --rest-rot: -17deg; }
+.hero__topping--turbo-2       { bottom: 34%; left: 16%;  width: clamp(32px, 4.5vw, 56px); --rest-rot: -17deg; }
 .hero__topping--gear-4        { bottom: 4%;  right: 5%;  width: clamp(78px, 10vw, 142px); --rest-rot: -10deg; }
-.hero__topping--clock-2       { bottom: 8%;  left: 5%;   width: clamp(54px, 7.2vw, 98px); --rest-rot: 14deg; }
-.hero__topping--cross-1       { top: 21%;    right: 27%; width: clamp(20px, 3vw, 36px);   --rest-rot: 25deg; }
-.hero__topping--star-3        { top: 55%;    left: 25%;  width: clamp(20px, 3vw, 36px);   --rest-rot: -22deg; }
+.hero__topping--gauge-2       { bottom: 8%;  left: 5%;   width: clamp(54px, 7.2vw, 98px); --rest-rot: 14deg; }
+.hero__topping--brakedisc-2   { top: 21%;    right: 27%; width: clamp(20px, 3vw, 36px);   --rest-rot: 25deg; }
+.hero__topping--pleuel-3      { top: 55%;    left: 25%;  width: clamp(20px, 3vw, 36px);   --rest-rot: -22deg; }
 
 /* tablet: drop the two exact-duplicate pieces first */
 @media (max-width: 899px) {
@@ -375,8 +377,8 @@ body {
 @media (max-width: 599px) {
   .hero__topping--speedo-2,
   .hero__topping--bearing-2,
-  .hero__topping--star-2,
-  .hero__topping--cross-1 { display: none; }
+  .hero__topping--turbo-2,
+  .hero__topping--brakedisc-2 { display: none; }
 }
 
 /* ---- hero entrance choreography (page-load only, not scroll-reveal) ----
@@ -414,22 +416,22 @@ body {
   .hero__topping--piston-1      { animation-delay: 1.44s; }
   .hero__topping--bearing-1     { animation-delay: 1.48s; }
   .hero__topping--speedo-1      { animation-delay: 1.52s; animation-name: heroToppingInRight; }
-  .hero__topping--star-1        { animation-delay: 1.56s; }
-  .hero__topping--ring-1        { animation-delay: 1.60s; }
+  .hero__topping--pleuel-1      { animation-delay: 1.56s; }
+  .hero__topping--turbo-1       { animation-delay: 1.60s; }
   .hero__topping--gear-2        { animation-delay: 1.64s; }
   .hero__topping--piston-2      { animation-delay: 1.68s; animation-name: heroToppingInLeft; }
-  .hero__topping--diamond-1     { animation-delay: 1.72s; }
-  .hero__topping--ring-2        { animation-delay: 1.76s; }
-  .hero__topping--clock-1       { animation-delay: 1.80s; }
+  .hero__topping--brakedisc-1   { animation-delay: 1.72s; }
+  .hero__topping--pleuel-2      { animation-delay: 1.76s; }
+  .hero__topping--gauge-1       { animation-delay: 1.80s; }
   .hero__topping--gear-3        { animation-delay: 1.84s; }
   .hero__topping--speedo-2      { animation-delay: 1.88s; }
   .hero__topping--bearing-2     { animation-delay: 1.92s; }
   .hero__topping--piston-3      { animation-delay: 1.96s; }
-  .hero__topping--star-2        { animation-delay: 2.00s; }
+  .hero__topping--turbo-2       { animation-delay: 2.00s; }
   .hero__topping--gear-4        { animation-delay: 2.04s; animation-name: heroToppingInRight; }
-  .hero__topping--clock-2       { animation-delay: 2.08s; animation-name: heroToppingInLeft; }
-  .hero__topping--cross-1       { animation-delay: 2.12s; }
-  .hero__topping--star-3        { animation-delay: 2.16s; }
+  .hero__topping--gauge-2       { animation-delay: 2.08s; animation-name: heroToppingInLeft; }
+  .hero__topping--brakedisc-2   { animation-delay: 2.12s; }
+  .hero__topping--pleuel-3      { animation-delay: 2.16s; }
 
   .hero__actions { opacity: 0; animation: heroActionsIn 0.45s var(--ease) 2.4s both; }
 }
