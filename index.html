@@ -56,34 +56,31 @@
          reference sheet's pink-background/white-icon look. -->
     <svg width="0" height="0" style="position:absolute" aria-hidden="true">
       <defs>
-        <g id="icon-gear" stroke="var(--white)" stroke-width="5" fill="none" stroke-linejoin="round">
-          <circle cx="50" cy="50" r="21"/>
-          <circle cx="50" cy="50" r="8"/>
-          <g stroke="none" fill="var(--white)">
-            <rect x="45" y="4" width="10" height="12" rx="2"/>
-            <rect x="45" y="84" width="10" height="12" rx="2"/>
-            <rect x="4" y="45" width="12" height="10" rx="2"/>
-            <rect x="84" y="45" width="12" height="10" rx="2"/>
-            <rect x="45" y="4" width="10" height="12" rx="2" transform="rotate(45 50 50)"/>
-            <rect x="45" y="84" width="10" height="12" rx="2" transform="rotate(45 50 50)"/>
-            <rect x="4" y="45" width="12" height="10" rx="2" transform="rotate(45 50 50)"/>
-            <rect x="84" y="45" width="12" height="10" rx="2" transform="rotate(45 50 50)"/>
-          </g>
-        </g>
+        <!-- piston head with compression-ring line + pin boss, rods down
+             to the wrist-pin ring — matches the reference sheet's piston -->
         <g id="icon-piston" stroke="var(--white)" stroke-width="5" fill="none" stroke-linejoin="round" stroke-linecap="round">
-          <rect x="33" y="13" width="34" height="25" rx="4"/>
-          <line x1="42" y1="38" x2="42" y2="47"/>
-          <line x1="58" y1="38" x2="58" y2="47"/>
-          <line x1="50" y1="47" x2="37" y2="87"/>
-          <circle cx="37" cy="87" r="6.5"/>
+          <path d="M32 8h36a4 4 0 0 1 4 4v20a8 8 0 0 1-8 8H36a8 8 0 0 1-8-8V12a4 4 0 0 1 4-4z"/>
+          <line x1="28" y1="18" x2="72" y2="18"/>
+          <circle cx="50" cy="30" r="6"/>
+          <line x1="42" y1="40" x2="38" y2="62"/>
+          <line x1="58" y1="40" x2="62" y2="62"/>
+          <circle cx="50" cy="68" r="9"/>
         </g>
+        <!-- dome speedometer with flat split base, dot tick marks + needle —
+             matches the reference sheet's tacho -->
         <g id="icon-speedo" stroke="var(--white)" stroke-width="5" fill="none" stroke-linecap="round">
-          <path d="M18 68a32 32 0 0 1 64 0"/>
-          <line x1="50" y1="68" x2="68" y2="44"/>
-          <circle cx="50" cy="68" r="4.5" fill="var(--white)" stroke="none"/>
-          <line x1="18" y1="68" x2="10" y2="68"/>
-          <line x1="82" y1="68" x2="90" y2="68"/>
-          <line x1="50" y1="36" x2="50" y2="28"/>
+          <path d="M15 62a35 35 0 0 1 70 0"/>
+          <line x1="15" y1="62" x2="30" y2="62"/>
+          <line x1="70" y1="62" x2="85" y2="62"/>
+          <circle cx="50" cy="62" r="4" fill="var(--white)" stroke="none"/>
+          <line x1="50" y1="62" x2="38" y2="35"/>
+          <g fill="var(--white)" stroke="none">
+            <circle cx="50" cy="29" r="2.4"/>
+            <circle cx="30" cy="35" r="2.4"/>
+            <circle cx="70" cy="35" r="2.4"/>
+            <circle cx="20" cy="55" r="2.4"/>
+            <circle cx="80" cy="55" r="2.4"/>
+          </g>
         </g>
         <g id="icon-bearing" stroke="var(--white)" stroke-width="5" fill="none">
           <circle cx="50" cy="50" r="24"/>
@@ -96,16 +93,6 @@
             <circle cx="28" cy="63" r="5.2"/>
             <circle cx="28" cy="37" r="5.2"/>
           </g>
-        </g>
-        <!-- instrument gauge (RPM/oil-pressure dial) — rim tick marks read
-             as a technical gauge rather than a wall clock -->
-        <g id="icon-gauge" stroke="var(--white)" stroke-width="5" fill="none" stroke-linecap="round">
-          <circle cx="50" cy="50" r="27"/>
-          <line x1="50" y1="50" x2="50" y2="30"/>
-          <line x1="50" y1="50" x2="64" y2="58"/>
-          <line x1="50" y1="27" x2="50" y2="23" stroke-width="3"/>
-          <line x1="73" y1="50" x2="77" y2="50" stroke-width="3"/>
-          <line x1="27" y1="50" x2="23" y2="50" stroke-width="3"/>
         </g>
         <!-- connecting rod (Pleuelstange): small end (piston pin) up top,
              shaft, big end (crank journal) below -->
@@ -146,14 +133,14 @@
     </svg>
 
     <div class="hero__toppings" aria-hidden="true">
-      <div class="hero__topping hero__topping--gear-1" data-speed="130" data-drift="26" data-rotate="18" data-tilt="-8" data-scale="0.18">
-        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-gear"/></svg>
+      <div class="hero__topping hero__topping--piston-4" data-speed="130" data-drift="26" data-rotate="18" data-tilt="-8" data-scale="0.18">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-piston"/></svg>
       </div>
       <div class="hero__topping hero__topping--piston-1" data-speed="-140" data-drift="-30" data-rotate="-16" data-tilt="10" data-scale="0.2">
         <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-piston"/></svg>
       </div>
-      <div class="hero__topping hero__topping--bearing-1" data-speed="90" data-drift="18" data-rotate="14" data-tilt="-14" data-scale="0.14">
-        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-bearing"/></svg>
+      <div class="hero__topping hero__topping--piston-7" data-speed="90" data-drift="18" data-rotate="14" data-tilt="-14" data-scale="0.14">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-piston"/></svg>
       </div>
       <div class="hero__topping hero__topping--speedo-1" data-speed="-110" data-drift="-22" data-rotate="-24" data-tilt="16" data-scale="0.16">
         <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-speedo"/></svg>
@@ -164,8 +151,8 @@
       <div class="hero__topping hero__topping--turbo-1" data-speed="-70" data-drift="14" data-rotate="26" data-tilt="-18" data-scale="0.08">
         <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-turbo"/></svg>
       </div>
-      <div class="hero__topping hero__topping--gear-2" data-speed="120" data-drift="24" data-rotate="-12" data-tilt="-6" data-scale="0.18">
-        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-gear"/></svg>
+      <div class="hero__topping hero__topping--speedo-3" data-speed="120" data-drift="24" data-rotate="-12" data-tilt="-6" data-scale="0.18">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-speedo"/></svg>
       </div>
       <div class="hero__topping hero__topping--piston-2" data-speed="100" data-drift="16" data-rotate="10" data-tilt="9" data-scale="-0.14">
         <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-piston"/></svg>
@@ -176,11 +163,11 @@
       <div class="hero__topping hero__topping--pleuel-2" data-speed="-60" data-drift="-14" data-rotate="-20" data-tilt="15" data-scale="0.1">
         <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-pleuel"/></svg>
       </div>
-      <div class="hero__topping hero__topping--gauge-1" data-speed="-100" data-drift="-20" data-rotate="28" data-tilt="-20" data-scale="0.14">
-        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-gauge"/></svg>
+      <div class="hero__topping hero__topping--piston-5" data-speed="-100" data-drift="-20" data-rotate="28" data-tilt="-20" data-scale="0.14">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-piston"/></svg>
       </div>
-      <div class="hero__topping hero__topping--gear-3" data-speed="95" data-drift="18" data-rotate="-14" data-tilt="7" data-scale="0.14">
-        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-gear"/></svg>
+      <div class="hero__topping hero__topping--speedo-4" data-speed="95" data-drift="18" data-rotate="-14" data-tilt="7" data-scale="0.14">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-speedo"/></svg>
       </div>
       <div class="hero__topping hero__topping--speedo-2" data-speed="85" data-drift="12" data-rotate="8" data-tilt="11" data-scale="-0.12">
         <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-speedo"/></svg>
@@ -194,11 +181,11 @@
       <div class="hero__topping hero__topping--turbo-2" data-speed="55" data-drift="-10" data-rotate="20" data-tilt="-17" data-scale="0.08">
         <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-turbo"/></svg>
       </div>
-      <div class="hero__topping hero__topping--gear-4" data-speed="-90" data-drift="-16" data-rotate="10" data-tilt="-10" data-scale="0.12">
-        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-gear"/></svg>
+      <div class="hero__topping hero__topping--piston-6" data-speed="-90" data-drift="-16" data-rotate="10" data-tilt="-10" data-scale="0.12">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-piston"/></svg>
       </div>
-      <div class="hero__topping hero__topping--gauge-2" data-speed="80" data-drift="16" data-rotate="-14" data-tilt="14" data-scale="0.1">
-        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-gauge"/></svg>
+      <div class="hero__topping hero__topping--speedo-5" data-speed="80" data-drift="16" data-rotate="-14" data-tilt="14" data-scale="0.1">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-speedo"/></svg>
       </div>
       <div class="hero__topping hero__topping--brakedisc-2" data-speed="40" data-drift="10" data-rotate="30" data-tilt="25" data-scale="0.06">
         <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-brakedisc"/></svg>
@@ -222,8 +209,8 @@
 
       <div class="hero__product">
         <img
-          src="assets/images/hero-pizza-full.png"
-          alt="MOTO Pizza – komplette rechteckige Detroit Style Pizza mit Käse bis zum knusprigen Rand, Tomatensauce, Parmesan und Basilikum"
+          src="assets/images/pizza-moto.png"
+          alt="MOTO Pizza – komplette rechteckige Detroit Style Pizza mit Peperoni-Salami, Champignons, Paprika, Zwiebeln, Oliven, Parmesan und Tomatensauce"
           class="hero__product-img"
           id="heroImg"
         />

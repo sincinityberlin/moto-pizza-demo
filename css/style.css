@@ -345,31 +345,31 @@ body {
 /* size tiers: large (foreground-ish, closest to the reference's big corner
    pieces), medium, small — the mixed sizing is what gives the frame its
    depth instead of a flat ring of same-size icons */
-.hero__topping--gear-1        { top: 3%;     left: 2%;   width: clamp(78px, 10vw, 142px); --rest-rot: -8deg; }
+.hero__topping--piston-4        { top: 3%;     left: 2%;   width: clamp(78px, 10vw, 142px); --rest-rot: -8deg; }
 .hero__topping--piston-1      { top: 4%;     right: 2%;  width: clamp(78px, 10vw, 142px); --rest-rot: 10deg; }
-.hero__topping--bearing-1     { top: 15%;    left: 13%;  width: clamp(54px, 7.2vw, 98px); --rest-rot: -14deg; }
+.hero__topping--piston-7     { top: 15%;    left: 13%;  width: clamp(54px, 7.2vw, 98px); --rest-rot: -14deg; }
 .hero__topping--speedo-1      { top: 9%;     right: 15%; width: clamp(54px, 7.2vw, 98px); --rest-rot: 16deg; }
 .hero__topping--pleuel-1      { top: 58%;    left: 32%;  width: clamp(32px, 4.5vw, 56px); --rest-rot: 20deg; }
 .hero__topping--turbo-1       { top: 60%;    right: 33%; width: clamp(32px, 4.5vw, 56px); --rest-rot: -18deg; }
-.hero__topping--gear-2        { top: 19%;    right: 1%;  width: clamp(78px, 10vw, 142px); --rest-rot: -6deg; }
+.hero__topping--speedo-3        { top: 19%;    right: 1%;  width: clamp(78px, 10vw, 142px); --rest-rot: -6deg; }
 .hero__topping--piston-2      { top: 33%;    left: 2%;   width: clamp(54px, 7.2vw, 98px); --rest-rot: 9deg; }
 .hero__topping--brakedisc-1   { top: 44%;    left: 15%;  width: clamp(32px, 4.5vw, 56px); --rest-rot: -12deg; }
 .hero__topping--pleuel-2      { top: 46%;    right: 16%; width: clamp(32px, 4.5vw, 56px); --rest-rot: 15deg; }
-.hero__topping--gauge-1       { top: 39%;    right: 4%;  width: clamp(54px, 7.2vw, 98px); --rest-rot: -20deg; }
-.hero__topping--gear-3        { top: 41%;    left: 4%;   width: clamp(54px, 7.2vw, 98px); --rest-rot: 7deg; }
+.hero__topping--piston-5       { top: 39%;    right: 4%;  width: clamp(54px, 7.2vw, 98px); --rest-rot: -20deg; }
+.hero__topping--speedo-4        { top: 41%;    left: 4%;   width: clamp(54px, 7.2vw, 98px); --rest-rot: 7deg; }
 .hero__topping--speedo-2      { bottom: 26%; right: 3%;  width: clamp(54px, 7.2vw, 98px); --rest-rot: 11deg; }
 .hero__topping--bearing-2     { bottom: 24%; left: 3%;   width: clamp(54px, 7.2vw, 98px); --rest-rot: -9deg; }
 .hero__topping--piston-3      { bottom: 32%; right: 15%; width: clamp(54px, 7.2vw, 98px); --rest-rot: 13deg; }
 .hero__topping--turbo-2       { bottom: 34%; left: 16%;  width: clamp(32px, 4.5vw, 56px); --rest-rot: -17deg; }
-.hero__topping--gear-4        { bottom: 4%;  right: 5%;  width: clamp(78px, 10vw, 142px); --rest-rot: -10deg; }
-.hero__topping--gauge-2       { bottom: 8%;  left: 5%;   width: clamp(54px, 7.2vw, 98px); --rest-rot: 14deg; }
+.hero__topping--piston-6        { bottom: 4%;  right: 5%;  width: clamp(78px, 10vw, 142px); --rest-rot: -10deg; }
+.hero__topping--speedo-5       { bottom: 8%;  left: 5%;   width: clamp(54px, 7.2vw, 98px); --rest-rot: 14deg; }
 .hero__topping--brakedisc-2   { top: 21%;    right: 27%; width: clamp(20px, 3vw, 36px);   --rest-rot: 25deg; }
 .hero__topping--pleuel-3      { top: 55%;    left: 25%;  width: clamp(20px, 3vw, 36px);   --rest-rot: -22deg; }
 
 /* tablet: drop the two exact-duplicate pieces first */
 @media (max-width: 899px) {
-  .hero__topping--gear-2,
-  .hero__topping--gear-3 { display: none; }
+  .hero__topping--speedo-3,
+  .hero__topping--speedo-4 { display: none; }
 }
 /* phone: thin out a few more of the smallest/least central ones, but stay
    dense on purpose — the brief is explicit that mobile should NOT collapse
@@ -412,24 +412,24 @@ body {
   /* toppings fall/fly in one at a time, only once the pizza has landed —
      most from above (heroToppingIn), several from the side for variety */
   .hero__topping { opacity: 0; animation: heroToppingIn 0.4s var(--ease) both; }
-  .hero__topping--gear-1        { animation-delay: 1.40s; }
+  .hero__topping--piston-4        { animation-delay: 1.40s; }
   .hero__topping--piston-1      { animation-delay: 1.44s; }
-  .hero__topping--bearing-1     { animation-delay: 1.48s; }
+  .hero__topping--piston-7     { animation-delay: 1.48s; }
   .hero__topping--speedo-1      { animation-delay: 1.52s; animation-name: heroToppingInRight; }
   .hero__topping--pleuel-1      { animation-delay: 1.56s; }
   .hero__topping--turbo-1       { animation-delay: 1.60s; }
-  .hero__topping--gear-2        { animation-delay: 1.64s; }
+  .hero__topping--speedo-3        { animation-delay: 1.64s; }
   .hero__topping--piston-2      { animation-delay: 1.68s; animation-name: heroToppingInLeft; }
   .hero__topping--brakedisc-1   { animation-delay: 1.72s; }
   .hero__topping--pleuel-2      { animation-delay: 1.76s; }
-  .hero__topping--gauge-1       { animation-delay: 1.80s; }
-  .hero__topping--gear-3        { animation-delay: 1.84s; }
+  .hero__topping--piston-5       { animation-delay: 1.80s; }
+  .hero__topping--speedo-4        { animation-delay: 1.84s; }
   .hero__topping--speedo-2      { animation-delay: 1.88s; }
   .hero__topping--bearing-2     { animation-delay: 1.92s; }
   .hero__topping--piston-3      { animation-delay: 1.96s; }
   .hero__topping--turbo-2       { animation-delay: 2.00s; }
-  .hero__topping--gear-4        { animation-delay: 2.04s; animation-name: heroToppingInRight; }
-  .hero__topping--gauge-2       { animation-delay: 2.08s; animation-name: heroToppingInLeft; }
+  .hero__topping--piston-6        { animation-delay: 2.04s; animation-name: heroToppingInRight; }
+  .hero__topping--speedo-5       { animation-delay: 2.08s; animation-name: heroToppingInLeft; }
   .hero__topping--brakedisc-2   { animation-delay: 2.12s; }
   .hero__topping--pleuel-3      { animation-delay: 2.16s; }
 
