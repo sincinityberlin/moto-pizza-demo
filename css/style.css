@@ -6,10 +6,16 @@
    same Extrabold/Heavy files but registered under their own family name so
    --font-display gets the brochure's "very bold headline" weight by default
    without having to add font-weight to every headline rule individually.
-   Good Times (the brochure's playful accent face) is used on the marquee
-   ticker only. The two Arabic-script fonts that were supplied alongside
-   these (AraHamahAlislam, AraHamahAlFidaa) are not wired in — there is no
-   Arabic-script content anywhere on this Latin-text site for them to serve.
+   Good Times (the brochure's angular MOTO display face) drives --font-display
+   and --font-head — all headlines, nav, buttons, labels, tags, prices, the
+   marquee. It's a single-weight, unicase face (lowercase renders as caps;
+   full umlaut/ß coverage), so it's unsuited for running body copy — --font-body
+   stays AdelleSansARA, which keeps its full weight range for descriptions,
+   ingredients and other multi-line text that needs real lowercase and
+   legibility at small sizes. The two Arabic-script fonts that were supplied
+   alongside these (AraHamahAlislam, AraHamahAlFidaa) are not wired in — there
+   is no Arabic-script content anywhere on this Latin-text site for them to
+   serve.
    ========================================================================== */
 @font-face {
   font-family: "AdelleSansARA";
@@ -110,8 +116,8 @@
   --cucumber-flesh: #eaf6df;
   --lettuce-green: #8fce5c;
 
-  --font-display: "AdelleSansARA Display", "AdelleSansARA", sans-serif;
-  --font-head: "AdelleSansARA", sans-serif;
+  --font-display: "Good Times", "AdelleSansARA Display", "AdelleSansARA", sans-serif;
+  --font-head: "Good Times", "AdelleSansARA", sans-serif;
   --font-body: "AdelleSansARA", sans-serif;
   --font-ticker: "Good Times", "AdelleSansARA Display", sans-serif;
 
@@ -573,6 +579,14 @@ body {
   font-family: var(--font-head); font-weight: 500;
   font-size: clamp(1.5rem, 4.2vw, 2.8rem);
   line-height: 1.25;
+}
+/* Good Times is wider per-glyph than AdelleSansARA — on narrow phones the
+   nowrap highlighted phrases (.hl) can now overrun the viewport. Only this
+   statement's phrases are long enough to hit that; let them wrap here
+   instead of loosening .hl's nowrap everywhere (which exists for the
+   shorter brand phrases like "MOTOR CITY" that should stay on one line). */
+@media (max-width: 420px) {
+  .statement__text .hl { white-space: normal; }
 }
 
 /* ==========================================================================
