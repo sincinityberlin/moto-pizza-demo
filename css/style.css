@@ -346,16 +346,16 @@ body {
 
 .hero__title {
   font-family: var(--font-display);
-  font-size: clamp(3.1rem, 13vw, 5rem);
+  font-size: clamp(2.3rem, 9.75vw, 3.75rem);
   line-height: 0.98;
   letter-spacing: -0.01em;
   text-transform: uppercase;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
   max-width: 100%;
 }
-@media (min-width: 900px) { .hero__title { font-size: clamp(3rem, 6.4vw, 6.8rem); gap: 10px; max-width: 900px; } }
+@media (min-width: 900px) { .hero__title { font-size: clamp(2.25rem, 4.8vw, 5.1rem); gap: 8px; max-width: 900px; } }
 @media (min-width: 1200px) { .hero__title { max-width: 1080px; } }
 .hero__title span { display: block; }
 .hero__title--outline {
@@ -407,16 +407,16 @@ body {
 @media (max-width: 600px) {
   .hero { padding: 40px var(--pad) 40px; }
   .hero__logo { height: 76px; margin-bottom: 30px; }
-  .hero__title { font-size: clamp(2.2rem, 10.8vw, 3.1rem); gap: 4px; }
+  .hero__title { font-size: clamp(1.65rem, 8.1vw, 2.3rem); gap: 3px; }
   .hero__actions { margin-top: 20px; gap: 10px; }
   .hero__product { margin-top: 10px; }
   .hero__product-img { max-height: 42vh; }
 }
 
 /* ---- floating topping/parallax decorations ----
-   Purely decorative, white line-art MOTO/mechanic icons (gear, piston,
-   speedometer, bearing, clock, star, ring, diamond, cross — see the
-   <symbol> defs at the top of the hero section), styled after the brand's
+   Purely decorative, white line-art MOTO/mechanic icons (piston,
+   speedometer, bearing, connecting rod, gear — see the <g id="icon-...">
+   defs at the top of the hero section), styled after the brand's
    pink-background/white-icon pattern sheet. Kept white/cream only, not the
    pink/blue brand palette, which is reserved for UI.
    Sit behind .hero__inner (z-index 2) so they can never cover the
@@ -445,7 +445,7 @@ body {
    depth instead of a flat ring of same-size icons */
 .hero__topping--piston-4        { top: 3%;     left: 2%;   width: clamp(78px, 10vw, 142px); --rest-rot: -8deg; }
 .hero__topping--piston-1      { top: 4%;     right: 2%;  width: clamp(78px, 10vw, 142px); --rest-rot: 10deg; }
-.hero__topping--piston-7     { top: 15%;    left: 13%;  width: clamp(54px, 7.2vw, 98px); --rest-rot: -14deg; }
+.hero__topping--piston-7     { top: 13%;    left: 3%;   width: clamp(54px, 7.2vw, 98px); --rest-rot: -14deg; }
 .hero__topping--speedo-1      { top: 9%;     right: 15%; width: clamp(54px, 7.2vw, 98px); --rest-rot: 16deg; }
 .hero__topping--pleuel-1      { top: 58%;    left: 32%;  width: clamp(32px, 4.5vw, 56px); --rest-rot: 20deg; }
 .hero__topping--turbo-1       { top: 60%;    right: 33%; width: clamp(32px, 4.5vw, 56px); --rest-rot: -18deg; }

@@ -100,33 +100,20 @@
           <circle cx="50" cy="75" r="16"/>
           <line x1="50" y1="32" x2="50" y2="59"/>
         </g>
-        <!-- turbocharger — turbine wheel: rim + curved blades radiating
-             from a center hub, unmistakably a turbo, not a plain circle -->
-        <g id="icon-turbo" stroke="var(--white)" stroke-width="6.5" fill="none" stroke-linecap="round">
-          <circle cx="50" cy="50" r="28"/>
-          <circle cx="50" cy="50" r="7" fill="var(--white)" stroke="none"/>
-          <path d="M50 50 Q65 35 50 17" transform="rotate(0 50 50)"/>
-          <path d="M50 50 Q65 35 50 17" transform="rotate(90 50 50)"/>
-          <path d="M50 50 Q65 35 50 17" transform="rotate(180 50 50)"/>
-          <path d="M50 50 Q65 35 50 17" transform="rotate(270 50 50)"/>
-        </g>
-        <!-- brake disc — rotor with drilled vent holes + hub spokes,
-             distinct from icon-bearing's ball-bearing race rings -->
-        <g id="icon-brakedisc" stroke="var(--white)" stroke-width="5" fill="none">
-          <circle cx="50" cy="50" r="28"/>
-          <circle cx="50" cy="50" r="11"/>
-          <g fill="var(--white)" stroke="none">
-            <circle cx="50" cy="25" r="4.4"/>
-            <circle cx="75" cy="50" r="4.4"/>
-            <circle cx="50" cy="75" r="4.4"/>
-            <circle cx="25" cy="50" r="4.4"/>
-          </g>
-          <g stroke="var(--white)" stroke-width="3.5" stroke-linecap="round">
-            <line x1="50" y1="39" x2="50" y2="45"/>
-            <line x1="61" y1="50" x2="55" y2="50"/>
-            <line x1="50" y1="61" x2="50" y2="55"/>
-            <line x1="39" y1="50" x2="45" y2="50"/>
-          </g>
+        <!-- gear (Zahnrad) — pitch circle + center bore, 8 evenly-spaced
+             teeth radiating outward, same rotate-transform repeat technique
+             as the other icons in this set -->
+        <g id="icon-gear" stroke="var(--white)" stroke-width="5" fill="none" stroke-linejoin="round" stroke-linecap="round">
+          <circle cx="50" cy="50" r="24"/>
+          <circle cx="50" cy="50" r="9"/>
+          <rect x="78" y="45.5" width="8" height="9" transform="rotate(0 50 50)"/>
+          <rect x="78" y="45.5" width="8" height="9" transform="rotate(45 50 50)"/>
+          <rect x="78" y="45.5" width="8" height="9" transform="rotate(90 50 50)"/>
+          <rect x="78" y="45.5" width="8" height="9" transform="rotate(135 50 50)"/>
+          <rect x="78" y="45.5" width="8" height="9" transform="rotate(180 50 50)"/>
+          <rect x="78" y="45.5" width="8" height="9" transform="rotate(225 50 50)"/>
+          <rect x="78" y="45.5" width="8" height="9" transform="rotate(270 50 50)"/>
+          <rect x="78" y="45.5" width="8" height="9" transform="rotate(315 50 50)"/>
         </g>
       </defs>
     </svg>
@@ -148,7 +135,7 @@
         <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-pleuel"/></svg>
       </div>
       <div class="hero__topping hero__topping--turbo-1" data-speed="-70" data-drift="14" data-rotate="26" data-tilt="-18" data-scale="0.08">
-        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-turbo"/></svg>
+        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-gear"/></svg>
       </div>
       <div class="hero__topping hero__topping--speedo-3" data-speed="120" data-drift="24" data-rotate="-12" data-tilt="-6" data-scale="0.18">
         <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-speedo"/></svg>
@@ -157,7 +144,7 @@
         <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-piston"/></svg>
       </div>
       <div class="hero__topping hero__topping--brakedisc-1" data-speed="50" data-drift="10" data-rotate="16" data-tilt="-12" data-scale="0.08">
-        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-brakedisc"/></svg>
+        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-gear"/></svg>
       </div>
       <div class="hero__topping hero__topping--pleuel-2" data-speed="-60" data-drift="-14" data-rotate="-20" data-tilt="15" data-scale="0.1">
         <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-pleuel"/></svg>
@@ -178,7 +165,7 @@
         <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-piston"/></svg>
       </div>
       <div class="hero__topping hero__topping--turbo-2" data-speed="55" data-drift="-10" data-rotate="20" data-tilt="-17" data-scale="0.08">
-        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-turbo"/></svg>
+        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-gear"/></svg>
       </div>
       <div class="hero__topping hero__topping--piston-6" data-speed="-90" data-drift="-16" data-rotate="10" data-tilt="-10" data-scale="0.12">
         <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-piston"/></svg>
@@ -187,7 +174,7 @@
         <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-speedo"/></svg>
       </div>
       <div class="hero__topping hero__topping--brakedisc-2" data-speed="40" data-drift="10" data-rotate="30" data-tilt="25" data-scale="0.06">
-        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-brakedisc"/></svg>
+        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-gear"/></svg>
       </div>
       <div class="hero__topping hero__topping--pleuel-3" data-speed="-45" data-drift="-10" data-rotate="-26" data-tilt="-22" data-scale="0.06">
         <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-pleuel"/></svg>
