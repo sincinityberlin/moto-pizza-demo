@@ -77,6 +77,18 @@
   font-weight: 400;
   font-display: swap;
 }
+/* Archivo Black — the site's pre-MOTO-brochure headline font (Google Font,
+   self-hosted here instead of the old <link> to fonts.googleapis.com so it
+   doesn't reintroduce an external request). Scoped to only the four
+   headline lines that were originally set in this font and are meant to
+   stay that way (see the --outline rules below); everything else still
+   uses the brochure fonts above. */
+@font-face {
+  font-family: "Archivo Black";
+  src: url("../assets/fonts/ArchivoBlack-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
 
 /* ==========================================================================
    MOTO PIZZA — Design tokens
@@ -347,10 +359,10 @@ body {
 @media (min-width: 1200px) { .hero__title { max-width: 1080px; } }
 .hero__title span { display: block; }
 .hero__title--outline {
-  /* pre-Good Times headline font (kept for this outline line only — the
-     plain "CHEESE TO THE EDGE." span above still uses --font-display's
-     current Good Times) */
-  font-family: "AdelleSansARA Display", "AdelleSansARA", sans-serif;
+  /* the site's original pre-brochure-font headline face (kept for this
+     outline line only — the plain "CHEESE TO THE EDGE." span above still
+     uses --font-display's current Good Times) */
+  font-family: "Archivo Black", sans-serif;
   -webkit-text-stroke: 2px var(--blue);
   color: transparent;
 }
@@ -996,11 +1008,11 @@ body {
 }
 .detroit__statement-line { display: block; }
 .detroit__statement-line [data-reveal] { display: inline-block; }
-/* pre-Good Times headline font, kept for these two outline lines only —
-   the fill line below ("100% DETROIT STYLE.") still uses --font-display's
-   current Good Times */
-.detroit__statement-line--outline-blue { font-family: "AdelleSansARA Display", "AdelleSansARA", sans-serif; -webkit-text-stroke: 2px var(--blue); color: transparent; }
-.detroit__statement-line--outline-pink { font-family: "AdelleSansARA Display", "AdelleSansARA", sans-serif; -webkit-text-stroke: 2px var(--pink); color: transparent; }
+/* original pre-brochure-font headline face, kept for these two outline
+   lines only — the fill line below ("100% DETROIT STYLE.") still uses
+   --font-display's current Good Times */
+.detroit__statement-line--outline-blue { font-family: "Archivo Black", sans-serif; -webkit-text-stroke: 2px var(--blue); color: transparent; }
+.detroit__statement-line--outline-pink { font-family: "Archivo Black", sans-serif; -webkit-text-stroke: 2px var(--pink); color: transparent; }
 .detroit__statement-line--fill { color: var(--ink); margin-top: 8px; }
 
 /* ==========================================================================
@@ -1101,10 +1113,10 @@ body {
 }
 .about__finale-line { display: block; }
 .about__finale-line [data-reveal] { display: inline-block; }
-/* pre-Good Times headline font, kept for this outline line only — the
-   plain "DETROIT GEBAUT." and fill "MOTO GEMACHT." lines still use
-   --font-display's current Good Times */
-.about__finale-line--outline { font-family: "AdelleSansARA Display", "AdelleSansARA", sans-serif; -webkit-text-stroke: 2px var(--pink); color: transparent; }
+/* original pre-brochure-font headline face, kept for this outline line
+   only — the plain "DETROIT GEBAUT." and fill "MOTO GEMACHT." lines still
+   use --font-display's current Good Times */
+.about__finale-line--outline { font-family: "Archivo Black", sans-serif; -webkit-text-stroke: 2px var(--pink); color: transparent; }
 .about__finale-line--fill { color: var(--blue); }
 
 /* ==========================================================================
