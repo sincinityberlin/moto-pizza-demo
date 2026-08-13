@@ -1,4 +1,78 @@
 /* ==========================================================================
+   MOTO PIZZA — Original brochure fonts (local files, assets/fonts/)
+   AdelleSansARA is one family across 8 weights — font-weight in each rule
+   below (already 400/600/700 throughout the sheet) picks the matching cut
+   automatically. "AdelleSansARA Display" is a second alias pointing at the
+   same Extrabold/Heavy files but registered under their own family name so
+   --font-display gets the brochure's "very bold headline" weight by default
+   without having to add font-weight to every headline rule individually.
+   Good Times (the brochure's playful accent face) is used on the marquee
+   ticker only. The two Arabic-script fonts that were supplied alongside
+   these (AraHamahAlislam, AraHamahAlFidaa) are not wired in — there is no
+   Arabic-script content anywhere on this Latin-text site for them to serve.
+   ========================================================================== */
+@font-face {
+  font-family: "AdelleSansARA";
+  src: url("../assets/fonts/AdelleSansARA-Ultrathin.otf") format("opentype");
+  font-weight: 100;
+  font-display: swap;
+}
+@font-face {
+  font-family: "AdelleSansARA";
+  src: url("../assets/fonts/AdelleSansARA-Thin.otf") format("opentype");
+  font-weight: 200;
+  font-display: swap;
+}
+@font-face {
+  font-family: "AdelleSansARA";
+  src: url("../assets/fonts/AdelleSansARA-Light.otf") format("opentype");
+  font-weight: 300;
+  font-display: swap;
+}
+@font-face {
+  font-family: "AdelleSansARA";
+  src: url("../assets/fonts/AdelleSansARA-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "AdelleSansARA";
+  src: url("../assets/fonts/AdelleSansARA-Semibold.otf") format("opentype");
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: "AdelleSansARA";
+  src: url("../assets/fonts/AdelleSansARA-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "AdelleSansARA";
+  src: url("../assets/fonts/AdelleSansARA-Extrabold.otf") format("opentype");
+  font-weight: 800;
+  font-display: swap;
+}
+@font-face {
+  font-family: "AdelleSansARA";
+  src: url("../assets/fonts/AdelleSansARA-Heavy.otf") format("opentype");
+  font-weight: 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "AdelleSansARA Display";
+  src: url("../assets/fonts/AdelleSansARA-Heavy.otf") format("opentype");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Good Times";
+  src: url("../assets/fonts/good-times-rg.otf") format("opentype");
+  font-weight: 400;
+  font-display: swap;
+}
+
+/* ==========================================================================
    MOTO PIZZA — Design tokens
    Change colors / type / spacing here to restyle the whole site at once.
    ========================================================================== */
@@ -36,9 +110,10 @@
   --cucumber-flesh: #eaf6df;
   --lettuce-green: #8fce5c;
 
-  --font-display: "Archivo Black", "Space Grotesk", sans-serif;
-  --font-head: "Space Grotesk", sans-serif;
-  --font-body: "Inter", sans-serif;
+  --font-display: "AdelleSansARA Display", "AdelleSansARA", sans-serif;
+  --font-head: "AdelleSansARA", sans-serif;
+  --font-body: "AdelleSansARA", sans-serif;
+  --font-ticker: "Good Times", "AdelleSansARA Display", sans-serif;
 
   --container: 1240px;
   --pad: clamp(20px, 5vw, 64px);
@@ -480,7 +555,7 @@ body {
 }
 .marquee__track {
   display: flex; width: max-content; gap: 28px; white-space: nowrap;
-  font-family: var(--font-display);
+  font-family: var(--font-ticker);
   font-size: clamp(1rem, 2.4vw, 1.5rem);
   text-transform: uppercase;
   animation: marquee 26s linear infinite;
