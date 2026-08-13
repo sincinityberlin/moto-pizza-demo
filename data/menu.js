@@ -110,7 +110,7 @@ const MOTO_SNACKS = [
 ];
 
 /* id matches assets/images/drink-<id>.png. Reihenfolge folgt der Speisekarte:
-   Red Bull (3 Sorten) → San Pellegrino Aromen (7) → San Pellegrino Sprudel/Still. */
+   Red Bull (3 Sorten) → San Pellegrino Aromen (4) → S.Pellegrino Sprudel. */
 const MOTO_DRINKS = [
   {
     id: "redbull-classic",
@@ -134,24 +134,10 @@ const MOTO_DRINKS = [
     price: "5,00",
   },
   {
-    id: "aranciata",
-    name: "San Pellegrino",
-    tag: "Aranciata",
-    desc: "Italienische Sparkling-Limonade mit echter Orange.",
-    price: "5,00",
-  },
-  {
     id: "limonata",
     name: "San Pellegrino",
     tag: "Limonata",
     desc: "Italienische Sparkling-Limonade mit echtem Zitronensaft.",
-    price: "5,00",
-  },
-  {
-    id: "aranciata-rossa",
-    name: "San Pellegrino",
-    tag: "Aranciata Rossa",
-    desc: "Italienische Sparkling-Limonade mit Blutorange.",
     price: "5,00",
   },
   {
@@ -176,24 +162,10 @@ const MOTO_DRINKS = [
     price: "5,00",
   },
   {
-    id: "ciliegia-limone",
-    name: "San Pellegrino",
-    tag: "Ciliegia & Limone",
-    desc: "Italienische Sparkling-Limonade mit Kirsche und Zitrone.",
-    price: "5,00",
-  },
-  {
     id: "sprudel",
     name: "S.Pellegrino",
     tag: "Sprudel",
     desc: "Italienisches Sparkling-Mineralwasser.",
-    price: "5,00",
-  },
-  {
-    id: "still",
-    name: "Acqua Panna",
-    tag: "Still",
-    desc: "Stilles Mineralwasser aus der Toskana.",
     price: "5,00",
   },
 ];
