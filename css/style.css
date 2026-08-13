@@ -539,11 +539,12 @@ body {
    pink/blue with the active slide — no dark background, no glow blobs,
    no dot pattern */
 .selector {
-  /* pizza should be the section's clear visual centerpiece — sized up
-     ~50% from the previous 66/56/40% (combined with the tighter frame
-     padding below), while still fully contained within its card, never
-     cropped */
-  --slide-w: 86%;
+  /* pizza should be the section's clear visual centerpiece. Sized up from
+     the original 66/56/40%; the frame's height/width ratio (js/main.js
+     measure()) was also changed from a square/portrait shape to match the
+     pizza photos' own landscape ratio, so this width increase translates
+     directly into a much bigger pizza, not just a bigger empty card */
+  --slide-w: 92%;
   --tone-accent: var(--pink);
   position: relative;
   overflow: hidden;
@@ -552,8 +553,8 @@ body {
   transition: background 0.5s ease, box-shadow 0.5s ease;
   box-shadow: 0 30px 70px -34px color-mix(in srgb, var(--tone-accent) 50%, transparent);
 }
-@media (min-width: 700px)  { .selector { --slide-w: 70%; } }
-@media (min-width: 1000px) { .selector { --slide-w: 52%; padding: 72px 0 56px; } }
+@media (min-width: 700px)  { .selector { --slide-w: 78%; } }
+@media (min-width: 1000px) { .selector { --slide-w: 58%; padding: 72px 0 56px; } }
 
 .selector[data-tone="pink"] { --tone-accent: var(--pink); background: var(--pink); }
 .selector[data-tone="blue"] { --tone-accent: var(--blue); background: var(--blue); }

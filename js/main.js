@@ -89,8 +89,14 @@ function initPizzaSelector() {
     const slideWidth = contentWidth * (slidePercent / 100);
     slideUnit = slideWidth + Math.max(contentWidth * 0.05, 16);
 
-    const isDesktop = window.matchMedia("(min-width: 860px)").matches;
-    const ratio = isDesktop ? 5 / 4 : 1; // height/width — matches the previous per-breakpoint frame shape
+    // height/width ratio — matches the pizza photos' own ~0.605 aspect
+    // (1100x664px, all 10 identically cropped) plus a little breathing
+    // room. Previously 1 (mobile, square) / 5:4 (desktop, portrait) — both
+    // far taller than a landscape pizza actually needs, which left large
+    // empty top/bottom margins inside the frame and made the pizza itself
+    // look small even though the card was big. A frame shaped like the
+    // photo lets object-fit:contain fill it edge to edge instead.
+    const ratio = 0.68;
     const slideHeight = slideWidth * ratio;
 
     radiusX = contentWidth * 0.56;
