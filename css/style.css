@@ -768,12 +768,21 @@ body {
 .products__head { margin-bottom: 40px; }
 .products__note { max-width: 420px; margin-top: 12px; color: rgba(20, 17, 22, 0.6); font-size: 1rem; }
 
+/* Horizontal swipe row — native scroll-snap, no JS. Works the same way on
+   touch (drag/momentum/snap all handled by the browser) and on desktop
+   (trackpad/shift+wheel/click-drag scroll). One single row always, at every
+   viewport width — never wraps to a second row. The next card always peeks
+   in slightly at the edge so it's obvious there's more to swipe to. */
 .product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 24px;
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 4px;
 }
-.product-grid--drinks { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.product-grid::-webkit-scrollbar { display: none; }
 
 .product-card {
   background: var(--cream-dim);
@@ -781,7 +790,11 @@ body {
   overflow: hidden;
   display: flex; flex-direction: column;
   transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+  scroll-snap-align: start;
+  flex: 0 0 auto;
+  width: 260px;
 }
+.product-grid--drinks .product-card { width: 172px; }
 .drinks .product-card { background: var(--white); }
 .product-card:hover {
   transform: translateY(-4px);
@@ -818,20 +831,12 @@ body {
   font-family: var(--font-display); font-size: 1.2rem; color: var(--pink);
 }
 
-/* ---- mobile: 2-column grid instead of stacking to 1 column ----
-   Applies to both Snacks (2 items) and Getränke (4 items) so the section
-   stays compact on phones instead of growing into a long single-file list.
-   Fixed repeat(2, 1fr) (not auto-fit/minmax) so both columns are always
-   exactly equal width; min-width:0 on the card keeps grid items from
-   refusing to shrink below their content's preferred size, which is what
-   would otherwise cause horizontal overflow at narrow widths. */
+/* mobile: viewport-relative card widths — always ~1.3–2.3 cards visible
+   with a clear peek of the next one, regardless of exact phone width */
 @media (max-width: 640px) {
-  .product-grid,
-  .product-grid--drinks {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-  }
-  .product-card { min-width: 0; border-radius: 16px; }
+  .product-grid { gap: 12px; }
+  .product-card { width: 68vw; max-width: 260px; border-radius: 16px; }
+  .product-grid--drinks .product-card { width: 40vw; max-width: 165px; }
   .product-card__media,
   .product-grid--drinks .product-card__media {
     aspect-ratio: 1 / 1;
