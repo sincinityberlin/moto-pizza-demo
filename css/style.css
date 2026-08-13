@@ -324,7 +324,10 @@ body {
 
 .hero__logo {
   height: 100px; width: auto; /* height-only + width:auto preserves aspect ratio, never stretched */
-  filter: brightness(0) invert(1);
+  /* logo-hero.png is a pre-colored variant (assets/images/logo.png is pink/blue
+     on white, made for the light footer) — white MOTO/PIZZA/shapes, blue bars,
+     baked in ahead of time since a CSS filter can only recolor the whole image
+     uniformly and can't pick out just the two bars. */
   margin-bottom: 44px; /* clear gap down to the slogan, now that the logo sits up near the header */
 }
 @media (min-width: 900px) { .hero__logo { height: 156px; margin-bottom: 58px; } }
@@ -820,6 +823,13 @@ body {
   display: flex; align-items: center; justify-content: center;
   padding: 20px;
   box-sizing: border-box;
+  /* without this, the flex item's automatic min-height (based on the img's
+     intrinsic size) wins over aspect-ratio, so taller source photos made
+     their card's media box taller than shorter ones — the root cause of
+     the drinks row looking uneven. Pinning min to 0 lets aspect-ratio
+     alone decide the box size for every card, uniformly. */
+  min-width: 0;
+  min-height: 0;
 }
 .product-grid--drinks .product-card__media { aspect-ratio: 1 / 1; padding: 16px; }
 .product-card__media img {
@@ -827,7 +837,12 @@ body {
   filter: drop-shadow(0 14px 20px rgba(20, 17, 22, 0.16));
 }
 
-.product-card__body { padding: 4px 22px 26px; }
+/* flex column + the price's margin-top:auto below is what pins price to
+   the same baseline on every card — .product-card is stretched to the
+   tallest card's height by .product-grid's row layout, so this column
+   always has the same amount of vertical room to distribute regardless
+   of how long an individual name/tag/desc happens to be. */
+.product-card__body { padding: 4px 22px 26px; display: flex; flex-direction: column; flex: 1; }
 .product-card__name {
   font-family: var(--font-display); text-transform: uppercase;
   font-size: 1.3rem; line-height: 1.1; margin-bottom: 4px;
@@ -843,6 +858,7 @@ body {
 }
 .product-card__price {
   font-family: var(--font-display); font-size: 1.2rem; color: var(--pink);
+  margin-top: auto;
 }
 
 /* mobile: viewport-relative card widths — always ~1.3–2.3 cards visible
