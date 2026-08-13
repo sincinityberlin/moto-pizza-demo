@@ -884,8 +884,8 @@ body {
 }
 .detroit__statement-line { display: block; }
 .detroit__statement-line [data-reveal] { display: inline-block; }
-.detroit__statement-line--outline-blue { -webkit-text-stroke: 2px var(--blue); color: transparent; }
-.detroit__statement-line--outline-pink { -webkit-text-stroke: 2px var(--pink); color: transparent; }
+.detroit__statement-line--outline-blue { color: var(--blue); }
+.detroit__statement-line--outline-pink { color: var(--pink); }
 .detroit__statement-line--fill { color: var(--ink); margin-top: 8px; }
 
 /* ==========================================================================
@@ -986,7 +986,7 @@ body {
 }
 .about__finale-line { display: block; }
 .about__finale-line [data-reveal] { display: inline-block; }
-.about__finale-line--outline { -webkit-text-stroke: 2px var(--pink); color: transparent; }
+.about__finale-line--outline { color: var(--pink); }
 .about__finale-line--fill { color: var(--blue); }
 
 /* ==========================================================================
