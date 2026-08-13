@@ -110,7 +110,7 @@ const MOTO_SNACKS = [
 ];
 
 /* id matches assets/images/drink-<id>.png. Reihenfolge folgt der Speisekarte:
-   Red Bull (3 Sorten) → San Pellegrino Aromen (6) → San Pellegrino Sprudel/Still. */
+   Red Bull (3 Sorten) → San Pellegrino Aromen (7) → San Pellegrino Sprudel/Still. */
 const MOTO_DRINKS = [
   {
     id: "redbull-classic",
@@ -173,6 +173,13 @@ const MOTO_DRINKS = [
     name: "San Pellegrino",
     tag: "Melograno & Arancia",
     desc: "Spritzige italienische Limonade mit Granatapfel und Orange.",
+    price: "5,00",
+  },
+  {
+    id: "ciliegia-limone",
+    name: "San Pellegrino",
+    tag: "Ciliegia & Limone",
+    desc: "Italienische Sparkling-Limonade mit Kirsche und Zitrone.",
     price: "5,00",
   },
   {

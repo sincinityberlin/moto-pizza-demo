@@ -836,7 +836,7 @@ body {
 @media (max-width: 640px) {
   .product-grid { gap: 12px; }
   .product-card { width: 68vw; max-width: 260px; border-radius: 16px; }
-  .product-grid--drinks .product-card { width: 40vw; max-width: 165px; }
+  .product-grid--drinks .product-card { width: 56vw; max-width: 210px; }
   .product-card__media,
   .product-grid--drinks .product-card__media {
     aspect-ratio: 1 / 1;
