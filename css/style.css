@@ -347,6 +347,10 @@ body {
 @media (min-width: 1200px) { .hero__title { max-width: 1080px; } }
 .hero__title span { display: block; }
 .hero__title--outline {
+  /* pre-Good Times headline font (kept for this outline line only — the
+     plain "CHEESE TO THE EDGE." span above still uses --font-display's
+     current Good Times) */
+  font-family: "AdelleSansARA Display", "AdelleSansARA", sans-serif;
   -webkit-text-stroke: 2px var(--blue);
   color: transparent;
 }
@@ -992,8 +996,11 @@ body {
 }
 .detroit__statement-line { display: block; }
 .detroit__statement-line [data-reveal] { display: inline-block; }
-.detroit__statement-line--outline-blue { -webkit-text-stroke: 2px var(--blue); color: transparent; }
-.detroit__statement-line--outline-pink { -webkit-text-stroke: 2px var(--pink); color: transparent; }
+/* pre-Good Times headline font, kept for these two outline lines only —
+   the fill line below ("100% DETROIT STYLE.") still uses --font-display's
+   current Good Times */
+.detroit__statement-line--outline-blue { font-family: "AdelleSansARA Display", "AdelleSansARA", sans-serif; -webkit-text-stroke: 2px var(--blue); color: transparent; }
+.detroit__statement-line--outline-pink { font-family: "AdelleSansARA Display", "AdelleSansARA", sans-serif; -webkit-text-stroke: 2px var(--pink); color: transparent; }
 .detroit__statement-line--fill { color: var(--ink); margin-top: 8px; }
 
 /* ==========================================================================
@@ -1094,7 +1101,10 @@ body {
 }
 .about__finale-line { display: block; }
 .about__finale-line [data-reveal] { display: inline-block; }
-.about__finale-line--outline { -webkit-text-stroke: 2px var(--pink); color: transparent; }
+/* pre-Good Times headline font, kept for this outline line only — the
+   plain "DETROIT GEBAUT." and fill "MOTO GEMACHT." lines still use
+   --font-display's current Good Times */
+.about__finale-line--outline { font-family: "AdelleSansARA Display", "AdelleSansARA", sans-serif; -webkit-text-stroke: 2px var(--pink); color: transparent; }
 .about__finale-line--fill { color: var(--blue); }
 
 /* ==========================================================================
