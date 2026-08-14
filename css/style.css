@@ -440,16 +440,18 @@ body {
 }
 .hero__topping svg { display: block; width: 100%; height: 100%; }
 
-/* size tiers: large (foreground-ish, closest to the reference's big corner
-   pieces), medium, small — the mixed sizing is what gives the frame its
-   depth instead of a flat ring of same-size icons */
-.hero__topping--piston-4        { top: 3%;     left: 2%;   width: clamp(78px, 10vw, 142px); --rest-rot: -8deg; }
-.hero__topping--piston-1      { top: 4%;     right: 2%;  width: clamp(78px, 10vw, 142px); --rest-rot: 10deg; }
+/* size tiers: medium (the common/reference size), small — the mixed sizing
+   is what gives the frame its depth instead of a flat ring of same-size
+   icons. The former "large" corner tier (piston-4/1/6, speedo-3) matched
+   the medium tier's width exactly on request, since it read as visibly
+   oversized next to everything else. */
+.hero__topping--piston-4        { top: 3%;     left: 2%;   width: clamp(54px, 7.2vw, 98px); --rest-rot: -8deg; }
+.hero__topping--piston-1      { top: 4%;     right: 2%;  width: clamp(54px, 7.2vw, 98px); --rest-rot: 10deg; }
 .hero__topping--piston-7     { top: 13%;    left: 3%;   width: clamp(54px, 7.2vw, 98px); --rest-rot: -14deg; }
 .hero__topping--speedo-1      { top: 9%;     right: 15%; width: clamp(54px, 7.2vw, 98px); --rest-rot: 16deg; }
 .hero__topping--pleuel-1      { top: 58%;    left: 32%;  width: clamp(32px, 4.5vw, 56px); --rest-rot: 20deg; }
 .hero__topping--turbo-1       { top: 60%;    right: 33%; width: clamp(32px, 4.5vw, 56px); --rest-rot: -18deg; }
-.hero__topping--speedo-3        { top: 19%;    right: 1%;  width: clamp(78px, 10vw, 142px); --rest-rot: -6deg; }
+.hero__topping--speedo-3        { top: 19%;    right: 1%;  width: clamp(54px, 7.2vw, 98px); --rest-rot: -6deg; }
 .hero__topping--piston-2      { top: 33%;    left: 2%;   width: clamp(54px, 7.2vw, 98px); --rest-rot: 9deg; }
 .hero__topping--brakedisc-1   { top: 44%;    left: 15%;  width: clamp(32px, 4.5vw, 56px); --rest-rot: -12deg; }
 .hero__topping--pleuel-2      { top: 46%;    right: 16%; width: clamp(32px, 4.5vw, 56px); --rest-rot: 15deg; }
@@ -459,7 +461,7 @@ body {
 .hero__topping--bearing-2     { bottom: 24%; left: 3%;   width: clamp(54px, 7.2vw, 98px); --rest-rot: -9deg; }
 .hero__topping--piston-3      { bottom: 32%; right: 15%; width: clamp(54px, 7.2vw, 98px); --rest-rot: 13deg; }
 .hero__topping--turbo-2       { bottom: 34%; left: 16%;  width: clamp(32px, 4.5vw, 56px); --rest-rot: -17deg; }
-.hero__topping--piston-6        { bottom: 4%;  right: 5%;  width: clamp(78px, 10vw, 142px); --rest-rot: -10deg; }
+.hero__topping--piston-6        { bottom: 4%;  right: 5%;  width: clamp(54px, 7.2vw, 98px); --rest-rot: -10deg; }
 .hero__topping--speedo-5       { bottom: 8%;  left: 5%;   width: clamp(54px, 7.2vw, 98px); --rest-rot: 14deg; }
 .hero__topping--brakedisc-2   { top: 21%;    right: 27%; width: clamp(20px, 3vw, 36px);   --rest-rot: 25deg; }
 .hero__topping--pleuel-3      { top: 55%;    left: 25%;  width: clamp(20px, 3vw, 36px);   --rest-rot: -22deg; }
