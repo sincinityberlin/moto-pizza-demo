@@ -326,7 +326,7 @@ function renderProductGrid(gridId, items, imgPrefix) {
         <h3 class="product-card__name">${p.name}</h3>
         <p class="product-card__tag">${p.tag}</p>
         <p class="product-card__desc">${p.desc}</p>
-        <p class="product-card__price">${p.price}&nbsp;€</p>
+        <p class="product-card__price${p.price ? "" : " product-card__price--soon"}">${p.price ? p.price + "&nbsp;€" : "Preis folgt"}</p>
       </div>
     </article>`
     )

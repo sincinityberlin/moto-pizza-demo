@@ -92,20 +92,59 @@ const MOTO_MENU = [
   },
 ];
 
+/* id matches assets/images/snack-<id>.png. price: "" renders the
+   "Preis folgt" placeholder in renderProductGrid (js/main.js) instead of
+   inventing a number — swap in the real price string (e.g. "4,50") once
+   Misu has one. */
 const MOTO_SNACKS = [
   {
-    id: "lavacake",
-    name: "Chocolate Lavacake",
-    tag: "Mit flüssigem Kern",
-    desc: "Mit flüssigem Kern und echter belgischer Schokolade.",
-    price: "2,99",
+    id: "misu-lotus",
+    name: "Misu",
+    tag: "Lotus Tiramisu",
+    desc: "Cremiges Tiramisu mit knusprigen Lotus-Keksen und Karamell.",
+    price: "",
   },
   {
-    id: "cheesecake",
-    name: "New York Cheesecake",
-    tag: "Klassisch",
-    desc: "Rundes Törtchen aus Frischkäsecreme auf zerkrümeltem Kuchenboden.",
-    price: "2,99",
+    id: "misu-oreo",
+    name: "Misu",
+    tag: "Oreo Tiramisu",
+    desc: "Cremiges Tiramisu mit reichlich Oreo-Keksstückchen.",
+    price: "",
+  },
+  {
+    id: "misu-pistazie",
+    name: "Misu",
+    tag: "Pistazien Tiramisu",
+    desc: "Cremiges Tiramisu mit gerösteten Pistazien.",
+    price: "",
+  },
+  {
+    id: "misu-classic",
+    name: "Misu",
+    tag: "Classic Tiramisu",
+    desc: "Das klassische Tiramisu — cremig und mit Kakao bestäubt.",
+    price: "",
+  },
+  {
+    id: "misu-saltedcaramel",
+    name: "Misu",
+    tag: "Salted Caramel & Schokolade",
+    desc: "Cremiges Tiramisu mit gesalzenem Karamell und Schokolade.",
+    price: "",
+  },
+  {
+    id: "misu-dubai",
+    name: "Misu",
+    tag: "Dubai Schokolade",
+    desc: "Cremiges Tiramisu mit Pistazie und knuspriger Kadayif-Schokolade.",
+    price: "",
+  },
+  {
+    id: "misu-saltedcaramel-2",
+    name: "Misu",
+    tag: "Salted Caramel & Schokolade — Variante 2",
+    desc: "Cremiges Tiramisu mit gesalzenem Karamell und Schokolade.",
+    price: "",
   },
 ];
 
