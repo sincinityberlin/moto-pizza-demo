@@ -805,7 +805,7 @@ body {
    its logo rides right next to the section title, sized a step below the
    headline's own cap-height so it reads as a guest badge, not a rebrand. */
 .snacks__title-row { display: flex; align-items: center; flex-wrap: wrap; gap: clamp(10px, 2.5vw, 20px); }
-.snacks__misu-logo { height: clamp(30px, 5.5vw, 54px); width: auto; display: block; }
+.snacks__misu-logo { height: clamp(53px, 9.6vw, 95px); width: auto; display: block; }
 
 .product-card__price.product-card__price--soon { color: rgba(20, 17, 22, 0.45); font-family: var(--font-body); font-size: 0.95rem; font-weight: 600; }
 
