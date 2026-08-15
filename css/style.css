@@ -298,10 +298,22 @@ body {
    With four items there was always room, so this changes nothing that was
    there before. */
 .nav__links a { position: relative; padding: 4px 0; white-space: nowrap; }
+
+/* ---- nav colour follows the bar's own background ----
+   At rest the bar is transparent and sits on the pink hero, so the links are
+   pure white. Once .is-scrolled fades in the cream background (see above),
+   white would be invisible, so the links go back to ink there. Same for the
+   hover underline: white on the hero (pink-on-pink would not show at all),
+   pink on the cream bar. Only colour changes here — face, size, position and
+   spacing are untouched. */
+.nav__links a { color: #ffffff; transition: color 0.4s var(--ease); }
+.nav.is-scrolled .nav__links a { color: var(--ink); }
+
 .nav__links a::after {
   content: ""; position: absolute; left: 0; right: 100%; bottom: 0; height: 2px;
-  background: var(--pink); transition: right 0.35s var(--ease);
+  background: #ffffff; transition: right 0.35s var(--ease), background 0.4s var(--ease);
 }
+.nav.is-scrolled .nav__links a::after { background: var(--pink); }
 .nav__links a:hover::after { right: 0; }
 
 .nav__cta { display: none; }
@@ -313,7 +325,11 @@ body {
                          it's the sole visible flex item on mobile, where space-between
                          alone would otherwise leave it stuck at the left */
 }
-.nav__burger span { width: 22px; height: 2px; background: var(--ink); transition: transform 0.3s var(--ease), opacity 0.3s var(--ease); }
+/* the burger is the only piece of the top nav visible on mobile, so it follows
+   the same rule as the links: white on the pink hero, ink once the cream bar
+   fades in */
+.nav__burger span { width: 22px; height: 2px; background: #ffffff; transition: transform 0.3s var(--ease), opacity 0.3s var(--ease), background 0.4s var(--ease); }
+.nav.is-scrolled .nav__burger span { background: var(--ink); }
 .nav__burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .nav__burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
 .nav__burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
