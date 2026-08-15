@@ -40,6 +40,39 @@ function withMotoMark(str) {
   return escapeHtml(str).replace(/\bMOTO\b/g, MOTO_MARK);
 }
 
+/* ---------- Allergen / additive labelling --------------------------------
+   Renders the small line that sits under every product's description. The
+   codes themselves live in data/menu.js — see the labelling notes at the top
+   of that file for the rule on when a code may be listed at all.
+
+   The "noch zu bestätigen" note is deliberate and load-bearing: a partial
+   allergen list is more dangerous than none, because someone with an allergy
+   will read a list of codes as complete. While `allergensPending` is true the
+   line always says so, whether or not any codes were confirmed.
+   ---------------------------------------------------------------------- */
+function allergenLine(item) {
+  const codes = Array.isArray(item.allergens) ? item.allergens : [];
+  const additives = Array.isArray(item.additives) ? item.additives : [];
+  const pending = item.allergensPending !== false;
+
+  if (!codes.length && !additives.length && !pending) return "";
+
+  const parts = [];
+  if (codes.length) parts.push(`Allergene: ${codes.join(", ")}`);
+  if (additives.length) parts.push(`Zusatzstoffe: ${additives.join(", ")}`);
+
+  let html = parts.length
+    ? `<span class="allergen__codes">${escapeHtml(parts.join(" · "))}</span>`
+    : "";
+
+  if (pending) {
+    html += `${html ? " " : ""}<span class="allergen__pending">${
+      codes.length ? "weitere Angaben noch zu bestätigen" : "Allergenangaben noch zu bestätigen"
+    }</span>`;
+  }
+  return `<p class="allergen">${html}</p>`;
+}
+
 /* ---------- Interactive pizza selector: semicircle swipe carousel ---------
    Pizzas sit on the upper half of a virtual circle: the active pizza is the
    circle's lowest/frontmost point (large, centered), and neighbours curve
@@ -70,6 +103,7 @@ function initPizzaSelector() {
     name: document.getElementById("selName"),
     short: document.getElementById("selShort"),
     ingredients: document.getElementById("selIngredients"),
+    allergens: document.getElementById("selAllergens"),
     price: document.getElementById("selPrice"),
   };
 
@@ -167,6 +201,7 @@ function initPizzaSelector() {
         els.name.innerHTML = withMotoMark(p.name);
         els.short.innerHTML = withMotoMark(p.short || p.desc);
         els.ingredients.innerHTML = withMotoMark(p.desc);
+        if (els.allergens) els.allergens.innerHTML = allergenLine(p);
         els.price.textContent = `${p.price} €`;
         panel.classList.remove("is-changing");
       },
@@ -349,6 +384,7 @@ function renderProductGrid(gridId, items, imgPrefix) {
         <h3 class="product-card__name">${p.name}</h3>
         <p class="product-card__tag">${p.tag}</p>
         <p class="product-card__desc">${p.desc}</p>
+        ${allergenLine(p)}
         <p class="product-card__price${p.price ? "" : " product-card__price--soon"}">${p.price ? p.price + "&nbsp;€" : "Preis folgt"}</p>
       </div>
     </article>`

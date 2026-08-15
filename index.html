@@ -282,6 +282,7 @@
           <h3 class="selector__name" id="selName">—</h3>
           <p class="selector__short" id="selShort">—</p>
           <p class="selector__ingredients"><span>Zutaten</span><span id="selIngredients">—</span></p>
+          <div class="selector__allergens" id="selAllergens"><!-- injected by js/main.js (allergenLine) --></div>
           <p class="selector__price" id="selPrice">—</p>
         </div>
       </div>
@@ -314,6 +315,54 @@
         <p class="products__note reveal" data-reveal data-delay="1">Erfrischung für zwischendurch — gekühlt serviert.</p>
       </div>
       <div class="product-grid product-grid--drinks" id="drinksGrid"><!-- injected by js/main.js from data/menu.js --></div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       ALLERGENE & ZUSATZSTOFFE
+       Closes the menu: the key for the letter codes shown under each product.
+       Covers all 14 EU main allergen groups — crustaceans (R) and molluscs (E)
+       are separate groups and are kept apart here.
+       ========================================================================== -->
+  <section class="allergens" id="allergens" data-section="allergens">
+    <div class="allergens__inner">
+      <h2 class="allergens__title reveal" data-reveal>ALLERGENE &amp; ZUSATZSTOFFE</h2>
+
+      <div class="allergens__cols">
+        <dl class="allergens__list reveal" data-reveal data-delay="1">
+          <div><dt>A</dt><dd>Erdnüsse</dd></div>
+          <div><dt>B</dt><dd>Schalenfrüchte/Nüsse (Mandeln, Haselnüsse, Walnüsse, Cashewnüsse, Pecannüsse, Paranüsse, Pistazien, Macadamia-/Queenslandnüsse)</dd></div>
+          <div><dt>C</dt><dd>Schwefeldioxid und Sulfite</dd></div>
+          <div><dt>D</dt><dd>Lupinen</dd></div>
+          <div><dt>E</dt><dd>Weichtiere</dd></div>
+          <div><dt>M</dt><dd>Sesam</dd></div>
+          <div><dt>R</dt><dd>Krebstiere</dd></div>
+        </dl>
+
+        <dl class="allergens__list reveal" data-reveal data-delay="2">
+          <div><dt>S</dt><dd>Sellerie</dd></div>
+          <div><dt>T</dt><dd>Soja</dd></div>
+          <div><dt>P</dt><dd>Fisch</dd></div>
+          <div><dt>U</dt><dd>Senf</dd></div>
+          <div><dt>X</dt><dd>Eier</dd></div>
+          <div><dt>Y</dt><dd>glutenhaltiges Getreide</dd></div>
+          <div><dt>V</dt><dd>Milch und Milchprodukte einschließlich Laktose</dd></div>
+        </dl>
+      </div>
+
+      <h3 class="allergens__subtitle reveal" data-reveal data-delay="3">ZUSATZSTOFFE</h3>
+      <dl class="allergens__list allergens__list--additives reveal" data-reveal data-delay="3">
+        <div><dt>2</dt><dd>konserviert</dd></div>
+        <div><dt>3</dt><dd>mit Antioxidationsmittel</dd></div>
+        <div><dt>5</dt><dd>geschwärzt</dd></div>
+      </dl>
+
+      <p class="allergens__note reveal" data-reveal data-delay="4">
+        Angaben, die mit <em>„noch zu bestätigen“</em> gekennzeichnet sind, wurden noch nicht
+        gegen die Zutaten- und Allergendeklaration des jeweiligen Herstellers geprüft und sind
+        daher unvollständig. Bei einer Allergie oder Unverträglichkeit fragen Sie uns bitte
+        direkt — wir geben Ihnen verbindlich Auskunft.
+      </p>
     </div>
   </section>
 

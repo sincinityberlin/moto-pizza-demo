@@ -4,6 +4,32 @@
    Each item: id (matches an image in assets/images/pizza-*.jpg), name,
    tag (short vibe word / category), short (one-line teaser for the pizza
    selector), desc (ingredients), price, badge (optional).
+
+   ALLERGEN LABELLING — read before editing `allergens`
+   ---------------------------------------------------
+   allergens:        letter codes from the legend in index.html (#allergens).
+                     A code is only ever listed here when an ingredient that
+                     carries it is named outright in this product's own `desc`
+                     (e.g. "Parmesan" → V, "schwarzer Sesam" → M, "Garnelen"
+                     → R). Nothing is derived from a product name, a photo, a
+                     category or "what a dish like this usually contains".
+   allergensPending: true while the list has not been checked against the
+                     supplier's / manufacturer's own ingredient declaration.
+                     While true the UI shows a "noch zu bestätigen" note next
+                     to the codes, so a partial list can never be mistaken for
+                     a complete one. Set to false only once a real
+                     declaration has been checked off against the item.
+   additives:        additive numbers (2 conserved / 3 antioxidant /
+                     5 blackened). Empty everywhere: no additive has been
+                     confirmed for any product. Never guess one.
+
+   Known gaps that need a supplier declaration before they can be filled in:
+   the dough (gluten, Y) is not part of any pizza's declared ingredient list;
+   compound ingredients (salami, Kabanossi, the garlic / BBQ / Sriracha /
+   Calamansi sauces, Kimchi, Sauce Hollandaise) commonly carry mustard,
+   celery, soy, egg, fish or sulphites but none of that is declared here;
+   the Misu tiramisu base and all toppings are undocumented; the drinks have
+   no ingredient data on this site at all.
    ========================================================================== */
 
 const MOTO_MENU = [
@@ -15,6 +41,9 @@ const MOTO_MENU = [
     desc: "Peperoni-Salami, Champignons, Zwiebeln, grüne Paprika, Oliven, Parmesan & Tomatensoße",
     price: "22,00",
     badge: "Signature",
+    allergens: ["V"],
+    allergensPending: true,
+    additives: [],
   },
   {
     id: "pepperoniking",
@@ -23,6 +52,9 @@ const MOTO_MENU = [
     short: "Für alle, die es deftig mögen: extra viel Pepperoni-Salami auf MOTO-Käse.",
     desc: "Extra viel Pepperoni-Salami, Parmesan & Tomatensauce",
     price: "22,00",
+    allergens: ["V"],
+    allergensPending: true,
+    additives: [],
   },
   {
     id: "beeflover",
@@ -32,6 +64,9 @@ const MOTO_MENU = [
     desc: "Beef, Zwiebeln, Knoblauchsauce, eingelegter Kohl, Kimchi, schwarzer Sesam & Rohrzuckeressig",
     price: "22,00",
     badge: "Bestseller",
+    allergens: ["M"],
+    allergensPending: true,
+    additives: [],
   },
   {
     id: "honeyinferno",
@@ -40,6 +75,9 @@ const MOTO_MENU = [
     short: "Scharfe Salami und Kabanossi, gekrönt von einem Schuss scharfem Honig.",
     desc: "Pepperoni-Salami, Kabanossi, Parmesan & Tomatensauce, getoppt mit scharfem Honig",
     price: "22,00",
+    allergens: ["V"],
+    allergensPending: true,
+    additives: [],
   },
   {
     id: "bighog",
@@ -48,6 +86,9 @@ const MOTO_MENU = [
     short: "Speck, Kabanossi und eine BBQ-Sauce mit Calamansi-Limette – deftig und rauchig.",
     desc: "Speckwürfel, Kabanossi, Zwiebeln, Parmesan, Calamansi-Limetten-Sauce & BIG HOG BBQ-Sauce",
     price: "22,00",
+    allergens: ["V"],
+    allergensPending: true,
+    additives: [],
   },
   {
     id: "lemonshrimp",
@@ -56,6 +97,9 @@ const MOTO_MENU = [
     short: "Scharfe Garnelen, Chiliöl und cremige Sauce Hollandaise – MOTO vom Meer.",
     desc: "Scharfe Garnelen, Parmesan, Schnittlauch, Calamansi-Limetten-Sauce, Chiliöl & Sauce Hollandaise",
     price: "22,00",
+    allergens: ["R", "V"],
+    allergensPending: true,
+    additives: [],
   },
   {
     id: "cremedepoulet",
@@ -64,6 +108,9 @@ const MOTO_MENU = [
     short: "Zartes Hähnchen, Crème fraîche und ein Hauch Sriracha – mild und cremig.",
     desc: "Crème fraîche, Hähnchenbruststreifen, Frühlingszwiebeln & Sriracha-Sauce",
     price: "22,00",
+    allergens: ["V"],
+    allergensPending: true,
+    additives: [],
   },
   {
     id: "root",
@@ -72,6 +119,9 @@ const MOTO_MENU = [
     short: "Waldig & erdig: eine Oyster-Pilzmischung auf cremiger Ricotta-Sauce.",
     desc: "Oyster-Pilzmischung, Ricotta-Sauce & Parmesan",
     price: "22,00",
+    allergens: ["V"],
+    allergensPending: true,
+    additives: [],
   },
   {
     id: "plant",
@@ -81,6 +131,9 @@ const MOTO_MENU = [
     desc: "Rucola, eingelegter Kohl, Parmesan, Knoblauchsauce, Tomatensauce, Meersalz & schwarzer Sesam",
     price: "22,00",
     badge: "Veggie",
+    allergens: ["M", "V"],
+    allergensPending: true,
+    additives: [],
   },
   {
     id: "frico",
@@ -89,6 +142,9 @@ const MOTO_MENU = [
     short: "Puristisch und ehrlich: nur MOTO-Käsemischung, Parmesan und Tomatensauce.",
     desc: "MOTO-Käsemischung, Parmesan & Tomatensauce",
     price: "22,00",
+    allergens: ["V"],
+    allergensPending: true,
+    additives: [],
   },
 ];
 
@@ -103,6 +159,9 @@ const MOTO_SNACKS = [
     tag: "Lotus Tiramisu",
     desc: "Cremiges Tiramisu mit knusprigen Lotus-Keksen und Karamell.",
     price: "5,90",
+    allergens: [],
+    allergensPending: true,
+    additives: [],
   },
   {
     id: "misu-oreo",
@@ -110,6 +169,9 @@ const MOTO_SNACKS = [
     tag: "Oreo Tiramisu",
     desc: "Cremiges Tiramisu mit reichlich Oreo-Keksstückchen.",
     price: "5,90",
+    allergens: [],
+    allergensPending: true,
+    additives: [],
   },
   {
     id: "misu-pistazie",
@@ -117,6 +179,9 @@ const MOTO_SNACKS = [
     tag: "Pistazien Tiramisu",
     desc: "Cremiges Tiramisu mit gerösteten Pistazien.",
     price: "5,90",
+    allergens: ["B"],
+    allergensPending: true,
+    additives: [],
   },
   {
     id: "misu-classic",
@@ -124,6 +189,9 @@ const MOTO_SNACKS = [
     tag: "Classic Tiramisu",
     desc: "Das klassische Tiramisu — cremig und mit Kakao bestäubt.",
     price: "5,90",
+    allergens: [],
+    allergensPending: true,
+    additives: [],
   },
   {
     id: "misu-saltedcaramel",
@@ -131,6 +199,9 @@ const MOTO_SNACKS = [
     tag: "Salted Caramel & Schokolade",
     desc: "Cremiges Tiramisu mit gesalzenem Karamell und Schokolade.",
     price: "5,90",
+    allergens: [],
+    allergensPending: true,
+    additives: [],
   },
   {
     id: "misu-dubai",
@@ -138,6 +209,9 @@ const MOTO_SNACKS = [
     tag: "Dubai Schokolade",
     desc: "Cremiges Tiramisu mit Pistazie und knuspriger Kadayif-Schokolade.",
     price: "5,90",
+    allergens: ["B"],
+    allergensPending: true,
+    additives: [],
   },
   {
     id: "misu-saltedcaramel-2",
@@ -145,6 +219,9 @@ const MOTO_SNACKS = [
     tag: "Salted Caramel & Schokolade — Variante 2",
     desc: "Cremiges Tiramisu mit gesalzenem Karamell und Schokolade.",
     price: "5,90",
+    allergens: [],
+    allergensPending: true,
+    additives: [],
   },
 ];
 
@@ -157,6 +234,9 @@ const MOTO_DRINKS = [
     tag: "Classic / Original",
     desc: "Der Original Energy Drink.",
     price: "5,00",
+    allergens: [],
+    allergensPending: true,
+    additives: [],
   },
   {
     id: "redbull-juneberry",
@@ -164,6 +244,9 @@ const MOTO_DRINKS = [
     tag: "Juneberry",
     desc: "Erfrischender Energy Drink mit fruchtigem Juneberry-Geschmack.",
     price: "5,00",
+    allergens: [],
+    allergensPending: true,
+    additives: [],
   },
   {
     id: "redbull-whitepeach",
@@ -171,6 +254,9 @@ const MOTO_DRINKS = [
     tag: "White Peach",
     desc: "Energy Drink mit sommerlichem Geschmack von weißem Pfirsich.",
     price: "5,00",
+    allergens: [],
+    allergensPending: true,
+    additives: [],
   },
   {
     id: "limonata",
@@ -178,6 +264,9 @@ const MOTO_DRINKS = [
     tag: "Limonata",
     desc: "Italienische Sparkling-Limonade mit echtem Zitronensaft.",
     price: "5,00",
+    allergens: [],
+    allergensPending: true,
+    additives: [],
   },
   {
     id: "pompelmo",
@@ -185,6 +274,9 @@ const MOTO_DRINKS = [
     tag: "Pompelmo",
     desc: "Italienische Sparkling-Limonade mit Grapefruit.",
     price: "5,00",
+    allergens: [],
+    allergensPending: true,
+    additives: [],
   },
   {
     id: "limone-menta",
@@ -192,6 +284,9 @@ const MOTO_DRINKS = [
     tag: "Limone & Menta",
     desc: "Italienische Sparkling-Limonade mit Zitrone und Minze.",
     price: "5,00",
+    allergens: [],
+    allergensPending: true,
+    additives: [],
   },
   {
     id: "limonata-lila",
@@ -199,6 +294,9 @@ const MOTO_DRINKS = [
     tag: "Melograno & Arancia",
     desc: "Spritzige italienische Limonade mit Granatapfel und Orange.",
     price: "5,00",
+    allergens: [],
+    allergensPending: true,
+    additives: [],
   },
   {
     id: "sprudel",
@@ -206,6 +304,9 @@ const MOTO_DRINKS = [
     tag: "Sprudel",
     desc: "Italienisches Sparkling-Mineralwasser.",
     price: "5,00",
+    allergens: [],
+    allergensPending: true,
+    additives: [],
   },
 ];
 

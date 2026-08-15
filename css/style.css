@@ -1156,6 +1156,89 @@ body {
 .about__finale-line--fill { color: var(--blue); }
 
 /* ==========================================================================
+   ALLERGEN LINE (per product) + ALLERGENE & ZUSATZSTOFFE key
+   The per-product line is deliberately quiet — it is reference information,
+   not a selling point, so it sits below the description at the smallest size
+   on the card and never competes with name, tag or price. The "noch zu
+   bestätigen" half is set apart (lighter, italic) so it reads as a caveat on
+   the codes rather than as another code.
+   ========================================================================== */
+.allergen {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: rgba(20, 17, 22, 0.5);
+  margin-bottom: 12px;
+  letter-spacing: 0.01em;
+}
+.allergen__codes { font-weight: 700; color: rgba(20, 17, 22, 0.62); }
+.allergen__pending { font-style: italic; color: rgba(20, 17, 22, 0.42); }
+
+/* on the pink/blue pizza card the same line has to invert to stay legible */
+.selector__allergens .allergen { color: rgba(255, 255, 255, 0.6); margin-bottom: 18px; font-size: 0.78rem; }
+.selector__allergens .allergen__codes { color: rgba(255, 255, 255, 0.82); }
+.selector__allergens .allergen__pending { color: rgba(255, 255, 255, 0.55); }
+
+/* mobile product cards clamp the description to two lines and shrink every
+   other element — the allergen line follows suit so cards keep their height */
+@media (max-width: 640px) {
+  .product-card .allergen { font-size: 0.62rem; line-height: 1.35; margin-bottom: 8px; }
+}
+
+.allergens {
+  background: var(--white);
+  padding: 70px 0 90px;
+}
+.allergens__inner { max-width: var(--container); margin: 0 auto; padding: 0 var(--pad); }
+.allergens__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  margin-bottom: 28px;
+}
+.allergens__subtitle {
+  font-family: var(--font-head); font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  font-size: 0.85rem; color: var(--blue);
+  margin: 34px 0 14px;
+}
+/* two balanced columns on wide screens, one on phones — plain grid, so the
+   list keeps its reading order either way */
+.allergens__cols { display: grid; gap: 0 48px; }
+@media (min-width: 800px) { .allergens__cols { grid-template-columns: 1fr 1fr; } }
+
+.allergens__list { display: grid; gap: 10px; }
+.allergens__list > div {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  align-items: baseline;
+  gap: 12px;
+}
+.allergens__list dt {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  color: var(--pink);
+  line-height: 1.4;
+}
+.allergens__list dd {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: rgba(20, 17, 22, 0.72);
+}
+.allergens__list--additives dt { color: var(--blue); }
+
+.allergens__note {
+  margin-top: 30px;
+  max-width: 720px;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: rgba(20, 17, 22, 0.55);
+}
+.allergens__note em { font-style: italic; }
+
+/* ==========================================================================
    GALLERY STRIP
    ========================================================================== */
 .gallery { background: var(--cream-dim); padding: 4px 0 110px; overflow: hidden; }
