@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Karriere — MOTO PIZZA</title>
+<link rel="icon" href="assets/images/logo.png" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="page-subpage">
+
+<header class="subpage__nav">
+  <div class="subpage__nav-inner">
+    <a href="index.html" class="subpage__logo-link" aria-label="Zurück zur Startseite">
+      <img src="assets/images/logo.png" alt="MOTO PIZZA" class="subpage__logo" />
+    </a>
+    <a href="index.html" class="subpage__back">
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M15 4l-8 8 8 8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Zurück zur Startseite
+    </a>
+  </div>
+</header>
+
+<main class="subpage">
+
+  <!-- ---- intro ---- -->
+  <section class="career" data-section="career">
+    <div class="career__inner">
+      <p class="subpage__kicker">Karriere</p>
+      <h1 class="subpage__title career__title">WERDE TEIL DER<br /><span class="hl hl--pink">MOTO&nbsp;CREW</span></h1>
+      <p class="career__lede">
+        Du hast Lust auf Gastro, ein junges Team und richtig gute Detroit Style Pizza?
+        Dann werde Teil der MOTO Crew. Wir suchen motivierte Leute, die mit uns
+        gemeinsam wachsen wollen.
+      </p>
+      <a href="#bewerbung" class="btn btn--solid btn--big career__cta">Jetzt bewerben</a>
+    </div>
+  </section>
+
+  <!-- ---- application form ----
+       No action/method on purpose: this site is static (GitHub Pages) with no
+       backend, so there is nowhere for a submission to go yet. js/karriere.js
+       intercepts submit, runs the browser's own validation so required fields
+       still behave correctly, and then says plainly that dispatch is not set
+       up — it never pretends an application was sent. Wiring this to a real
+       recipient is a one-line `action` change once a form service is chosen. -->
+  <section class="career-form" id="bewerbung" data-section="bewerbung">
+    <div class="career-form__inner">
+      <h2 class="career-form__title">BEWERBUNGSFORMULAR</h2>
+      <p class="career-form__note">Mit <span class="req">*</span> markierte Felder sind Pflichtfelder.</p>
+
+      <div class="career-form__status career-form__status--setup" role="note">
+        <strong>Hinweis:</strong> Der Versand ist noch nicht eingerichtet — dieses Formular
+        nimmt derzeit keine Bewerbungen entgegen. Bitte bewirb dich bis auf Weiteres
+        telefonisch oder per E-Mail.
+      </div>
+
+      <form class="cform" id="applicationForm" novalidate>
+
+        <fieldset class="cform__group">
+          <legend class="cform__legend">Persönliche Daten</legend>
+
+          <div class="cform__field">
+            <label for="f-name">Vor- und Nachname <span class="req">*</span></label>
+            <input type="text" id="f-name" name="name" autocomplete="name" required />
+          </div>
+
+          <div class="cform__field">
+            <label for="f-address">Adresse</label>
+            <input type="text" id="f-address" name="address" autocomplete="street-address" />
+          </div>
+
+          <div class="cform__row">
+            <div class="cform__field">
+              <label for="f-phone">Telefonnummer <span class="req">*</span></label>
+              <input type="tel" id="f-phone" name="phone" autocomplete="tel" required />
+            </div>
+            <div class="cform__field">
+              <label for="f-email">E-Mail-Adresse <span class="req">*</span></label>
+              <input type="email" id="f-email" name="email" autocomplete="email" required />
+            </div>
+          </div>
+
+          <div class="cform__field">
+            <label for="f-date">Heutiges Datum</label>
+            <input type="date" id="f-date" name="date" />
+          </div>
+        </fieldset>
+
+        <fieldset class="cform__group">
+          <legend class="cform__legend">Bewerbung</legend>
+
+          <div class="cform__field">
+            <label for="f-position">Für welche Position möchtest du dich bewerben? <span class="req">*</span></label>
+            <select id="f-position" name="position" required>
+              <option value="">Bitte wählen</option>
+              <option>Küche</option>
+              <option>Service</option>
+              <option>Vorbereitung / Prep</option>
+              <option>Spülküche</option>
+              <option>Sonstiges</option>
+            </select>
+          </div>
+
+          <div class="cform__field">
+            <!-- only the one location the site actually lists (see MOTO_INFO in
+                 data/menu.js and the Standort section on index.html) -->
+            <label for="f-location">Für welchen Standort möchtest du dich bewerben? <span class="req">*</span></label>
+            <select id="f-location" name="location" required>
+              <option value="">Bitte wählen</option>
+              <option>Cuvrystraße 49, 10997 Berlin</option>
+            </select>
+          </div>
+
+          <div class="cform__field">
+            <label for="f-motivation">Was interessiert dich daran, bei MOTO PIZZA zu arbeiten?</label>
+            <textarea id="f-motivation" name="motivation" rows="4"></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset class="cform__group">
+          <legend class="cform__legend">Verfügbarkeit</legend>
+
+          <div class="cform__field">
+            <label for="f-available">An welchen Tagen und Uhrzeiten kannst du arbeiten?</label>
+            <textarea id="f-available" name="available" rows="3"></textarea>
+          </div>
+
+          <div class="cform__field">
+            <label for="f-unavailable">An welchen Tagen und Uhrzeiten kannst du nicht arbeiten?</label>
+            <textarea id="f-unavailable" name="unavailable" rows="3"></textarea>
+          </div>
+
+          <div class="cform__row">
+            <div class="cform__field">
+              <label for="f-hours">Wie viele Stunden möchtest du ungefähr pro Woche arbeiten?</label>
+              <input type="text" id="f-hours" name="hours" inputmode="numeric" />
+            </div>
+            <div class="cform__field">
+              <label for="f-shift">Bevorzugte Arbeitszeiten</label>
+              <input type="text" id="f-shift" name="shift" />
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="cform__group">
+          <legend class="cform__legend">Voraussetzungen</legend>
+
+          <div class="cform__field">
+            <label for="f-age">Bist du mindestens 18 Jahre alt?</label>
+            <select id="f-age" name="age">
+              <option value="">Bitte wählen</option>
+              <option>Ja</option>
+              <option>Nein</option>
+            </select>
+          </div>
+
+          <div class="cform__field">
+            <label for="f-standing">Kannst du längere Zeit im Stehen arbeiten?</label>
+            <select id="f-standing" name="standing">
+              <option value="">Bitte wählen</option>
+              <option>Ja</option>
+              <option>Nein</option>
+            </select>
+          </div>
+
+          <div class="cform__field">
+            <label for="f-physical">Kannst du bei Bedarf körperliche Arbeiten in der Küche übernehmen?</label>
+            <select id="f-physical" name="physical">
+              <option value="">Bitte wählen</option>
+              <option>Ja</option>
+              <option>Nein</option>
+            </select>
+          </div>
+        </fieldset>
+
+        <fieldset class="cform__group">
+          <legend class="cform__legend">Erfahrung</legend>
+
+          <div class="cform__field">
+            <label for="f-experience">Hast du bereits Erfahrung in Gastronomie oder Küche?</label>
+            <select id="f-experience" name="experience">
+              <option value="">Bitte wählen</option>
+              <option>Ja</option>
+              <option>Nein</option>
+            </select>
+          </div>
+
+          <div class="cform__field">
+            <label for="f-experience-text">Relevante Berufserfahrung</label>
+            <textarea id="f-experience-text" name="experienceText" rows="4"></textarea>
+          </div>
+
+          <div class="cform__field">
+            <label for="f-more">Gibt es noch etwas, das wir über dich wissen sollten?</label>
+            <textarea id="f-more" name="more" rows="4"></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset class="cform__group">
+          <legend class="cform__legend">Dokumente</legend>
+
+          <div class="cform__field">
+            <label for="f-cv">Lebenslauf / Bewerbung hochladen <span class="cform__optional">(optional)</span></label>
+            <input type="file" id="f-cv" name="cv" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg" />
+            <p class="cform__hint" id="cvHint">PDF, DOC/DOCX oder Bilddatei.</p>
+          </div>
+        </fieldset>
+
+        <div class="cform__checks">
+          <label class="cform__check">
+            <input type="checkbox" id="f-copy" name="copy" />
+            <span>Ich möchte eine Kopie meiner Bewerbung per E-Mail erhalten.</span>
+          </label>
+
+          <label class="cform__check">
+            <input type="checkbox" id="f-consent" name="consent" required />
+            <span>Ich bestätige, dass meine Angaben zur Bearbeitung meiner Bewerbung verwendet werden dürfen. <span class="req">*</span></span>
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn--solid btn--big cform__submit">Bewerbung absenden</button>
+
+        <p class="career-form__status career-form__status--result" id="formStatus" role="status" aria-live="polite" hidden></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="subpage__footer">
+  <p>Lokale Demo-Website — nicht veröffentlicht.</p>
+</footer>
+
+<script src="js/karriere.js"></script>
+</body>
+</html>
