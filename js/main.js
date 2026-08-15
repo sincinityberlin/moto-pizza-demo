@@ -17,6 +17,29 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("year").textContent = new Date().getFullYear();
 });
 
+/* ---------- MOTO wordmark in data-driven copy ----------------------------
+   Text coming out of data/menu.js is rendered as HTML in the few places it
+   can contain the brand name, so "MOTO" gets drawn as the logotype there too
+   (same <symbol> the static markup in index.html instances). The word
+   boundary at the end is what keeps "MOTOR CITY" and "Motoren" as ordinary
+   text — only the standalone brand word is swapped.
+   ---------------------------------------------------------------------- */
+const MOTO_MARK = '<svg class="moto-mark" role="img" aria-label="MOTO"><use href="#moto-wordmark"/></svg>';
+
+/* menu data is authored in this repo, not user input, but these strings go
+   through innerHTML — escape first so a stray & or < in a description can
+   never become markup */
+function escapeHtml(str) {
+  return String(str).replace(
+    /[&<>"]/g,
+    (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[ch]
+  );
+}
+
+function withMotoMark(str) {
+  return escapeHtml(str).replace(/\bMOTO\b/g, MOTO_MARK);
+}
+
 /* ---------- Interactive pizza selector: semicircle swipe carousel ---------
    Pizzas sit on the upper half of a virtual circle: the active pizza is the
    circle's lowest/frontmost point (large, centered), and neighbours curve
@@ -141,9 +164,9 @@ function initPizzaSelector() {
         const p = MOTO_MENU[dataIdx];
         els.current.textContent = String(dataIdx + 1).padStart(2, "0");
         els.category.textContent = p.tag;
-        els.name.textContent = p.name;
-        els.short.textContent = p.short || p.desc;
-        els.ingredients.textContent = p.desc;
+        els.name.innerHTML = withMotoMark(p.name);
+        els.short.innerHTML = withMotoMark(p.short || p.desc);
+        els.ingredients.innerHTML = withMotoMark(p.desc);
         els.price.textContent = `${p.price} €`;
         panel.classList.remove("is-changing");
       },

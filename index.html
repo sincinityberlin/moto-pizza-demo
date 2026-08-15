@@ -15,6 +15,34 @@
 <body>
 
 <!-- ==========================================================================
+     MOTO WORDMARK
+     The brand's geometric logotype: monoline M, square O, T, circle O — the
+     same construction as the printed MOTO mark. Defined once here and
+     instanced with <use> wherever the word MOTO appears as copy, so every
+     occurrence is drawn instead of typeset. Strokes use currentColor and the
+     instance is sized in em (see .moto-mark in css/style.css), so each one
+     inherits the colour and scale of whatever text surrounds it.
+     Coordinate system: cap height = 100 units, stroke centre lines inset by
+     half the 11-unit stroke so the drawn edges land exactly on the box.
+     ========================================================================== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="moto-wordmark" viewBox="0 0 551 100">
+      <g fill="none" stroke="currentColor" stroke-width="11" stroke-linecap="round" stroke-linejoin="round">
+        <!-- M: vertical outer stems, V dipping to 72% of cap height -->
+        <path d="M5.5 94.5 V5.5 L55 72 L104.5 5.5 V94.5" />
+        <!-- O as a rounded square -->
+        <rect x="149.5" y="5.5" width="115" height="89" rx="8" />
+        <!-- T: top bar + centred stem -->
+        <path d="M309.5 5.5 H416.5 M363 5.5 V94.5" />
+        <!-- O as a circle -->
+        <ellipse cx="503.5" cy="50" rx="42" ry="44.5" />
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ==========================================================================
      NAV
      ========================================================================== -->
 <header class="nav" data-section="nav">
@@ -219,7 +247,7 @@
       <div class="menu__head">
         <h2 class="section-title reveal" data-reveal>UNSERE<br />PIZZEN</h2>
         <p class="menu__note reveal" data-reveal data-delay="1">
-          Alle Pizzen 25×25&nbsp;cm eckig oder als 45&nbsp;cm New&nbsp;York&nbsp;Style rund. MOTO-Käsemischung inklusive.
+          Alle Pizzen 25×25&nbsp;cm eckig oder als 45&nbsp;cm New&nbsp;York&nbsp;Style rund. <svg class="moto-mark" role="img" aria-label="MOTO"><use href="#moto-wordmark"/></svg>-Käsemischung inklusive.
         </p>
       </div>
 
@@ -375,7 +403,7 @@
       </h2>
 
       <p class="about__lede reveal" data-reveal data-delay="2">
-        MOTO beginnt dort, wo auch Detroit Pizza ihren Ursprung hat: in Detroit – der Motor City.
+        <svg class="moto-mark" role="img" aria-label="MOTO"><use href="#moto-wordmark"/></svg> beginnt dort, wo auch Detroit Pizza ihren Ursprung hat: in Detroit – der Motor City.
       </p>
 
       <p class="about__body reveal" data-reveal>
@@ -386,7 +414,7 @@
       </p>
 
       <p class="about__bridge reveal" data-reveal>
-        MOTO bringt diese Idee<br /><span class="hl hl--blue">nach Berlin.</span>
+        <svg class="moto-mark" role="img" aria-label="MOTO"><use href="#moto-wordmark"/></svg> bringt diese Idee<br /><span class="hl hl--blue">nach Berlin.</span>
       </p>
 
       <div class="about__rule reveal" data-reveal aria-hidden="true"></div>
@@ -399,7 +427,7 @@
       </p>
 
       <p class="about__standalone reveal" data-reveal>
-        Genau daraus ist <span class="hl hl--pink">MOTO&nbsp;PIZZA</span> entstanden.
+        Genau daraus ist <span class="hl hl--pink"><svg class="moto-mark" role="img" aria-label="MOTO"><use href="#moto-wordmark"/></svg>&nbsp;PIZZA</span> entstanden.
       </p>
 
       <p class="about__body about__body--center reveal" data-reveal>
@@ -422,7 +450,7 @@
           <span class="reveal" data-reveal data-delay="2">BERLIN</span> <span class="reveal" data-reveal data-delay="3">GEDACHT.</span>
         </span>
         <span class="about__finale-line about__finale-line--fill">
-          <span class="reveal" data-reveal data-delay="4">MOTO</span> <span class="reveal" data-reveal data-delay="5">GEMACHT.</span>
+          <span class="reveal" data-reveal data-delay="4"><svg class="moto-mark" role="img" aria-label="MOTO"><use href="#moto-wordmark"/></svg></span> <span class="reveal" data-reveal data-delay="5">GEMACHT.</span>
         </span>
       </div>
 
@@ -441,7 +469,7 @@
        ========================================================================== -->
   <section class="order" id="order" data-section="order">
     <div class="order__inner">
-      <h2 class="section-title reveal" data-reveal>HUNGER?<br /><span class="hl hl--pink">HOL&nbsp;DIR&nbsp;MOTO.</span></h2>
+      <h2 class="section-title reveal" data-reveal>HUNGER?<br /><span class="hl hl--pink">HOL&nbsp;DIR&nbsp;<svg class="moto-mark" role="img" aria-label="MOTO"><use href="#moto-wordmark"/></svg>.</span></h2>
 
       <div class="order__grid">
         <div class="order__info reveal" data-reveal data-delay="1">
@@ -466,7 +494,7 @@
      ========================================================================== -->
 <footer class="footer" data-section="footer">
   <img src="assets/images/logo.png" alt="MOTO PIZZA" class="footer__logo" />
-  <p class="footer__meta">© <span id="year"></span> MOTO PIZZA · Detroit Style Pizza · Berlin</p>
+  <p class="footer__meta">© <span id="year"></span> <svg class="moto-mark" role="img" aria-label="MOTO"><use href="#moto-wordmark"/></svg> PIZZA · Detroit Style Pizza · Berlin</p>
   <p class="footer__demo">Lokale Demo-Website — nicht veröffentlicht.</p>
 </footer>
 

@@ -177,6 +177,29 @@ body {
 .hl--blue { color: var(--blue); }
 
 /* ==========================================================================
+   MOTO wordmark inline in copy
+   Instances of the <symbol id="moto-wordmark"> defined at the top of
+   index.html. Everything is expressed in em so a single rule serves every
+   context — a 0.85rem footer line and a clamp(2.6rem, 8vw, 5.6rem) headline
+   both get a mark scaled to their own text, with no per-breakpoint values to
+   maintain: it is responsive for free. 0.737em is the measured cap height of
+   both site faces (Good Times and AdelleSansARA share it), so the mark's box
+   is exactly as tall as the capital letters beside it; 5.51 is the wordmark's
+   own aspect ratio (551:100 viewBox), so width follows height and the
+   letterforms can never distort. vertical-align: baseline puts the box's
+   bottom edge on the text baseline, which is where a cap-height glyph sits.
+   ========================================================================== */
+.moto-mark {
+  display: inline-block;
+  vertical-align: baseline;
+  height: 0.737em;
+  width: calc(0.737em * 5.51);
+  /* the mark is the word, so it must never be split from punctuation or a
+     hyphenated suffix ("MOTO-Käsemischung") the way an image would be */
+  flex: none;
+}
+
+/* ==========================================================================
    Scroll reveal (see js/main.js IntersectionObserver)
    Default (bare data-reveal or data-reveal="up") slides up + fades in.
    Opt into a variant by setting the attribute value:
