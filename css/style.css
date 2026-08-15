@@ -291,8 +291,13 @@ body {
   gap: 24px;
 }
 .nav__links { display: none; align-items: center; gap: 32px; font-family: var(--font-head); font-weight: 600; font-size: 0.95rem; }
-@media (min-width: 900px) { .nav__links { display: flex; } }
-.nav__links a { position: relative; padding: 4px 0; }
+@media (min-width: 960px) { .nav__links { display: flex; } }
+/* nowrap keeps the bar on one row now that there is a fifth item: at 900px —
+   the width where this bar replaces the burger — flexbox would otherwise
+   shrink the items and break "Detroit Style" and "Über uns" onto two lines.
+   With four items there was always room, so this changes nothing that was
+   there before. */
+.nav__links a { position: relative; padding: 4px 0; white-space: nowrap; }
 .nav__links a::after {
   content: ""; position: absolute; left: 0; right: 100%; bottom: 0; height: 2px;
   background: var(--pink); transition: right 0.35s var(--ease);
@@ -300,7 +305,7 @@ body {
 .nav__links a:hover::after { right: 0; }
 
 .nav__cta { display: none; }
-@media (min-width: 900px) { .nav__cta { display: inline-flex; } }
+@media (min-width: 960px) { .nav__cta { display: inline-flex; } }
 
 .nav__burger {
   display: flex; flex-direction: column; gap: 5px; padding: 6px;
@@ -312,7 +317,7 @@ body {
 .nav__burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .nav__burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
 .nav__burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-@media (min-width: 900px) { .nav__burger { display: none; } }
+@media (min-width: 960px) { .nav__burger { display: none; } }
 
 .nav__mobile {
   max-height: 0; overflow: hidden;
@@ -324,7 +329,7 @@ body {
 .nav__mobile.is-open { max-height: 320px; padding: 16px var(--pad) 24px; }
 .nav__mobile a { padding: 12px 0; font-family: var(--font-head); font-weight: 600; font-size: 1.1rem; border-bottom: 1px solid rgba(20,17,22,0.08); }
 .nav__mobile .btn { margin-top: 16px; align-self: flex-start; }
-@media (min-width: 900px) { .nav__mobile { display: none; } }
+@media (min-width: 960px) { .nav__mobile { display: none; } }
 
 /* ==========================================================================
    HERO
@@ -1185,11 +1190,50 @@ body {
   .product-card .allergen { font-size: 0.62rem; line-height: 1.35; margin-bottom: 8px; }
 }
 
+/* ---- the standalone Allergene & Zusatzstoffe page (allergene.html) ----
+   A separate document rather than a hidden section: the menu page stays short,
+   the key gets its own URL, and the browser's back button just works. It
+   reuses this stylesheet wholesale, so there is no second set of brand values
+   to keep in sync — only the few page-chrome rules below are its own. */
+.page-allergens { background: var(--white); }
+
+.subpage__nav {
+  border-bottom: 1px solid rgba(20, 17, 22, 0.08);
+  background: var(--cream);
+}
+.subpage__nav-inner {
+  max-width: var(--container); margin: 0 auto; padding: 16px var(--pad);
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+}
+.subpage__logo { height: 38px; width: auto; display: block; }
+.subpage__back {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-head); font-weight: 600; font-size: 0.9rem;
+  color: var(--pink);
+}
+.subpage__back:hover { color: var(--pink-dim); }
+.subpage__back svg { flex: none; }
+
+.subpage__footer {
+  padding: 30px var(--pad) 40px; text-align: center;
+  font-size: 0.75rem; color: rgba(20, 17, 22, 0.4);
+}
+
 .allergens {
   background: var(--white);
   padding: 70px 0 90px;
 }
 .allergens__inner { max-width: var(--container); margin: 0 auto; padding: 0 var(--pad); }
+.allergens__kicker {
+  font-family: var(--font-head); font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  font-size: 0.72rem; color: var(--pink); margin-bottom: 14px;
+}
+.allergens__lede {
+  max-width: 560px; margin-bottom: 40px;
+  font-size: 1rem; line-height: 1.6; color: rgba(20, 17, 22, 0.6);
+}
+.allergens__back-cta { margin-top: 44px; }
 .allergens__title {
   font-family: var(--font-display);
   font-size: clamp(1.6rem, 4vw, 2.6rem);

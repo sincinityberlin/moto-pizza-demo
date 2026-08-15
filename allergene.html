@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Allergene &amp; Zusatzstoffe — MOTO PIZZA</title>
+<link rel="icon" href="assets/images/logo.png" />
+
+<!-- Same stylesheet as the menu page, so this view inherits the brand fonts,
+     colours and spacing scale without a single duplicated value. Deliberately
+     loads NO JavaScript: the page is static reference information, and the
+     scripts on index.html expect the menu markup (carousel, product grids) to
+     exist. That also means no data-reveal attributes here — those start at
+     opacity 0 and are only revealed by js/main.js. -->
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="page-allergens">
+
+<!-- ==========================================================================
+     HEADER — logo doubles as the way back, plus an explicit back link
+     ========================================================================== -->
+<header class="subpage__nav">
+  <div class="subpage__nav-inner">
+    <a href="index.html" class="subpage__logo-link" aria-label="Zurück zur Startseite">
+      <img src="assets/images/logo.png" alt="MOTO PIZZA" class="subpage__logo" />
+    </a>
+    <a href="index.html#menu" class="subpage__back">
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M15 4l-8 8 8 8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Zurück zur Speisekarte
+    </a>
+  </div>
+</header>
+
+<main class="subpage">
+  <section class="allergens" id="allergens" data-section="allergens">
+    <div class="allergens__inner">
+      <p class="allergens__kicker">Speisekarte</p>
+      <h1 class="allergens__title">ALLERGENE &amp; ZUSATZSTOFFE</h1>
+      <p class="allergens__lede">
+        Die Kürzel hinter jedem Produkt auf unserer Speisekarte stehen für diese
+        kennzeichnungspflichtigen Allergene und Zusatzstoffe.
+      </p>
+
+      <div class="allergens__cols">
+        <dl class="allergens__list">
+          <div><dt>A</dt><dd>Erdnüsse</dd></div>
+          <div><dt>B</dt><dd>Schalenfrüchte/Nüsse (Mandeln, Haselnüsse, Walnüsse, Cashewnüsse, Pecannüsse, Paranüsse, Pistazien, Macadamia-/Queenslandnüsse)</dd></div>
+          <div><dt>C</dt><dd>Schwefeldioxid und Sulfite</dd></div>
+          <div><dt>D</dt><dd>Lupinen</dd></div>
+          <div><dt>E</dt><dd>Weichtiere</dd></div>
+          <div><dt>M</dt><dd>Sesam</dd></div>
+          <div><dt>R</dt><dd>Krebstiere</dd></div>
+        </dl>
+
+        <dl class="allergens__list">
+          <div><dt>S</dt><dd>Sellerie</dd></div>
+          <div><dt>T</dt><dd>Soja</dd></div>
+          <div><dt>P</dt><dd>Fisch</dd></div>
+          <div><dt>U</dt><dd>Senf</dd></div>
+          <div><dt>X</dt><dd>Eier</dd></div>
+          <div><dt>Y</dt><dd>glutenhaltiges Getreide</dd></div>
+          <div><dt>V</dt><dd>Milch und Milchprodukte einschließlich Laktose</dd></div>
+        </dl>
+      </div>
+
+      <h2 class="allergens__subtitle">ZUSATZSTOFFE</h2>
+      <dl class="allergens__list allergens__list--additives">
+        <div><dt>2</dt><dd>konserviert</dd></div>
+        <div><dt>3</dt><dd>mit Antioxidationsmittel</dd></div>
+        <div><dt>5</dt><dd>geschwärzt</dd></div>
+      </dl>
+
+      <p class="allergens__note">
+        Angaben, die mit <em>„noch zu bestätigen“</em> gekennzeichnet sind, wurden noch nicht
+        gegen die Zutaten- und Allergendeklaration des jeweiligen Herstellers geprüft und sind
+        daher unvollständig. Bei einer Allergie oder Unverträglichkeit fragen Sie uns bitte
+        direkt — wir geben Ihnen verbindlich Auskunft.
+      </p>
+
+      <a href="index.html#menu" class="btn btn--solid btn--big allergens__back-cta">Zurück zur Speisekarte</a>
+    </div>
+  </section>
+</main>
+
+<footer class="subpage__footer">
+  <p>Lokale Demo-Website — nicht veröffentlicht.</p>
+</footer>
+
+</body>
+</html>
