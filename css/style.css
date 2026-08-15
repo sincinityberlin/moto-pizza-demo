@@ -1176,7 +1176,12 @@ body {
   margin-bottom: 12px;
   letter-spacing: 0.01em;
 }
-.allergen__codes { font-weight: 700; color: rgba(20, 17, 22, 0.62); }
+/* one row per category ("Allergene: …", "Zusatzstoffe: …"), each on its own
+   line and always in this order, so the block starts at the same place on
+   every card no matter how many codes an item carries */
+.allergen__row { display: block; }
+.allergen__label { font-weight: 400; }
+.allergen__codes { font-weight: 700; color: rgba(20, 17, 22, 0.62); letter-spacing: 0.03em; }
 .allergen__pending { font-style: italic; color: rgba(20, 17, 22, 0.42); }
 
 /* on the pink/blue pizza card the same line has to invert to stay legible */

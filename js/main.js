@@ -57,16 +57,16 @@ function allergenLine(item) {
 
   if (!codes.length && !additives.length && !pending) return "";
 
-  const parts = [];
-  if (codes.length) parts.push(`Allergene: ${codes.join(", ")}`);
-  if (additives.length) parts.push(`Zusatzstoffe: ${additives.join(", ")}`);
-
-  let html = parts.length
-    ? `<span class="allergen__codes">${escapeHtml(parts.join(" · "))}</span>`
-    : "";
-
+  // one line per category, and no "Zusatzstoffe" line at all when there are none
+  let html = "";
+  if (codes.length) {
+    html += `<span class="allergen__row"><span class="allergen__label">Allergene:</span> <span class="allergen__codes">${escapeHtml(codes.join(", "))}</span></span>`;
+  }
+  if (additives.length) {
+    html += `<span class="allergen__row"><span class="allergen__label">Zusatzstoffe:</span> <span class="allergen__codes">${escapeHtml(additives.join(", "))}</span></span>`;
+  }
   if (pending) {
-    html += `${html ? " " : ""}<span class="allergen__pending">${
+    html += `<span class="allergen__row allergen__pending">${
       codes.length ? "weitere Angaben noch zu bestätigen" : "Allergenangaben noch zu bestätigen"
     }</span>`;
   }

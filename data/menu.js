@@ -7,29 +7,32 @@
 
    ALLERGEN LABELLING — read before editing `allergens`
    ---------------------------------------------------
-   allergens:        letter codes from the legend in index.html (#allergens).
-                     A code is only ever listed here when an ingredient that
-                     carries it is named outright in this product's own `desc`
-                     (e.g. "Parmesan" → V, "schwarzer Sesam" → M, "Garnelen"
-                     → R). Nothing is derived from a product name, a photo, a
-                     category or "what a dish like this usually contains".
-   allergensPending: true while the list has not been checked against the
-                     supplier's / manufacturer's own ingredient declaration.
-                     While true the UI shows a "noch zu bestätigen" note next
-                     to the codes, so a partial list can never be mistaken for
-                     a complete one. Set to false only once a real
-                     declaration has been checked off against the item.
-   additives:        additive numbers (2 conserved / 3 antioxidant /
-                     5 blackened). Empty everywhere: no additive has been
-                     confirmed for any product. Never guess one.
+   Source of truth for the ten pizzas is the printed MOTO PIZZA menu, which
+   sets the codes as a superscript after each pizza name (e.g. BEEF LOVER
+   V,Y,R,T,M). Those were transcribed verbatim, letters into `allergens` and
+   digits into `additives`, in the printed order. Nothing here is inferred
+   from a product name, a photo, or "what a dish like this usually contains".
 
-   Known gaps that need a supplier declaration before they can be filled in:
-   the dough (gluten, Y) is not part of any pizza's declared ingredient list;
-   compound ingredients (salami, Kabanossi, the garlic / BBQ / Sriracha /
-   Calamansi sauces, Kimchi, Sauce Hollandaise) commonly carry mustard,
-   celery, soy, egg, fish or sulphites but none of that is declared here;
-   the Misu tiramisu base and all toppings are undocumented; the drinks have
-   no ingredient data on this site at all.
+   allergens:        letter codes, see the legend on allergene.html.
+   allergensPending: false once the codes come from a real declaration — the
+                     ten pizzas are all false because the printed menu is that
+                     declaration. Still true for every item the printed menu
+                     does not label, so the card shows a "noch zu bestätigen"
+                     note and a blank line can never be read as "contains no
+                     allergens".
+   additives:        additive numbers (2 conserved / 3 antioxidant /
+                     5 blackened), also straight off the printed menu.
+
+   Still open, because the printed menu carries no codes for them: the drinks
+   page lists Sanpellegrino, Red Bull and Pellegrino with no allergen or
+   additive marks at all, and the Misu tiramisus replaced the printed menu's
+   desserts (Cheesecake / Lavacake), so nothing on paper covers them. Their
+   codes need the manufacturer's own declaration.
+
+   One caveat worth knowing: the printed menu defines R as "Krebs- ODER
+   Weichtiere" — one code for both groups. allergene.html splits them into
+   R (crustaceans) and E (molluscs) per the 14-group EU scheme, so the R on
+   Beef Lover is as precise as the printed source allows.
    ========================================================================== */
 
 const MOTO_MENU = [
@@ -41,9 +44,9 @@ const MOTO_MENU = [
     desc: "Peperoni-Salami, Champignons, Zwiebeln, grüne Paprika, Oliven, Parmesan & Tomatensoße",
     price: "22,00",
     badge: "Signature",
-    allergens: ["V"],
-    allergensPending: true,
-    additives: [],
+    allergens: ["V", "Y"],
+    allergensPending: false,
+    additives: ["2", "3", "5"],
   },
   {
     id: "pepperoniking",
@@ -52,9 +55,9 @@ const MOTO_MENU = [
     short: "Für alle, die es deftig mögen: extra viel Pepperoni-Salami auf MOTO-Käse.",
     desc: "Extra viel Pepperoni-Salami, Parmesan & Tomatensauce",
     price: "22,00",
-    allergens: ["V"],
-    allergensPending: true,
-    additives: [],
+    allergens: ["V", "Y"],
+    allergensPending: false,
+    additives: ["2", "3"],
   },
   {
     id: "beeflover",
@@ -64,8 +67,8 @@ const MOTO_MENU = [
     desc: "Beef, Zwiebeln, Knoblauchsauce, eingelegter Kohl, Kimchi, schwarzer Sesam & Rohrzuckeressig",
     price: "22,00",
     badge: "Bestseller",
-    allergens: ["M"],
-    allergensPending: true,
+    allergens: ["V", "Y", "R", "T", "M"],
+    allergensPending: false,
     additives: [],
   },
   {
@@ -75,9 +78,9 @@ const MOTO_MENU = [
     short: "Scharfe Salami und Kabanossi, gekrönt von einem Schuss scharfem Honig.",
     desc: "Pepperoni-Salami, Kabanossi, Parmesan & Tomatensauce, getoppt mit scharfem Honig",
     price: "22,00",
-    allergens: ["V"],
-    allergensPending: true,
-    additives: [],
+    allergens: ["V", "Y", "S", "U"],
+    allergensPending: false,
+    additives: ["2", "5"],
   },
   {
     id: "bighog",
@@ -86,9 +89,9 @@ const MOTO_MENU = [
     short: "Speck, Kabanossi und eine BBQ-Sauce mit Calamansi-Limette – deftig und rauchig.",
     desc: "Speckwürfel, Kabanossi, Zwiebeln, Parmesan, Calamansi-Limetten-Sauce & BIG HOG BBQ-Sauce",
     price: "22,00",
-    allergens: ["V"],
-    allergensPending: true,
-    additives: [],
+    allergens: ["V", "Y", "S", "U"],
+    allergensPending: false,
+    additives: ["2", "3"],
   },
   {
     id: "lemonshrimp",
@@ -97,8 +100,8 @@ const MOTO_MENU = [
     short: "Scharfe Garnelen, Chiliöl und cremige Sauce Hollandaise – MOTO vom Meer.",
     desc: "Scharfe Garnelen, Parmesan, Schnittlauch, Calamansi-Limetten-Sauce, Chiliöl & Sauce Hollandaise",
     price: "22,00",
-    allergens: ["R", "V"],
-    allergensPending: true,
+    allergens: ["V", "Y", "P", "S", "X"],
+    allergensPending: false,
     additives: [],
   },
   {
@@ -108,8 +111,8 @@ const MOTO_MENU = [
     short: "Zartes Hähnchen, Crème fraîche und ein Hauch Sriracha – mild und cremig.",
     desc: "Crème fraîche, Hähnchenbruststreifen, Frühlingszwiebeln & Sriracha-Sauce",
     price: "22,00",
-    allergens: ["V"],
-    allergensPending: true,
+    allergens: ["V", "Y", "S"],
+    allergensPending: false,
     additives: [],
   },
   {
@@ -119,8 +122,8 @@ const MOTO_MENU = [
     short: "Waldig & erdig: eine Oyster-Pilzmischung auf cremiger Ricotta-Sauce.",
     desc: "Oyster-Pilzmischung, Ricotta-Sauce & Parmesan",
     price: "22,00",
-    allergens: ["V"],
-    allergensPending: true,
+    allergens: ["V", "Y"],
+    allergensPending: false,
     additives: [],
   },
   {
@@ -131,8 +134,8 @@ const MOTO_MENU = [
     desc: "Rucola, eingelegter Kohl, Parmesan, Knoblauchsauce, Tomatensauce, Meersalz & schwarzer Sesam",
     price: "22,00",
     badge: "Veggie",
-    allergens: ["M", "V"],
-    allergensPending: true,
+    allergens: ["V", "Y", "M"],
+    allergensPending: false,
     additives: [],
   },
   {
@@ -142,8 +145,8 @@ const MOTO_MENU = [
     short: "Puristisch und ehrlich: nur MOTO-Käsemischung, Parmesan und Tomatensauce.",
     desc: "MOTO-Käsemischung, Parmesan & Tomatensauce",
     price: "22,00",
-    allergens: ["V"],
-    allergensPending: true,
+    allergens: ["V", "Y"],
+    allergensPending: false,
     additives: [],
   },
 ];
