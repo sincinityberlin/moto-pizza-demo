@@ -184,16 +184,18 @@ body {
    both get a mark scaled to their own text, with no per-breakpoint values to
    maintain: it is responsive for free. 0.737em is the measured cap height of
    both site faces (Good Times and AdelleSansARA share it), so the mark's box
-   is exactly as tall as the capital letters beside it; 5.51 is the wordmark's
-   own aspect ratio (551:100 viewBox), so width follows height and the
+   is exactly as tall as the capital letters beside it; 4.74 is the wordmark's
+   own aspect ratio (474:100 viewBox), so width follows height and the
    letterforms can never distort. vertical-align: baseline puts the box's
    bottom edge on the text baseline, which is where a cap-height glyph sits.
+   Stroke weight is matched to Good Times inside the symbol itself — see the
+   note on the <symbol> in index.html.
    ========================================================================== */
 .moto-mark {
   display: inline-block;
   vertical-align: baseline;
   height: 0.737em;
-  width: calc(0.737em * 5.51);
+  width: calc(0.737em * 4.74);
   /* the mark is the word, so it must never be split from punctuation or a
      hyphenated suffix ("MOTO-Käsemischung") the way an image would be */
   flex: none;

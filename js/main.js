@@ -25,6 +25,9 @@ document.addEventListener("DOMContentLoaded", () => {
    text — only the standalone brand word is swapped.
    ---------------------------------------------------------------------- */
 const MOTO_MARK = '<svg class="moto-mark" role="img" aria-label="MOTO"><use href="#moto-wordmark"/></svg>';
+/* heavier cut, for slots whose type is set in a synthesised faux bold (the
+   pizza name heading) — see the <symbol> notes in index.html */
+const MOTO_MARK_BOLD = '<svg class="moto-mark" role="img" aria-label="MOTO"><use href="#moto-wordmark-bold"/></svg>';
 
 /* menu data is authored in this repo, not user input, but these strings go
    through innerHTML — escape first so a stray & or < in a description can
@@ -36,8 +39,8 @@ function escapeHtml(str) {
   );
 }
 
-function withMotoMark(str) {
-  return escapeHtml(str).replace(/\bMOTO\b/g, MOTO_MARK);
+function withMotoMark(str, bold) {
+  return escapeHtml(str).replace(/\bMOTO\b/g, bold ? MOTO_MARK_BOLD : MOTO_MARK);
 }
 
 /* ---------- Interactive pizza selector: semicircle swipe carousel ---------
@@ -164,7 +167,7 @@ function initPizzaSelector() {
         const p = MOTO_MENU[dataIdx];
         els.current.textContent = String(dataIdx + 1).padStart(2, "0");
         els.category.textContent = p.tag;
-        els.name.innerHTML = withMotoMark(p.name);
+        els.name.innerHTML = withMotoMark(p.name, true); // heading is faux-bold
         els.short.innerHTML = withMotoMark(p.short || p.desc);
         els.ingredients.innerHTML = withMotoMark(p.desc);
         els.price.textContent = `${p.price} €`;
