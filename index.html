@@ -22,47 +22,33 @@
      occurrence is drawn instead of typeset. Strokes use currentColor and the
      instance is sized in em (see .moto-mark in css/style.css), so each one
      inherits the colour and scale of whatever text surrounds it.
+     ONE cut, used everywhere — no per-context variants. The mark is a logo,
+     so it has to read identically in every position; only its overall size
+     changes with the surrounding text.
      Coordinate system: cap height = 100 units (the OUTER contour spans the
      full 0–100, so the mark is exactly as tall as a capital letter), stroke
      centre lines inset by half the stroke.
-     Stroke width 17.54 is not an eyeballed value: it is the measured stem
-     width of Good Times relative to its cap height (51/290.8), the face that
-     sets every headline, nav item, button and price here — so the mark
-     carries the same weight as the type beside it rather than reading as a
-     thin outline. Letter widths and the tight gaps between them are taken
-     from the printed reference (M 1.114, square O 1.160, T 1.099, circle O
-     1.009 of cap height; gaps 0.226 / 0.075 / 0.060), which is what makes the
-     four letters sit close together instead of spaced out.
+     Proportions are taken from the supplied reference artwork, measured
+     against its cap height: M 1.052, square O 1.072, T 0.922, circle O 0.928
+     wide; gaps 0.115 / 0.058 / 0.075. That totals an aspect of 4.22 — the
+     tight spacing of the reference, not letters strung out across a line.
+     Stroke width 17.54 is the measured stem width of Good Times relative to
+     its cap height (51/290.8) — the face that sets every headline, nav item,
+     button and price here — so the mark carries real weight instead of
+     reading as a thin outline.
      ========================================================================== -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
-    <symbol id="moto-wordmark" viewBox="0 0 474 100">
+    <symbol id="moto-wordmark" viewBox="0 0 422 100">
       <g fill="none" stroke="currentColor" stroke-width="17.54" stroke-linecap="round" stroke-linejoin="round">
         <!-- M: vertical outer stems, V dipping to 74% of cap height -->
-        <path d="M8.77 91.23 V8.77 L55.7 74 L102.63 8.77 V91.23" />
+        <path d="M8.77 91.23 V8.77 L52.6 74 L96.43 8.77 V91.23" />
         <!-- O as a rounded square -->
-        <rect x="142.77" y="8.77" width="98.46" height="82.46" rx="8" />
+        <rect x="125.47" y="8.77" width="89.66" height="82.46" rx="8" />
         <!-- T: top bar + centred stem -->
-        <path d="M266.27 8.77 H358.63 M312.45 8.77 V91.23" />
+        <path d="M238.47 8.77 H313.13 M275.8 8.77 V91.23" />
         <!-- O as a circle -->
-        <ellipse cx="423.85" cy="50" rx="41.68" ry="41.23" />
-      </g>
-    </symbol>
-
-    <!-- Bold cut. Good Times ships a single weight, so the two places that
-         ask for font-weight 600/700 (.about__lede, .about__standalone) get a
-         browser-synthesised faux bold whose stems measure 0.2121 of cap
-         height instead of 0.1754. Same letter widths, same gaps, same box —
-         only the stroke is heavier and the centre lines are re-inset to match,
-         so the outer contour still spans exactly 0–100 and the mark stays the
-         height of a capital. Referenced via #moto-wordmark-bold in those two
-         spots only. -->
-    <symbol id="moto-wordmark-bold" viewBox="0 0 474 100">
-      <g fill="none" stroke="currentColor" stroke-width="21.21" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M10.605 89.395 V10.605 L55.7 74 L100.795 10.605 V89.395" />
-        <rect x="144.605" y="10.605" width="94.79" height="78.79" rx="8" />
-        <path d="M268.105 10.605 H356.795 M312.45 10.605 V89.395" />
-        <ellipse cx="423.85" cy="50" rx="39.845" ry="39.395" />
+        <ellipse cx="375.8" cy="50" rx="37.63" ry="41.23" />
       </g>
     </symbol>
   </defs>
@@ -429,7 +415,7 @@
       </h2>
 
       <p class="about__lede reveal" data-reveal data-delay="2">
-        <svg class="moto-mark" role="img" aria-label="MOTO"><use href="#moto-wordmark-bold"/></svg> beginnt dort, wo auch Detroit Pizza ihren Ursprung hat: in Detroit – der Motor City.
+        <svg class="moto-mark" role="img" aria-label="MOTO"><use href="#moto-wordmark"/></svg> beginnt dort, wo auch Detroit Pizza ihren Ursprung hat: in Detroit – der Motor City.
       </p>
 
       <p class="about__body reveal" data-reveal>
@@ -453,7 +439,7 @@
       </p>
 
       <p class="about__standalone reveal" data-reveal>
-        Genau daraus ist <span class="hl hl--pink"><svg class="moto-mark" role="img" aria-label="MOTO"><use href="#moto-wordmark-bold"/></svg>&nbsp;PIZZA</span> entstanden.
+        Genau daraus ist <span class="hl hl--pink"><svg class="moto-mark" role="img" aria-label="MOTO"><use href="#moto-wordmark"/></svg>&nbsp;PIZZA</span> entstanden.
       </p>
 
       <p class="about__body about__body--center reveal" data-reveal>
@@ -495,7 +481,7 @@
        ========================================================================== -->
   <section class="order" id="order" data-section="order">
     <div class="order__inner">
-      <h2 class="section-title reveal" data-reveal>HUNGER?<br /><span class="hl hl--pink">HOL&nbsp;DIR&nbsp;<svg class="moto-mark" role="img" aria-label="MOTO"><use href="#moto-wordmark-bold"/></svg>.</span></h2>
+      <h2 class="section-title reveal" data-reveal>HUNGER?<br /><span class="hl hl--pink">HOL&nbsp;DIR&nbsp;<svg class="moto-mark" role="img" aria-label="MOTO"><use href="#moto-wordmark"/></svg>.</span></h2>
 
       <div class="order__grid">
         <div class="order__info reveal" data-reveal data-delay="1">
