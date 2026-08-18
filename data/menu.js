@@ -216,16 +216,6 @@ const MOTO_SNACKS = [
     allergensPending: true,
     additives: [],
   },
-  {
-    id: "misu-saltedcaramel-2",
-    name: "Misu",
-    tag: "Salted Caramel & Schokolade — Variante 2",
-    desc: "Cremiges Tiramisu mit gesalzenem Karamell und Schokolade.",
-    price: "5,90",
-    allergens: [],
-    allergensPending: true,
-    additives: [],
-  },
 ];
 
 /* id matches assets/images/drink-<id>.png. Reihenfolge folgt der Speisekarte:
