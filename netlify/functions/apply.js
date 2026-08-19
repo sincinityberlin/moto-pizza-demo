@@ -63,6 +63,13 @@ const KIND_VALUE = env("AIRTABLE_KIND_VALUE", "Mitarbeiter-Bewerbung");
    single typo in an option then rejects the record. */
 const TYPECAST = process.env.AIRTABLE_TYPECAST !== "false";
 
+/* Attachment uploads do NOT run on api.airtable.com — that host answers this
+   route with 404 NOT_FOUND. They go to content.airtable.com instead. Record
+   creation above stays on api.airtable.com, which is correct and working.
+   Verified against both hosts: api -> 404, content -> 401 (route exists,
+   only auth missing). */
+const UPLOAD_HOST = env("AIRTABLE_UPLOAD_HOST", "https://content.airtable.com");
+
 /* Netlify caps a synchronous function request at 6 MB and base64 inflates a
    file by ~33%, so 4 MB of raw file is the safe ceiling (Airtable's own limit,
    5 MB, is the looser one). Keep in sync with MAX_CV_BYTES in js/karriere.js. */
@@ -203,7 +210,7 @@ export default async (req) => {
 
   try {
     const res = await airtable(
-      `https://api.airtable.com/v0/${baseId}/${recordId}/${encodeURIComponent(FIELD.cv)}/uploadAttachment`,
+      `${UPLOAD_HOST}/v0/${baseId}/${recordId}/${encodeURIComponent(FIELD.cv)}/uploadAttachment`,
       {
         contentType: body.cv.type || "application/octet-stream",
         file: body.cv.data,

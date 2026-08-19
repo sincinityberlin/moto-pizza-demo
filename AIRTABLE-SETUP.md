@@ -75,7 +75,18 @@ Die Werte werden zeichengenau geschrieben und müssen zu den Optionen passen:
 `AIRTABLE_TYPECAST=true` lässt Airtable fehlende Optionen selbst anlegen. Wer das
 nicht will, setzt die Variable auf `false` — dann muss jede Option exakt existieren.
 
-## 4. Dateigröße
+## 4. Dateiupload
+
+Anhänge laufen über einen **anderen Host** als der Rest der API:
+
+- Datensatz anlegen: `https://api.airtable.com/v0/{base}/{table}`
+- Datei anhängen: `https://content.airtable.com/v0/{base}/{recordId}/{feld}/uploadAttachment`
+
+`api.airtable.com` beantwortet die Upload-Route mit `404 NOT_FOUND` — das war die
+Ursache dafür, dass Bewerbungen ankamen, Lebensläufe aber nicht. Überschreibbar
+per `AIRTABLE_UPLOAD_HOST`, normalerweise nicht nötig.
+
+## 5. Dateigröße
 
 Maximal **4 MB** pro Lebenslauf. Grund: Netlify begrenzt eine Anfrage auf 6 MB und
 Base64 vergrößert die Datei um rund ein Drittel; Airtables eigene Grenze (5 MB) ist

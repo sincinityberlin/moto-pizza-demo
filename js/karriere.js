@@ -17,6 +17,25 @@ const API_ENDPOINT = "/api/apply";
    request at 6 MB and base64 adds ~33%, so 4 MB of file is the safe ceiling */
 const MAX_CV_BYTES = 4 * 1024 * 1024;
 
+/* Browsers frequently report an empty type for .doc/.docx (and sometimes for
+   files dragged in from cloud storage), which would reach Airtable as
+   application/octet-stream and show up there as a typeless blob. Fall back to
+   the extension so the attachment keeps its real content type. */
+const MIME_BY_EXT = {
+  pdf: "application/pdf",
+  doc: "application/msword",
+  docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  png: "image/png",
+  jpg: "image/jpeg",
+  jpeg: "image/jpeg",
+};
+
+function contentTypeOf(file) {
+  if (file.type) return file.type;
+  const ext = file.name.split(".").pop().toLowerCase();
+  return MIME_BY_EXT[ext] || "application/octet-stream";
+}
+
 function readAsBase64(file) {
   return new Promise((resolve, reject) => {
     const r = new FileReader();
@@ -110,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (picked) {
         payload.cv = {
           name: picked.name,
-          type: picked.type || "application/octet-stream",
+          type: contentTypeOf(picked),
           data: await readAsBase64(picked),
         };
       }
