@@ -32,9 +32,13 @@ const FIELD = {
   hasLocation: env("FRANCHISE_FIELD_HAS_LOCATION", "Standort vorhanden"),
   locationType:env("FRANCHISE_FIELD_LOCATION_TYPE", "Standortart"),
   storeSize:   env("FRANCHISE_FIELD_STORE_SIZE", "Storegröße"),
+  multiStore:  env("FRANCHISE_FIELD_MULTI_STORE", "Mehrere Standorte"),
+  weeklyHours: env("FRANCHISE_FIELD_WEEKLY_HOURS", "Zeitliche Verfügbarkeit"),
   locationDet: env("FRANCHISE_FIELD_LOCATION_DETAILS", "Standortbeschreibung"),
   storeType:   env("FRANCHISE_FIELD_STORE_TYPE", "Vorhaben"),
   job:         env("FRANCHISE_FIELD_JOB", "Aktuelle Tätigkeit"),
+  occupation:  env("FRANCHISE_FIELD_OCCUPATION", "Berufliche Situation"),
+  occupOther:  env("FRANCHISE_FIELD_OCCUPATION_OTHER", "Berufliche Situation Sonstiges"),
   gastro:      env("FRANCHISE_FIELD_GASTRO", "Gastro-Erfahrung"),
   gastroText:  env("FRANCHISE_FIELD_GASTRO_TEXT", "Erfahrung Beschreibung"),
   entrepreneur:env("FRANCHISE_FIELD_ENTREPRENEUR", "Unternehmerische Erfahrung"),
@@ -44,6 +48,7 @@ const FIELD = {
   timeline:    env("FRANCHISE_FIELD_TIMELINE", "Geplanter Start"),
   why:         env("FRANCHISE_FIELD_WHY", "Motivation"),
   whyCity:     env("FRANCHISE_FIELD_WHY_CITY", "Standort-Potenzial"),
+  interest:    env("FRANCHISE_FIELD_INTEREST", "Interesse-Level"),
   docs:        env("FRANCHISE_FIELD_DOCS", "Unterlagen"),
   copy:        env("FRANCHISE_FIELD_COPY", "Kopie erwünscht"),
   consent:     env("FRANCHISE_FIELD_CONSENT", "Einwilligung erteilt"),
@@ -83,7 +88,8 @@ export default async (req) => {
     return json(400, { error: "invalid_json" });
   }
 
-  for (const key of ["name", "email", "phone", "city", "region", "why", "whyCity", "consent"]) {
+  for (const key of ["name", "email", "phone", "city", "region", "why", "whyCity",
+                     "occupation", "multiStore", "weeklyHours", "consent"]) {
     if (!body[key]) return json(400, { error: "missing_field", field: key });
   }
 
@@ -98,9 +104,13 @@ export default async (req) => {
     [FIELD.hasLocation]: clip(body.hasLocation, 100),
     [FIELD.locationType]: clip(body.locationType, 100),
     [FIELD.storeSize]: clip(body.storeSize, 100),
+    [FIELD.multiStore]: clip(body.multiStore, 100),
+    [FIELD.weeklyHours]: clip(body.weeklyHours, 100),
     [FIELD.locationDet]: clip(body.locationDetails, 100000),
     [FIELD.storeType]: clip(body.storeType, 200),
     [FIELD.job]: clip(body.job, 300),
+    [FIELD.occupation]: clip(body.occupation, 100),
+    [FIELD.occupOther]: clip(body.occupationOther, 1000),
     [FIELD.gastro]: clip(body.gastro, 20),
     [FIELD.gastroText]: clip(body.gastroText, 100000),
     [FIELD.entrepreneur]: clip(body.entrepreneur, 20),
@@ -110,6 +120,7 @@ export default async (req) => {
     [FIELD.timeline]: clip(body.timeline, 100),
     [FIELD.why]: clip(body.why, 100000),
     [FIELD.whyCity]: clip(body.whyCity, 100000),
+    [FIELD.interest]: clip(body.interest, 100),
     [FIELD.copy]: Boolean(body.copy),
     [FIELD.consent]: Boolean(body.consent),
   };

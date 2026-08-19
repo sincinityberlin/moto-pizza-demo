@@ -1638,3 +1638,56 @@ body {
 @media (min-width: 620px) {
   .page-franchise .cform__submit { width: auto; min-width: 320px; }
 }
+
+/* ---- Dein Store: step chrome ----
+   Progress line + step navigation. Uses only existing tokens; the bar is the
+   brand pink on the same cream-dim the cards already use. Scoped to
+   .page-franchise like the rest of this block. */
+.page-franchise .fsteps__head { margin: 4px 0 22px; }
+.page-franchise .fsteps__count {
+  font-family: var(--font-head); font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  font-size: 0.72rem; color: var(--pink);
+  margin-bottom: 10px;
+}
+.page-franchise .fsteps__bar {
+  height: 4px; border-radius: 999px;
+  background: var(--cream-dim);
+  overflow: hidden;
+}
+.page-franchise .fsteps__fill {
+  display: block; height: 100%; width: 14.28%;
+  background: var(--pink);
+  border-radius: 999px;
+  transition: width 0.45s var(--ease);
+}
+
+/* one step is on screen at a time, so it gets room to breathe again — the
+   cramped 26px only made sense when all seven were stacked */
+.page-franchise .fstep { margin-bottom: 30px; }
+.page-franchise .fstep[hidden] { display: none; }
+
+.page-franchise .fsteps__nav {
+  display: flex; flex-wrap: wrap; gap: 12px;
+  align-items: center;
+  margin-top: 4px;
+}
+/* .btn sets display:inline-flex, which outranks the UA default for [hidden]
+   and would leave "Zurück"/"Absenden" visible on the wrong steps — this rule
+   is specific enough to win */
+.page-franchise .fsteps__nav [hidden] { display: none; }
+/* forward action first on mobile (thumb reach), Zurück stays secondary */
+.page-franchise .fsteps__back { order: 2; }
+.page-franchise .fsteps__next,
+.page-franchise .cform__submit { order: 1; flex: 1 1 100%; }
+@media (min-width: 620px) {
+  .page-franchise .fsteps__back { order: 1; flex: 0 0 auto; }
+  .page-franchise .fsteps__next,
+  .page-franchise .cform__submit { order: 2; flex: 0 0 auto; margin-left: auto; }
+  .page-franchise .fsteps__next { min-width: 200px; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .page-franchise .fstep:not([hidden]) { animation: fstepIn 0.32s var(--ease); }
+  @keyframes fstepIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+}

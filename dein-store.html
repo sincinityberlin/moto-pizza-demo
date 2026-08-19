@@ -6,10 +6,9 @@
 <meta name="robots" content="noindex, nofollow" />
 <title>Dein Store — MOTO PIZZA</title>
 <link rel="icon" href="assets/images/logo.png" />
-<!-- Reuses css/style.css and the same classes as the Karriere page. The
-     page-franchise class on <body> scopes the tighter spacing and stronger
-     section headings to THIS page only — the careers form keeps its own
-     rhythm untouched. -->
+<!-- Reuses css/style.css and the same .cform classes as the Karriere page.
+     page-franchise on <body> scopes the tighter spacing, the stronger section
+     headings and the step chrome to THIS page — the careers form is untouched. -->
 <link rel="stylesheet" href="css/style.css" />
 </head>
 <body class="page-subpage page-franchise">
@@ -28,7 +27,6 @@
 
 <main class="subpage">
 
-  <!-- ---- intro ---- -->
   <section class="career" data-section="franchise">
     <div class="career__inner">
       <p class="subpage__kicker">Dein Store</p>
@@ -42,62 +40,37 @@
     </div>
   </section>
 
-  <!-- ---- franchise enquiry form ----
-       Own endpoint (/api/franchise) and own Airtable table so enquiries never
-       mix with the staff applications. The careers form and its function are
+  <!-- ---- franchise enquiry, seven steps ----
+       Every step lives in the DOM the whole time and is only hidden, so moving
+       back and forth never discards an entry. Validation runs per step: you
+       only advance once that step's required fields are valid. Own endpoint
+       (/api/franchise) and own Airtable table — the staff application path is
        untouched. -->
   <section class="career-form" id="franchise-bewerbung" data-section="franchise-bewerbung">
     <div class="career-form__inner">
       <h2 class="career-form__title">WERDE MOTO PIZZA<br />FRANCHISE-PARTNER</h2>
+
+      <div class="fsteps__head">
+        <p class="fsteps__count"><span id="stepNow">1</span> von <span id="stepTotal">7</span> · <span id="stepName">Dein Wunschstandort</span></p>
+        <div class="fsteps__bar" role="progressbar" aria-valuemin="1" aria-valuemax="7" aria-valuenow="1" aria-label="Fortschritt">
+          <span class="fsteps__fill" id="stepFill"></span>
+        </div>
+      </div>
+
       <p class="career-form__note">Mit <span class="req">*</span> markierte Felder sind Pflichtfelder.</p>
 
       <form class="cform" id="franchiseForm" novalidate>
 
-        <fieldset class="cform__group">
-          <legend class="cform__legend">Persönliche Daten</legend>
+        <!-- SCHRITT 1 -->
+        <fieldset class="cform__group fstep" data-step="1" data-title="Dein Wunschstandort">
+          <legend class="cform__legend">Dein Wunschstandort</legend>
 
-          <div class="cform__row">
-            <div class="cform__field">
-              <label for="g-name">Vor- und Nachname <span class="req">*</span></label>
-              <input type="text" id="g-name" name="name" autocomplete="name" required />
-            </div>
-            <div class="cform__field">
-              <label for="g-birthdate">Geburtsdatum</label>
-              <input type="date" id="g-birthdate" name="birthdate" autocomplete="bday" />
-            </div>
+          <div class="cform__field">
+            <label for="g-region">Wunschstadt / Wunschregion <span class="req">*</span></label>
+            <input type="text" id="g-region" name="region" required />
           </div>
 
           <div class="cform__row">
-            <div class="cform__field">
-              <label for="g-email">E-Mail <span class="req">*</span></label>
-              <input type="email" id="g-email" name="email" autocomplete="email" required />
-            </div>
-            <div class="cform__field">
-              <label for="g-phone">Telefonnummer <span class="req">*</span></label>
-              <input type="tel" id="g-phone" name="phone" autocomplete="tel" required />
-            </div>
-          </div>
-
-          <div class="cform__row">
-            <div class="cform__field">
-              <label for="g-address">Adresse</label>
-              <input type="text" id="g-address" name="address" autocomplete="street-address" />
-            </div>
-            <div class="cform__field">
-              <label for="g-city">Wohnort <span class="req">*</span></label>
-              <input type="text" id="g-city" name="city" autocomplete="address-level2" required />
-            </div>
-          </div>
-        </fieldset>
-
-        <fieldset class="cform__group">
-          <legend class="cform__legend">Franchise</legend>
-
-          <div class="cform__row">
-            <div class="cform__field">
-              <label for="g-region">Wunschstadt / Wunschregion <span class="req">*</span></label>
-              <input type="text" id="g-region" name="region" required />
-            </div>
             <div class="cform__field">
               <label for="g-haslocation">Hast du bereits einen möglichen Standort?</label>
               <select id="g-haslocation" name="hasLocation">
@@ -107,9 +80,6 @@
                 <option>Ich bin aktuell auf Standortsuche</option>
               </select>
             </div>
-          </div>
-
-          <div class="cform__row">
             <div class="cform__field">
               <label for="g-locationtype">Welche Art von Standort stellst du dir vor?</label>
               <select id="g-locationtype" name="locationType">
@@ -123,27 +93,18 @@
                 <option>Noch offen</option>
               </select>
             </div>
-            <div class="cform__field">
-              <label for="g-storesize">Wie groß sollte dein zukünftiger Store ungefähr sein?</label>
-              <select id="g-storesize" name="storeSize">
-                <option value="">Bitte wählen</option>
-                <option>Unter 50 m²</option>
-                <option>50–80 m²</option>
-                <option>80–120 m²</option>
-                <option>120–180 m²</option>
-                <option>Über 180 m²</option>
-                <option>Noch offen</option>
-              </select>
-            </div>
           </div>
 
           <div class="cform__field">
-            <label for="g-storetype">Möchtest du …</label>
-            <select id="g-storetype" name="storeType">
+            <label for="g-storesize">Wie groß sollte dein zukünftiger Store ungefähr sein?</label>
+            <select id="g-storesize" name="storeSize">
               <option value="">Bitte wählen</option>
-              <option>Einen neuen MOTO PIZZA Store eröffnen</option>
-              <option>Einen bestehenden Gastronomiebetrieb umwandeln</option>
-              <option>Noch unentschlossen</option>
+              <option>Unter 50 m²</option>
+              <option>50–80 m²</option>
+              <option>80–120 m²</option>
+              <option>120–180 m²</option>
+              <option>Über 180 m²</option>
+              <option>Noch offen</option>
             </select>
           </div>
 
@@ -153,21 +114,63 @@
           </div>
         </fieldset>
 
-        <fieldset class="cform__group">
-          <legend class="cform__legend">Beruflicher Hintergrund</legend>
+        <!-- SCHRITT 2 -->
+        <fieldset class="cform__group fstep" data-step="2" data-title="Über dich" hidden>
+          <legend class="cform__legend">Über dich</legend>
 
-          <div class="cform__field">
-            <label for="g-job">Aktuelle Tätigkeit</label>
-            <input type="text" id="g-job" name="job" />
+          <div class="cform__row">
+            <div class="cform__field">
+              <label for="g-city">Wohnort <span class="req">*</span></label>
+              <input type="text" id="g-city" name="city" autocomplete="address-level2" required />
+            </div>
+            <div class="cform__field">
+              <label for="g-birthdate">Geburtsdatum</label>
+              <input type="date" id="g-birthdate" name="birthdate" autocomplete="bday" />
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- SCHRITT 3 -->
+        <fieldset class="cform__group fstep" data-step="3" data-title="Beruf &amp; Erfahrung" hidden>
+          <legend class="cform__legend">Beruf &amp; Erfahrung</legend>
+
+          <div class="cform__row">
+            <div class="cform__field">
+              <label for="g-occupation">Was machst du aktuell beruflich? <span class="req">*</span></label>
+              <select id="g-occupation" name="occupation" required>
+                <option value="">Bitte wählen</option>
+                <option>Angestellt</option>
+                <option>Selbstständig</option>
+                <option>Unternehmer/in</option>
+                <option>Investor/in</option>
+                <option>Gastronom/in</option>
+                <option>Student/in</option>
+                <option>Sonstiges</option>
+              </select>
+            </div>
+            <div class="cform__field">
+              <label for="g-job">Aktuelle Tätigkeit</label>
+              <input type="text" id="g-job" name="job" />
+            </div>
+          </div>
+
+          <!-- only shown when "Sonstiges" is picked above (js/dein-store.js) -->
+          <div class="cform__field" id="occupationOtherWrap" hidden>
+            <label for="g-occupation-other">Bitte kurz beschreiben</label>
+            <input type="text" id="g-occupation-other" name="occupationOther" />
           </div>
 
           <div class="cform__row">
             <div class="cform__field">
-              <label for="g-gastro">Hast du Erfahrung in Gastronomie?</label>
+              <label for="g-gastro">Wie viel Erfahrung hast du bereits in Gastronomie oder Franchise?</label>
               <select id="g-gastro" name="gastro">
                 <option value="">Bitte wählen</option>
-                <option>Ja</option>
-                <option>Nein</option>
+                <option>Keine Erfahrung</option>
+                <option>Unter 1 Jahr</option>
+                <option>1–3 Jahre</option>
+                <option>3–5 Jahre</option>
+                <option>5–10 Jahre</option>
+                <option>Über 10 Jahre</option>
               </select>
             </div>
             <div class="cform__field">
@@ -181,7 +184,7 @@
           </div>
 
           <div class="cform__field">
-            <label for="g-gastro-text">Wenn ja: Kurze Beschreibung der Gastronomie-Erfahrung</label>
+            <label for="g-gastro-text">Erzähl uns kurz von deiner bisherigen Erfahrung.</label>
             <textarea id="g-gastro-text" name="gastroText" rows="3"></textarea>
           </div>
 
@@ -191,12 +194,53 @@
           </div>
         </fieldset>
 
-        <fieldset class="cform__group">
-          <legend class="cform__legend">Finanzierung &amp; Zeitplan</legend>
+        <!-- SCHRITT 4 -->
+        <fieldset class="cform__group fstep" data-step="4" data-title="Dein MOTO PIZZA Vorhaben" hidden>
+          <legend class="cform__legend">Dein MOTO PIZZA Vorhaben</legend>
+
+          <div class="cform__field">
+            <label for="g-storetype">Möchtest du …</label>
+            <select id="g-storetype" name="storeType">
+              <option value="">Bitte wählen</option>
+              <option>Einen neuen MOTO PIZZA Store eröffnen</option>
+              <option>Einen bestehenden Gastronomiebetrieb umwandeln</option>
+              <option>Noch unentschlossen</option>
+            </select>
+          </div>
+
+          <div class="cform__field">
+            <label for="g-multistore">Planst du, in Zukunft mehrere MOTO PIZZA Standorte zu eröffnen? <span class="req">*</span></label>
+            <select id="g-multistore" name="multiStore" required>
+              <option value="">Bitte wählen</option>
+              <option>Ja, definitiv</option>
+              <option>Ja, wenn der erste Standort erfolgreich läuft</option>
+              <option>Vielleicht später</option>
+              <option>Nein, aktuell nur einen Standort</option>
+              <option>Noch offen</option>
+            </select>
+          </div>
+
+          <div class="cform__field">
+            <label for="g-weeklyhours">Wie viel Zeit kannst du realistisch pro Woche für deinen MOTO PIZZA Store aufbringen? <span class="req">*</span></label>
+            <select id="g-weeklyhours" name="weeklyHours" required>
+              <option value="">Bitte wählen</option>
+              <option>Unter 10 Stunden</option>
+              <option>10–20 Stunden</option>
+              <option>20–30 Stunden</option>
+              <option>30–40 Stunden</option>
+              <option>Vollzeit / 40+ Stunden</option>
+              <option>Ich möchte den Store durch einen Geschäftsführer betreiben lassen</option>
+            </select>
+          </div>
+        </fieldset>
+
+        <!-- SCHRITT 5 -->
+        <fieldset class="cform__group fstep" data-step="5" data-title="Kapital &amp; Zeitplan" hidden>
+          <legend class="cform__legend">Kapital &amp; Zeitplan</legend>
 
           <div class="cform__row">
             <div class="cform__field">
-              <label for="g-capital">Wie viel Eigenkapital kannst du für deinen MOTO PIZZA Store voraussichtlich einsetzen?</label>
+              <label for="g-capital">Wie viel Eigenkapital steht dir aktuell für den Start zur Verfügung?</label>
               <select id="g-capital" name="capital">
                 <option value="">Bitte wählen</option>
                 <option>Unter 25.000 €</option>
@@ -209,14 +253,14 @@
               </select>
             </div>
             <div class="cform__field">
-              <label for="g-timeline">Wann möchtest du ungefähr eröffnen?</label>
+              <label for="g-timeline">Wann würdest du am liebsten mit deinem MOTO PIZZA Store starten?</label>
               <select id="g-timeline" name="timeline">
                 <option value="">Bitte wählen</option>
                 <option>So schnell wie möglich</option>
                 <option>Innerhalb von 3 Monaten</option>
-                <option>3–6 Monate</option>
-                <option>6–12 Monate</option>
-                <option>Mehr als 12 Monate</option>
+                <option>In 3–6 Monaten</option>
+                <option>In 6–12 Monaten</option>
+                <option>In 12–24 Monaten</option>
                 <option>Noch offen</option>
               </select>
             </div>
@@ -233,8 +277,21 @@
           </div>
         </fieldset>
 
-        <fieldset class="cform__group">
-          <legend class="cform__legend">Deine Motivation</legend>
+        <!-- SCHRITT 6 -->
+        <fieldset class="cform__group fstep" data-step="6" data-title="Motivation" hidden>
+          <legend class="cform__legend">Motivation</legend>
+
+          <div class="cform__field">
+            <label for="g-interest">Wie hoch ist aktuell dein Interesse daran, MOTO PIZZA Franchise-Partner zu werden?</label>
+            <select id="g-interest" name="interest">
+              <option value="">Bitte wählen</option>
+              <option>Ich informiere mich zunächst</option>
+              <option>Ich bin interessiert</option>
+              <option>Ich bin sehr interessiert</option>
+              <option>Ich möchte konkret einen Standort eröffnen</option>
+              <option>Ich möchte so schnell wie möglich starten</option>
+            </select>
+          </div>
 
           <div class="cform__field">
             <label for="g-why">Warum möchtest du MOTO PIZZA Franchise-Partner werden? <span class="req">*</span></label>
@@ -247,8 +304,30 @@
           </div>
         </fieldset>
 
-        <fieldset class="cform__group">
-          <legend class="cform__legend">Unterlagen</legend>
+        <!-- SCHRITT 7 -->
+        <fieldset class="cform__group fstep" data-step="7" data-title="Kontaktdaten &amp; Unterlagen" hidden>
+          <legend class="cform__legend">Kontaktdaten &amp; Unterlagen</legend>
+
+          <div class="cform__field">
+            <label for="g-name">Vor- und Nachname <span class="req">*</span></label>
+            <input type="text" id="g-name" name="name" autocomplete="name" required />
+          </div>
+
+          <div class="cform__row">
+            <div class="cform__field">
+              <label for="g-email">E-Mail <span class="req">*</span></label>
+              <input type="email" id="g-email" name="email" autocomplete="email" required />
+            </div>
+            <div class="cform__field">
+              <label for="g-phone">Telefonnummer <span class="req">*</span></label>
+              <input type="tel" id="g-phone" name="phone" autocomplete="tel" required />
+            </div>
+          </div>
+
+          <div class="cform__field">
+            <label for="g-address">Adresse</label>
+            <input type="text" id="g-address" name="address" autocomplete="street-address" />
+          </div>
 
           <div class="cform__field">
             <label for="g-docs">Unterlagen / Standortunterlagen hochladen <span class="cform__optional">(optional)</span></label>
@@ -256,28 +335,31 @@
             <p class="cform__hint" id="docsHint">PDF, DOC/DOCX, JPG oder PNG, max. 4 MB.</p>
             <p class="cform__hint cform__hint--muted">Optional: Businessplan, Standort-Exposé, Grundriss, Fotos oder sonstige relevante Unterlagen.</p>
           </div>
+
+          <div class="cform__checks">
+            <label class="cform__check">
+              <input type="checkbox" id="g-copy" name="copy" />
+              <span>Ich möchte eine Kopie meiner Anfrage per E-Mail erhalten.</span>
+            </label>
+
+            <label class="cform__check">
+              <input type="checkbox" id="g-consent" name="consent" required />
+              <span>Ich bestätige, dass meine Angaben zur Bearbeitung meiner Franchise-Anfrage verwendet werden dürfen. <span class="req">*</span></span>
+            </label>
+          </div>
         </fieldset>
 
-        <div class="cform__checks">
-          <label class="cform__check">
-            <input type="checkbox" id="g-copy" name="copy" />
-            <span>Ich möchte eine Kopie meiner Anfrage per E-Mail erhalten.</span>
-          </label>
-
-          <label class="cform__check">
-            <input type="checkbox" id="g-consent" name="consent" required />
-            <span>Ich bestätige, dass meine Angaben zur Bearbeitung meiner Franchise-Anfrage verwendet werden dürfen. <span class="req">*</span></span>
-          </label>
+        <div class="fsteps__nav">
+          <button type="button" class="btn btn--ghost fsteps__back" id="stepBack" hidden>Zurück</button>
+          <button type="button" class="btn btn--solid btn--big fsteps__next" id="stepNext">Weiter</button>
+          <button type="submit" class="btn btn--solid btn--big cform__submit" id="stepSubmit" hidden>Franchise-Anfrage absenden</button>
         </div>
-
-        <button type="submit" class="btn btn--solid btn--big cform__submit">Franchise-Anfrage absenden</button>
 
         <p class="career-form__status career-form__status--result" id="franchiseStatus" role="status" aria-live="polite" hidden></p>
       </form>
     </div>
   </section>
 </main>
-
 
 <script src="js/dein-store.js"></script>
 </body>

@@ -1,26 +1,24 @@
 /* ==========================================================================
-   MOTO PIZZA — Karriere page behaviour
+   MOTO PIZZA — Dein Store (Franchise) page behaviour
 
-   Sends the application to netlify/functions/apply.js, which forwards it to
-   the existing Airtable base. Nothing secret lives here: the browser only ever
-   talks to our own /api/franchise, never to Airtable, so no token is exposed.
+   Deliberately a separate file from js/karriere.js: the careers form is live
+   and working, and nothing here should be able to reach it. Own endpoint
+   (/api/franchise), own Airtable table. Nothing secret lives here — the
+   browser only ever talks to our own route, never to Airtable.
 
-   The submit path is deliberately pessimistic — a success message is shown
-   only when the function confirms the record was created. Every other outcome
-   (network error, function error, Airtable rejection) says so plainly, because
-   an applicant who believes they applied and did not is worse off than one who
-   sees an error and tries again.
+   Seven-step flow. Every step stays in the DOM and is only hidden, so moving
+   back and forth never discards an entry and one FormData at the end still
+   sees every field. Advancing validates just that step's required fields;
+   submitting re-checks all of them and jumps back to the first step that
+   fails, because a hidden invalid field can otherwise block a submit with no
+   visible explanation.
    ========================================================================== */
 
 const API_ENDPOINT = "/api/franchise";
-/* keep in sync with MAX_CV_BYTES in netlify/functions/apply.js — Netlify caps a
-   request at 6 MB and base64 adds ~33%, so 4 MB of file is the safe ceiling */
-const MAX_CV_BYTES = 4 * 1024 * 1024;
+/* keep in sync with MAX_DOC_BYTES in netlify/functions/franchise.js — Netlify
+   caps a request at 6 MB and base64 adds ~33%, so 4 MB of file is the ceiling */
+const MAX_DOC_BYTES = 4 * 1024 * 1024;
 
-/* Browsers frequently report an empty type for .doc/.docx (and sometimes for
-   files dragged in from cloud storage), which would reach Airtable as
-   application/octet-stream and show up there as a typeless blob. Fall back to
-   the extension so the attachment keeps its real content type. */
 const MIME_BY_EXT = {
   pdf: "application/pdf",
   doc: "application/msword",
@@ -30,6 +28,8 @@ const MIME_BY_EXT = {
   jpeg: "image/jpeg",
 };
 
+/* browsers often report an empty type for .doc/.docx; fall back to the
+   extension so the attachment keeps its real content type in Airtable */
 function contentTypeOf(file) {
   if (file.type) return file.type;
   const ext = file.name.split(".").pop().toLowerCase();
@@ -52,11 +52,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("franchiseForm");
   if (!form) return;
 
+  const steps = [...form.querySelectorAll(".fstep")];
+  const backBtn = document.getElementById("stepBack");
+  const nextBtn = document.getElementById("stepNext");
+  const submitBtn = document.getElementById("stepSubmit");
+  const nowEl = document.getElementById("stepNow");
+  const nameEl = document.getElementById("stepName");
+  const fillEl = document.getElementById("stepFill");
+  const bar = fillEl.parentElement;
   const status = document.getElementById("franchiseStatus");
-  const submit = form.querySelector(".cform__submit");
   const file = document.getElementById("g-docs");
   const hint = document.getElementById("docsHint");
   const defaultHint = hint ? hint.textContent : "";
+
+  document.getElementById("stepTotal").textContent = String(steps.length);
+  let current = 0;
 
   const show = (kind, html) => {
     status.hidden = false;
@@ -65,8 +75,61 @@ document.addEventListener("DOMContentLoaded", () => {
     status.scrollIntoView({ block: "center", behavior: "smooth" });
   };
 
-  /* echo the chosen file back — a bare file input gives almost no feedback on
-     mobile — and reject anything over the ceiling before it is ever encoded */
+  function render(scroll) {
+    steps.forEach((s, i) => { s.hidden = i !== current; });
+    const step = steps[current];
+    nowEl.textContent = String(current + 1);
+    nameEl.textContent = step.dataset.title;
+    fillEl.style.width = `${((current + 1) / steps.length) * 100}%`;
+    bar.setAttribute("aria-valuenow", String(current + 1));
+
+    backBtn.hidden = current === 0;
+    const last = current === steps.length - 1;
+    nextBtn.hidden = last;
+    submitBtn.hidden = !last;
+
+    if (scroll) {
+      document.querySelector(".fsteps__head").scrollIntoView({ block: "start", behavior: "smooth" });
+    }
+  }
+
+  /* Validate one step only. reportValidity() on the offending field gives the
+     browser's own message, which needs the field visible — it is, because we
+     never leave the step we are checking. */
+  function validateStep(index) {
+    for (const field of steps[index].querySelectorAll("[required]")) {
+      if (!field.checkValidity()) {
+        field.reportValidity();
+        return false;
+      }
+    }
+    return true;
+  }
+
+  nextBtn.addEventListener("click", () => {
+    if (!validateStep(current)) return;
+    if (current < steps.length - 1) { current++; render(true); }
+  });
+
+  backBtn.addEventListener("click", () => {
+    if (current > 0) { current--; render(true); }
+  });
+
+  /* the free-text box only matters when "Sonstiges" is the answer */
+  const occupation = document.getElementById("g-occupation");
+  const otherWrap = document.getElementById("occupationOtherWrap");
+  if (occupation && otherWrap) {
+    const sync = () => {
+      const isOther = occupation.value === "Sonstiges";
+      otherWrap.hidden = !isOther;
+      if (!isOther) document.getElementById("g-occupation-other").value = "";
+    };
+    occupation.addEventListener("change", sync);
+    sync();
+  }
+
+  /* echo the chosen file back and reject anything over the ceiling before it
+     is ever encoded */
   if (file && hint) {
     file.addEventListener("change", () => {
       const picked = file.files && file.files[0];
@@ -75,7 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
         hint.classList.remove("cform__hint--picked", "cform__hint--error");
         return;
       }
-      const tooBig = picked.size > MAX_CV_BYTES;
+      const tooBig = picked.size > MAX_DOC_BYTES;
       hint.textContent = tooBig
         ? `„${picked.name}“ ist ${(picked.size / 1024 / 1024).toFixed(1)} MB — bitte eine Datei bis 4 MB wählen.`
         : `Ausgewählt: ${picked.name}`;
@@ -87,19 +150,26 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    /* the form carries `novalidate` so the browser doesn't block on its own
-       bubbles; reportValidity() runs the very same checks explicitly */
-    if (!form.reportValidity()) return;
+    // re-check every step; jump to the first one that fails so the user sees why
+    for (let i = 0; i < steps.length; i++) {
+      const bad = [...steps[i].querySelectorAll("[required]")].find((f) => !f.checkValidity());
+      if (bad) {
+        current = i;
+        render(true);
+        bad.reportValidity();
+        return;
+      }
+    }
 
     const picked = file && file.files && file.files[0];
-    if (picked && picked.size > MAX_CV_BYTES) {
+    if (picked && picked.size > MAX_DOC_BYTES) {
       show("error", "Die Datei ist zu groß (max. 4 MB). Bitte wähle eine kleinere Datei.");
       return;
     }
 
-    submit.disabled = true;
-    const label = submit.textContent;
-    submit.textContent = "Wird gesendet …";
+    submitBtn.disabled = true;
+    const label = submitBtn.textContent;
+    submitBtn.textContent = "Wird gesendet …";
     status.hidden = true;
 
     try {
@@ -112,6 +182,9 @@ document.addEventListener("DOMContentLoaded", () => {
         region: data.region,
         why: data.why,
         whyCity: data.whyCity,
+        occupation: data.occupation,
+        multiStore: data.multiStore,
+        weeklyHours: data.weeklyHours,
         consent: Boolean(data.consent),
         address: data.address || "",
         birthdate: data.birthdate || "",
@@ -120,6 +193,7 @@ document.addEventListener("DOMContentLoaded", () => {
         storeSize: data.storeSize || "",
         locationDetails: data.locationDetails || "",
         storeType: data.storeType || "",
+        occupationOther: data.occupationOther || "",
         job: data.job || "",
         gastro: data.gastro || "",
         gastroText: data.gastroText || "",
@@ -128,6 +202,7 @@ document.addEventListener("DOMContentLoaded", () => {
         capital: data.capital || "",
         financing: data.financing || "",
         timeline: data.timeline || "",
+        interest: data.interest || "",
         copy: Boolean(data.copy),
       };
       if (picked) {
@@ -157,7 +232,14 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // record exists — but say so honestly if the CV did not make it
+      const reset = () => {
+        form.reset();
+        if (hint) { hint.textContent = defaultHint; hint.className = "cform__hint"; }
+        if (otherWrap) otherWrap.hidden = true;
+        current = 0;
+        render(false);
+      };
+
       if (result.attachment === "failed" || result.attachment === "too_large") {
         show(
           "partial",
@@ -165,8 +247,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "Deine Unterlagen konnten allerdings nicht mit übertragen werden — bitte sende sie uns " +
             "kurz per E-Mail nach. Alle übrigen Angaben liegen uns vor."
         );
-        form.reset();
-        if (hint) { hint.textContent = defaultHint; hint.className = "cform__hint"; }
+        reset();
         return;
       }
 
@@ -176,8 +257,7 @@ document.addEventListener("DOMContentLoaded", () => {
           "Deine Franchise-Anfrage wurde erfolgreich übermittelt. " +
           "Wir prüfen deine Angaben und melden uns persönlich bei dir."
       );
-      form.reset();
-      if (hint) { hint.textContent = defaultHint; hint.className = "cform__hint"; }
+      reset();
     } catch (err) {
       console.error(err);
       show(
@@ -186,8 +266,10 @@ document.addEventListener("DOMContentLoaded", () => {
           "Bitte prüfe deine Internetverbindung und versuche es erneut. Deine Eingaben stehen noch im Formular."
       );
     } finally {
-      submit.disabled = false;
-      submit.textContent = label;
+      submitBtn.disabled = false;
+      submitBtn.textContent = label;
     }
   });
+
+  render(false);
 });
