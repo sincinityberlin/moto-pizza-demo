@@ -11,3 +11,10 @@
   from = "/api/apply"
   to = "/.netlify/functions/apply"
   status = 200
+
+# franchise enquiries — separate endpoint and separate Airtable table, so the
+# careers route above stays untouched
+[[redirects]]
+  from = "/api/franchise"
+  to = "/.netlify/functions/franchise"
+  status = 200

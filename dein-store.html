@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Dein Store — MOTO PIZZA</title>
+<link rel="icon" href="assets/images/logo.png" />
+<!-- Reuses css/style.css wholesale and the very same classes the Karriere page
+     uses (.career, .career-form, .cform*) — no new design, no new colours. -->
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="page-subpage">
+
+<header class="subpage__nav">
+  <div class="subpage__nav-inner">
+    <a href="index.html" class="subpage__logo-link" aria-label="Zurück zur Startseite">
+      <img src="assets/images/logo.png" alt="MOTO PIZZA" class="subpage__logo" />
+    </a>
+    <a href="index.html" class="subpage__back">
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M15 4l-8 8 8 8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Zurück zur Startseite
+    </a>
+  </div>
+</header>
+
+<main class="subpage">
+
+  <!-- ---- intro ---- -->
+  <section class="career" data-section="franchise">
+    <div class="career__inner">
+      <p class="subpage__kicker">Dein Store</p>
+      <h1 class="subpage__title career__title">DEIN&nbsp;MOTO.<br /><span class="hl hl--pink">DEIN&nbsp;STORE.</span></h1>
+      <p class="career__lede">
+        Du willst nicht nur Pizza verkaufen, sondern deinen eigenen MOTO PIZZA Store
+        aufbauen? Werde Franchise-Partner und bring Detroit Style Pizza gemeinsam
+        mit uns an deinen Standort.
+      </p>
+      <a href="#franchise-bewerbung" class="btn btn--solid btn--big career__cta">Jetzt als Franchise-Partner bewerben</a>
+    </div>
+  </section>
+
+  <!-- ---- franchise application form ----
+       Own endpoint (/api/franchise) and own Airtable table so franchise
+       enquiries never mix with the staff applications. The careers form and its
+       function are untouched. -->
+  <section class="career-form" id="franchise-bewerbung" data-section="franchise-bewerbung">
+    <div class="career-form__inner">
+      <h2 class="career-form__title">WERDE MOTO PIZZA<br />FRANCHISE-PARTNER</h2>
+      <p class="career-form__note">Mit <span class="req">*</span> markierte Felder sind Pflichtfelder.</p>
+
+      <form class="cform" id="franchiseForm" novalidate>
+
+        <fieldset class="cform__group">
+          <legend class="cform__legend">Persönliche Daten</legend>
+
+          <div class="cform__field">
+            <label for="g-name">Vor- und Nachname <span class="req">*</span></label>
+            <input type="text" id="g-name" name="name" autocomplete="name" required />
+          </div>
+
+          <div class="cform__row">
+            <div class="cform__field">
+              <label for="g-email">E-Mail <span class="req">*</span></label>
+              <input type="email" id="g-email" name="email" autocomplete="email" required />
+            </div>
+            <div class="cform__field">
+              <label for="g-phone">Telefonnummer <span class="req">*</span></label>
+              <input type="tel" id="g-phone" name="phone" autocomplete="tel" required />
+            </div>
+          </div>
+
+          <div class="cform__field">
+            <label for="g-address">Adresse</label>
+            <input type="text" id="g-address" name="address" autocomplete="street-address" />
+          </div>
+
+          <div class="cform__row">
+            <div class="cform__field">
+              <label for="g-city">Wohnort <span class="req">*</span></label>
+              <input type="text" id="g-city" name="city" autocomplete="address-level2" required />
+            </div>
+            <div class="cform__field">
+              <label for="g-age">Alter</label>
+              <input type="text" id="g-age" name="age" inputmode="numeric" />
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="cform__group">
+          <legend class="cform__legend">Franchise</legend>
+
+          <div class="cform__field">
+            <label for="g-region">Wunschstadt / Wunschregion <span class="req">*</span></label>
+            <input type="text" id="g-region" name="region" required />
+          </div>
+
+          <div class="cform__field">
+            <label for="g-haslocation">Hast du bereits einen möglichen Standort?</label>
+            <select id="g-haslocation" name="hasLocation">
+              <option value="">Bitte wählen</option>
+              <option>Ja</option>
+              <option>Nein</option>
+              <option>Ich bin aktuell auf Standortsuche</option>
+            </select>
+          </div>
+
+          <div class="cform__field">
+            <label for="g-location">Wenn ja: Adresse / Beschreibung des Standortes</label>
+            <textarea id="g-location" name="locationDetails" rows="3"></textarea>
+          </div>
+
+          <div class="cform__field">
+            <label for="g-storetype">Möchtest du …</label>
+            <select id="g-storetype" name="storeType">
+              <option value="">Bitte wählen</option>
+              <option>Einen neuen MOTO PIZZA Store eröffnen</option>
+              <option>Einen bestehenden Gastronomiebetrieb umwandeln</option>
+              <option>Noch unentschlossen</option>
+            </select>
+          </div>
+        </fieldset>
+
+        <fieldset class="cform__group">
+          <legend class="cform__legend">Beruflicher Hintergrund</legend>
+
+          <div class="cform__field">
+            <label for="g-job">Aktuelle Tätigkeit</label>
+            <input type="text" id="g-job" name="job" />
+          </div>
+
+          <div class="cform__field">
+            <label for="g-gastro">Hast du Erfahrung in Gastronomie?</label>
+            <select id="g-gastro" name="gastro">
+              <option value="">Bitte wählen</option>
+              <option>Ja</option>
+              <option>Nein</option>
+            </select>
+          </div>
+
+          <div class="cform__field">
+            <label for="g-gastro-text">Wenn ja: Kurze Beschreibung der Erfahrung</label>
+            <textarea id="g-gastro-text" name="gastroText" rows="3"></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset class="cform__group">
+          <legend class="cform__legend">Finanzierung</legend>
+
+          <div class="cform__field">
+            <label for="g-capital">Wie viel Eigenkapital steht ungefähr zur Verfügung?</label>
+            <select id="g-capital" name="capital">
+              <option value="">Bitte wählen</option>
+              <option>Unter 25.000 €</option>
+              <option>25.000–50.000 €</option>
+              <option>50.000–100.000 €</option>
+              <option>100.000–150.000 €</option>
+              <option>Über 150.000 €</option>
+              <option>Möchte ich persönlich besprechen</option>
+            </select>
+          </div>
+        </fieldset>
+
+        <fieldset class="cform__group">
+          <legend class="cform__legend">Zeitplan</legend>
+
+          <div class="cform__field">
+            <label for="g-timeline">Wann möchtest du ungefähr eröffnen?</label>
+            <select id="g-timeline" name="timeline">
+              <option value="">Bitte wählen</option>
+              <option>So schnell wie möglich</option>
+              <option>Innerhalb von 3–6 Monaten</option>
+              <option>Innerhalb von 6–12 Monaten</option>
+              <option>In mehr als 12 Monaten</option>
+              <option>Noch offen</option>
+            </select>
+          </div>
+        </fieldset>
+
+        <fieldset class="cform__group">
+          <legend class="cform__legend">Weitere Informationen</legend>
+
+          <div class="cform__field">
+            <label for="g-why">Warum möchtest du MOTO PIZZA Franchise-Partner werden?</label>
+            <textarea id="g-why" name="why" rows="5"></textarea>
+          </div>
+
+          <div class="cform__field">
+            <label for="g-docs">Unterlagen / Standortunterlagen hochladen <span class="cform__optional">(optional)</span></label>
+            <input type="file" id="g-docs" name="docs" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
+            <p class="cform__hint" id="docsHint">PDF, DOC/DOCX, JPG oder PNG, max. 4 MB.</p>
+          </div>
+        </fieldset>
+
+        <div class="cform__checks">
+          <label class="cform__check">
+            <input type="checkbox" id="g-copy" name="copy" />
+            <span>Ich möchte eine Kopie meiner Anfrage per E-Mail erhalten.</span>
+          </label>
+
+          <label class="cform__check">
+            <input type="checkbox" id="g-consent" name="consent" required />
+            <span>Ich bestätige, dass meine Angaben zur Bearbeitung meiner Franchise-Anfrage verwendet werden dürfen. <span class="req">*</span></span>
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn--solid btn--big cform__submit">Franchise-Bewerbung absenden</button>
+
+        <p class="career-form__status career-form__status--result" id="franchiseStatus" role="status" aria-live="polite" hidden></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="subpage__footer">
+  <p>Lokale Demo-Website — nicht veröffentlicht.</p>
+</footer>
+
+<script src="js/dein-store.js"></script>
+</body>
+</html>
