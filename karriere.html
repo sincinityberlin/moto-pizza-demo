@@ -39,21 +39,21 @@
   </section>
 
   <!-- ---- application form ----
-       No action/method on purpose: this site is static (GitHub Pages) with no
-       backend, so there is nowhere for a submission to go yet. js/karriere.js
-       intercepts submit, runs the browser's own validation so required fields
-       still behave correctly, and then says plainly that dispatch is not set
-       up — it never pretends an application was sent. Wiring this to a real
-       recipient is a one-line `action` change once a form service is chosen. -->
+       Submitted by js/karriere.js to /api/apply (netlify/functions/apply.js),
+       which writes into the existing Airtable base server-side. No action/method
+       here on purpose: the fetch lets us tell a clean success apart from
+       "record saved but the CV failed" and from an outright error, so a success
+       message is only ever shown when the record really was created.
+       REMOVE the notice below once the Netlify deploy is live with its
+       environment variables set — until then /api/apply does not exist. -->
   <section class="career-form" id="bewerbung" data-section="bewerbung">
     <div class="career-form__inner">
       <h2 class="career-form__title">BEWERBUNGSFORMULAR</h2>
       <p class="career-form__note">Mit <span class="req">*</span> markierte Felder sind Pflichtfelder.</p>
 
       <div class="career-form__status career-form__status--setup" role="note">
-        <strong>Hinweis:</strong> Der Versand ist noch nicht eingerichtet — dieses Formular
-        nimmt derzeit keine Bewerbungen entgegen. Bitte bewirb dich bis auf Weiteres
-        telefonisch oder per E-Mail.
+        <strong>Hinweis:</strong> Die Bewerbungsübermittlung wird gerade eingerichtet und ist
+        noch nicht aktiv. Bitte bewirb dich bis auf Weiteres telefonisch oder per E-Mail.
       </div>
 
       <form class="cform" id="applicationForm" novalidate>
@@ -104,12 +104,14 @@
           </div>
 
           <div class="cform__field">
-            <!-- only the one location the site actually lists (see MOTO_INFO in
-                 data/menu.js and the Standort section on index.html) -->
+            <!-- These strings are written verbatim into the Airtable "Standort"
+                 column. If that column is a Single Select, its options must match
+                 these two exactly or Airtable rejects the record. -->
             <label for="f-location">Für welchen Standort möchtest du dich bewerben? <span class="req">*</span></label>
             <select id="f-location" name="location" required>
               <option value="">Bitte wählen</option>
-              <option>Cuvrystraße 49, 10997 Berlin</option>
+              <option>Berlin – Alexanderplatz</option>
+              <option>Berlin – Cuvrystraße 49</option>
             </select>
           </div>
 
@@ -204,7 +206,7 @@
           <div class="cform__field">
             <label for="f-cv">Lebenslauf / Bewerbung hochladen <span class="cform__optional">(optional)</span></label>
             <input type="file" id="f-cv" name="cv" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg" />
-            <p class="cform__hint" id="cvHint">PDF, DOC/DOCX oder Bilddatei.</p>
+            <p class="cform__hint" id="cvHint">PDF, DOC/DOCX oder Bilddatei, max. 4 MB.</p>
           </div>
         </fieldset>
 

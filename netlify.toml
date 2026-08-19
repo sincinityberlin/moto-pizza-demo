@@ -1,0 +1,13 @@
+# Netlify build settings for the MOTO PIZZA site.
+# The site is plain static HTML — nothing to build, so publish is the repo root
+# and the only server-side piece is netlify/functions/apply.js.
+
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+# friendlier path for the form: /api/apply instead of /.netlify/functions/apply
+[[redirects]]
+  from = "/api/apply"
+  to = "/.netlify/functions/apply"
+  status = 200

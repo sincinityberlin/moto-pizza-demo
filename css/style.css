@@ -1353,6 +1353,18 @@ body {
 .career-form__status--setup { margin-bottom: 36px; }
 .career-form__status--result { margin-top: 24px; border-left-color: var(--pink); }
 
+/* Submit outcomes. Three states, all drawn from the existing token set — no
+   new colours introduced: blue for a clean success, the crust orange for
+   "record saved but the CV did not make it", pink for an outright failure.
+   The rail colour is the only thing that differs, so the box keeps the same
+   shape and weight it already had. */
+.career-form__status--success { border-left-color: var(--blue); }
+.career-form__status--partial { border-left-color: var(--crust); }
+.career-form__status--error   { border-left-color: var(--pink); }
+.career-form__status strong   { color: var(--ink); }
+
+.cform__hint--error { color: var(--pink-dim); font-weight: 600; }
+
 .cform__group { border: 0; padding: 0; margin: 0 0 38px; }
 .cform__legend {
   font-family: var(--font-head); font-weight: 700;
