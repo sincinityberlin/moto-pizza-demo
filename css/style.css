@@ -1552,3 +1552,89 @@ body {
    Magnetic buttons (JS adds inline transform on mousemove)
    ========================================================================== */
 .magnetic { will-change: transform; }
+
+/* ==========================================================================
+   DEIN STORE / Franchise — tighter, denser variant of the shared form
+   Every rule here is scoped to .page-franchise on <body>. The careers form
+   uses the same .cform classes and must keep its existing rhythm, so nothing
+   above is modified — this only adds an override layer for the one page.
+   ========================================================================== */
+
+/* sections closer together, but still clearly separated */
+.page-franchise .cform__group { margin-bottom: 26px; }
+.page-franchise .cform__field { margin-bottom: 14px; }
+.page-franchise .cform__row { gap: 0 16px; }
+
+/* section headings carry more weight: larger, with a short pink rule that
+   picks up the brand accent without introducing a new colour */
+.page-franchise .cform__legend {
+  font-size: 0.92rem;
+  letter-spacing: 0.14em;
+  color: var(--ink);
+  margin-bottom: 18px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(20, 17, 22, 0.1);
+  position: relative;
+  width: 100%;
+}
+.page-franchise .cform__legend::after {
+  content: "";
+  position: absolute; left: 0; bottom: -1px;
+  width: 42px; height: 2px;
+  background: var(--pink);
+}
+
+/* one uniform control height across inputs, selects and the file field, so a
+   two-column row never looks ragged */
+.page-franchise .cform__field input,
+.page-franchise .cform__field select {
+  height: 48px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.page-franchise .cform__field input[type="file"] {
+  padding-top: 11px;
+  line-height: 24px;
+}
+/* a native date input carries its own intrinsic height (spinner/calendar
+   affordances) and sits ~2px taller than the rest, which shows immediately
+   when it shares a row with a text field — strip the native appearance so it
+   honours the height above */
+.page-franchise .cform__field input[type="date"] {
+  -webkit-appearance: none;
+  appearance: none;
+  min-height: 0;
+}
+/* textareas keep the full column width and a common minimum */
+.page-franchise .cform__field textarea {
+  width: 100%;
+  min-height: 96px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.page-franchise .cform__field label { margin-bottom: 6px; }
+/* labels in a two-column row wrap to different line counts; pinning the field
+   to a grid row bottom keeps both inputs on the same baseline */
+@media (min-width: 620px) {
+  .page-franchise .cform__row { align-items: end; }
+}
+
+.page-franchise .cform__hint--muted {
+  margin-top: 4px;
+  font-size: 0.76rem;
+  color: rgba(20, 17, 22, 0.45);
+  line-height: 1.45;
+}
+
+.page-franchise .cform__checks { margin: 24px 0 28px; }
+
+/* the submit is the one thing that should not shrink — give it more presence */
+.page-franchise .cform__submit {
+  width: 100%;
+  margin-top: 4px;
+  box-shadow: 0 14px 30px -12px rgba(236, 30, 141, 0.6);
+}
+@media (min-width: 620px) {
+  .page-franchise .cform__submit { width: auto; min-width: 320px; }
+}

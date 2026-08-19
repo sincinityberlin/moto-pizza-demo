@@ -27,17 +27,23 @@ const FIELD = {
   phone:       env("FRANCHISE_FIELD_PHONE", "Telefonnummer"),
   address:     env("FRANCHISE_FIELD_ADDRESS", "Adresse"),
   city:        env("FRANCHISE_FIELD_CITY", "Wohnort"),
-  age:         env("FRANCHISE_FIELD_AGE", "Alter"),
+  birthdate:   env("FRANCHISE_FIELD_BIRTHDATE", "Geburtsdatum"),
   region:      env("FRANCHISE_FIELD_REGION", "Wunschregion"),
   hasLocation: env("FRANCHISE_FIELD_HAS_LOCATION", "Standort vorhanden"),
+  locationType:env("FRANCHISE_FIELD_LOCATION_TYPE", "Standortart"),
+  storeSize:   env("FRANCHISE_FIELD_STORE_SIZE", "Storegröße"),
   locationDet: env("FRANCHISE_FIELD_LOCATION_DETAILS", "Standortbeschreibung"),
   storeType:   env("FRANCHISE_FIELD_STORE_TYPE", "Vorhaben"),
   job:         env("FRANCHISE_FIELD_JOB", "Aktuelle Tätigkeit"),
   gastro:      env("FRANCHISE_FIELD_GASTRO", "Gastro-Erfahrung"),
   gastroText:  env("FRANCHISE_FIELD_GASTRO_TEXT", "Erfahrung Beschreibung"),
+  entrepreneur:env("FRANCHISE_FIELD_ENTREPRENEUR", "Unternehmerische Erfahrung"),
+  entrepText:  env("FRANCHISE_FIELD_ENTREPRENEUR_TEXT", "Unternehmerische Erfahrung Beschreibung"),
   capital:     env("FRANCHISE_FIELD_CAPITAL", "Eigenkapital"),
+  financing:   env("FRANCHISE_FIELD_FINANCING", "Zusatzfinanzierung"),
   timeline:    env("FRANCHISE_FIELD_TIMELINE", "Geplanter Start"),
   why:         env("FRANCHISE_FIELD_WHY", "Motivation"),
+  whyCity:     env("FRANCHISE_FIELD_WHY_CITY", "Standort-Potenzial"),
   docs:        env("FRANCHISE_FIELD_DOCS", "Unterlagen"),
   copy:        env("FRANCHISE_FIELD_COPY", "Kopie erwünscht"),
   consent:     env("FRANCHISE_FIELD_CONSENT", "Einwilligung erteilt"),
@@ -77,7 +83,7 @@ export default async (req) => {
     return json(400, { error: "invalid_json" });
   }
 
-  for (const key of ["name", "email", "phone", "city", "region", "consent"]) {
+  for (const key of ["name", "email", "phone", "city", "region", "why", "whyCity", "consent"]) {
     if (!body[key]) return json(400, { error: "missing_field", field: key });
   }
 
@@ -87,17 +93,23 @@ export default async (req) => {
     [FIELD.phone]: clip(body.phone, 100),
     [FIELD.address]: clip(body.address, 500),
     [FIELD.city]: clip(body.city, 200),
-    [FIELD.age]: clip(body.age, 20),
+    [FIELD.birthdate]: clip(body.birthdate, 20),
     [FIELD.region]: clip(body.region, 300),
     [FIELD.hasLocation]: clip(body.hasLocation, 100),
+    [FIELD.locationType]: clip(body.locationType, 100),
+    [FIELD.storeSize]: clip(body.storeSize, 100),
     [FIELD.locationDet]: clip(body.locationDetails, 100000),
     [FIELD.storeType]: clip(body.storeType, 200),
     [FIELD.job]: clip(body.job, 300),
     [FIELD.gastro]: clip(body.gastro, 20),
     [FIELD.gastroText]: clip(body.gastroText, 100000),
+    [FIELD.entrepreneur]: clip(body.entrepreneur, 20),
+    [FIELD.entrepText]: clip(body.entrepreneurText, 100000),
     [FIELD.capital]: clip(body.capital, 100),
+    [FIELD.financing]: clip(body.financing, 100),
     [FIELD.timeline]: clip(body.timeline, 100),
     [FIELD.why]: clip(body.why, 100000),
+    [FIELD.whyCity]: clip(body.whyCity, 100000),
     [FIELD.copy]: Boolean(body.copy),
     [FIELD.consent]: Boolean(body.consent),
   };

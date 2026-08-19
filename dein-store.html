@@ -6,11 +6,13 @@
 <meta name="robots" content="noindex, nofollow" />
 <title>Dein Store — MOTO PIZZA</title>
 <link rel="icon" href="assets/images/logo.png" />
-<!-- Reuses css/style.css wholesale and the very same classes the Karriere page
-     uses (.career, .career-form, .cform*) — no new design, no new colours. -->
+<!-- Reuses css/style.css and the same classes as the Karriere page. The
+     page-franchise class on <body> scopes the tighter spacing and stronger
+     section headings to THIS page only — the careers form keeps its own
+     rhythm untouched. -->
 <link rel="stylesheet" href="css/style.css" />
 </head>
-<body class="page-subpage">
+<body class="page-subpage page-franchise">
 
 <header class="subpage__nav">
   <div class="subpage__nav-inner">
@@ -40,10 +42,10 @@
     </div>
   </section>
 
-  <!-- ---- franchise application form ----
-       Own endpoint (/api/franchise) and own Airtable table so franchise
-       enquiries never mix with the staff applications. The careers form and its
-       function are untouched. -->
+  <!-- ---- franchise enquiry form ----
+       Own endpoint (/api/franchise) and own Airtable table so enquiries never
+       mix with the staff applications. The careers form and its function are
+       untouched. -->
   <section class="career-form" id="franchise-bewerbung" data-section="franchise-bewerbung">
     <div class="career-form__inner">
       <h2 class="career-form__title">WERDE MOTO PIZZA<br />FRANCHISE-PARTNER</h2>
@@ -54,9 +56,15 @@
         <fieldset class="cform__group">
           <legend class="cform__legend">Persönliche Daten</legend>
 
-          <div class="cform__field">
-            <label for="g-name">Vor- und Nachname <span class="req">*</span></label>
-            <input type="text" id="g-name" name="name" autocomplete="name" required />
+          <div class="cform__row">
+            <div class="cform__field">
+              <label for="g-name">Vor- und Nachname <span class="req">*</span></label>
+              <input type="text" id="g-name" name="name" autocomplete="name" required />
+            </div>
+            <div class="cform__field">
+              <label for="g-birthdate">Geburtsdatum</label>
+              <input type="date" id="g-birthdate" name="birthdate" autocomplete="bday" />
+            </div>
           </div>
 
           <div class="cform__row">
@@ -70,19 +78,14 @@
             </div>
           </div>
 
-          <div class="cform__field">
-            <label for="g-address">Adresse</label>
-            <input type="text" id="g-address" name="address" autocomplete="street-address" />
-          </div>
-
           <div class="cform__row">
+            <div class="cform__field">
+              <label for="g-address">Adresse</label>
+              <input type="text" id="g-address" name="address" autocomplete="street-address" />
+            </div>
             <div class="cform__field">
               <label for="g-city">Wohnort <span class="req">*</span></label>
               <input type="text" id="g-city" name="city" autocomplete="address-level2" required />
-            </div>
-            <div class="cform__field">
-              <label for="g-age">Alter</label>
-              <input type="text" id="g-age" name="age" inputmode="numeric" />
             </div>
           </div>
         </fieldset>
@@ -90,24 +93,48 @@
         <fieldset class="cform__group">
           <legend class="cform__legend">Franchise</legend>
 
-          <div class="cform__field">
-            <label for="g-region">Wunschstadt / Wunschregion <span class="req">*</span></label>
-            <input type="text" id="g-region" name="region" required />
+          <div class="cform__row">
+            <div class="cform__field">
+              <label for="g-region">Wunschstadt / Wunschregion <span class="req">*</span></label>
+              <input type="text" id="g-region" name="region" required />
+            </div>
+            <div class="cform__field">
+              <label for="g-haslocation">Hast du bereits einen möglichen Standort?</label>
+              <select id="g-haslocation" name="hasLocation">
+                <option value="">Bitte wählen</option>
+                <option>Ja</option>
+                <option>Nein</option>
+                <option>Ich bin aktuell auf Standortsuche</option>
+              </select>
+            </div>
           </div>
 
-          <div class="cform__field">
-            <label for="g-haslocation">Hast du bereits einen möglichen Standort?</label>
-            <select id="g-haslocation" name="hasLocation">
-              <option value="">Bitte wählen</option>
-              <option>Ja</option>
-              <option>Nein</option>
-              <option>Ich bin aktuell auf Standortsuche</option>
-            </select>
-          </div>
-
-          <div class="cform__field">
-            <label for="g-location">Wenn ja: Adresse / Beschreibung des Standortes</label>
-            <textarea id="g-location" name="locationDetails" rows="3"></textarea>
+          <div class="cform__row">
+            <div class="cform__field">
+              <label for="g-locationtype">Welche Art von Standort stellst du dir vor?</label>
+              <select id="g-locationtype" name="locationType">
+                <option value="">Bitte wählen</option>
+                <option>Innenstadt / Highstreet</option>
+                <option>Einkaufszentrum</option>
+                <option>Food Court</option>
+                <option>Wohngebiet</option>
+                <option>Bahnhof / Verkehrslage</option>
+                <option>Gewerbegebiet</option>
+                <option>Noch offen</option>
+              </select>
+            </div>
+            <div class="cform__field">
+              <label for="g-storesize">Wie groß sollte dein zukünftiger Store ungefähr sein?</label>
+              <select id="g-storesize" name="storeSize">
+                <option value="">Bitte wählen</option>
+                <option>Unter 50 m²</option>
+                <option>50–80 m²</option>
+                <option>80–120 m²</option>
+                <option>120–180 m²</option>
+                <option>Über 180 m²</option>
+                <option>Noch offen</option>
+              </select>
+            </div>
           </div>
 
           <div class="cform__field">
@@ -119,6 +146,11 @@
               <option>Noch unentschlossen</option>
             </select>
           </div>
+
+          <div class="cform__field">
+            <label for="g-location">Wenn ja: Adresse / Beschreibung des Standortes</label>
+            <textarea id="g-location" name="locationDetails" rows="3"></textarea>
+          </div>
         </fieldset>
 
         <fieldset class="cform__group">
@@ -129,66 +161,100 @@
             <input type="text" id="g-job" name="job" />
           </div>
 
+          <div class="cform__row">
+            <div class="cform__field">
+              <label for="g-gastro">Hast du Erfahrung in Gastronomie?</label>
+              <select id="g-gastro" name="gastro">
+                <option value="">Bitte wählen</option>
+                <option>Ja</option>
+                <option>Nein</option>
+              </select>
+            </div>
+            <div class="cform__field">
+              <label for="g-entrepreneur">Erfahrung als Unternehmer oder Selbstständiger?</label>
+              <select id="g-entrepreneur" name="entrepreneur">
+                <option value="">Bitte wählen</option>
+                <option>Ja</option>
+                <option>Nein</option>
+              </select>
+            </div>
+          </div>
+
           <div class="cform__field">
-            <label for="g-gastro">Hast du Erfahrung in Gastronomie?</label>
-            <select id="g-gastro" name="gastro">
+            <label for="g-gastro-text">Wenn ja: Kurze Beschreibung der Gastronomie-Erfahrung</label>
+            <textarea id="g-gastro-text" name="gastroText" rows="3"></textarea>
+          </div>
+
+          <div class="cform__field">
+            <label for="g-entrepreneur-text">Wenn ja: Kurze Beschreibung deiner bisherigen unternehmerischen Erfahrung</label>
+            <textarea id="g-entrepreneur-text" name="entrepreneurText" rows="3"></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset class="cform__group">
+          <legend class="cform__legend">Finanzierung &amp; Zeitplan</legend>
+
+          <div class="cform__row">
+            <div class="cform__field">
+              <label for="g-capital">Wie viel Eigenkapital kannst du für deinen MOTO PIZZA Store voraussichtlich einsetzen?</label>
+              <select id="g-capital" name="capital">
+                <option value="">Bitte wählen</option>
+                <option>Unter 25.000 €</option>
+                <option>25.000–50.000 €</option>
+                <option>50.000–100.000 €</option>
+                <option>100.000–150.000 €</option>
+                <option>150.000–250.000 €</option>
+                <option>Über 250.000 €</option>
+                <option>Möchte ich persönlich besprechen</option>
+              </select>
+            </div>
+            <div class="cform__field">
+              <label for="g-timeline">Wann möchtest du ungefähr eröffnen?</label>
+              <select id="g-timeline" name="timeline">
+                <option value="">Bitte wählen</option>
+                <option>So schnell wie möglich</option>
+                <option>Innerhalb von 3 Monaten</option>
+                <option>3–6 Monate</option>
+                <option>6–12 Monate</option>
+                <option>Mehr als 12 Monate</option>
+                <option>Noch offen</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="cform__field">
+            <label for="g-financing">Ist eine zusätzliche Finanzierung grundsätzlich möglich?</label>
+            <select id="g-financing" name="financing">
               <option value="">Bitte wählen</option>
               <option>Ja</option>
               <option>Nein</option>
-            </select>
-          </div>
-
-          <div class="cform__field">
-            <label for="g-gastro-text">Wenn ja: Kurze Beschreibung der Erfahrung</label>
-            <textarea id="g-gastro-text" name="gastroText" rows="3"></textarea>
-          </div>
-        </fieldset>
-
-        <fieldset class="cform__group">
-          <legend class="cform__legend">Finanzierung</legend>
-
-          <div class="cform__field">
-            <label for="g-capital">Wie viel Eigenkapital steht ungefähr zur Verfügung?</label>
-            <select id="g-capital" name="capital">
-              <option value="">Bitte wählen</option>
-              <option>Unter 25.000 €</option>
-              <option>25.000–50.000 €</option>
-              <option>50.000–100.000 €</option>
-              <option>100.000–150.000 €</option>
-              <option>Über 150.000 €</option>
-              <option>Möchte ich persönlich besprechen</option>
+              <option>Noch offen / muss geprüft werden</option>
             </select>
           </div>
         </fieldset>
 
         <fieldset class="cform__group">
-          <legend class="cform__legend">Zeitplan</legend>
+          <legend class="cform__legend">Deine Motivation</legend>
 
           <div class="cform__field">
-            <label for="g-timeline">Wann möchtest du ungefähr eröffnen?</label>
-            <select id="g-timeline" name="timeline">
-              <option value="">Bitte wählen</option>
-              <option>So schnell wie möglich</option>
-              <option>Innerhalb von 3–6 Monaten</option>
-              <option>Innerhalb von 6–12 Monaten</option>
-              <option>In mehr als 12 Monaten</option>
-              <option>Noch offen</option>
-            </select>
+            <label for="g-why">Warum möchtest du MOTO PIZZA Franchise-Partner werden? <span class="req">*</span></label>
+            <textarea id="g-why" name="why" rows="4" required></textarea>
+          </div>
+
+          <div class="cform__field">
+            <label for="g-whycity">Warum glaubst du, dass MOTO PIZZA in deiner Wunschstadt funktionieren würde? <span class="req">*</span></label>
+            <textarea id="g-whycity" name="whyCity" rows="4" required></textarea>
           </div>
         </fieldset>
 
         <fieldset class="cform__group">
-          <legend class="cform__legend">Weitere Informationen</legend>
-
-          <div class="cform__field">
-            <label for="g-why">Warum möchtest du MOTO PIZZA Franchise-Partner werden?</label>
-            <textarea id="g-why" name="why" rows="5"></textarea>
-          </div>
+          <legend class="cform__legend">Unterlagen</legend>
 
           <div class="cform__field">
             <label for="g-docs">Unterlagen / Standortunterlagen hochladen <span class="cform__optional">(optional)</span></label>
             <input type="file" id="g-docs" name="docs" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
             <p class="cform__hint" id="docsHint">PDF, DOC/DOCX, JPG oder PNG, max. 4 MB.</p>
+            <p class="cform__hint cform__hint--muted">Optional: Businessplan, Standort-Exposé, Grundriss, Fotos oder sonstige relevante Unterlagen.</p>
           </div>
         </fieldset>
 
@@ -204,7 +270,7 @@
           </label>
         </div>
 
-        <button type="submit" class="btn btn--solid btn--big cform__submit">Franchise-Bewerbung absenden</button>
+        <button type="submit" class="btn btn--solid btn--big cform__submit">Franchise-Anfrage absenden</button>
 
         <p class="career-form__status career-form__status--result" id="franchiseStatus" role="status" aria-live="polite" hidden></p>
       </form>
@@ -212,9 +278,6 @@
   </section>
 </main>
 
-<footer class="subpage__footer">
-  <p>Lokale Demo-Website — nicht veröffentlicht.</p>
-</footer>
 
 <script src="js/dein-store.js"></script>
 </body>
