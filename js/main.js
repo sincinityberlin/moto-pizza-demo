@@ -153,10 +153,14 @@ function initPizzaSelector() {
     // empty top/bottom margins inside the frame and made the pizza itself
     // look small even though the card was big. A frame shaped like the
     // photo lets object-fit:contain fill it edge to edge instead.
-    const ratio = 0.68;
+    // 0.62 (was 0.68) hugs the photo aspect more tightly, so the now much
+    // wider slide does not drag a band of dead pink along with it.
+    const ratio = 0.62;
     const slideHeight = slideWidth * ratio;
 
-    radiusX = contentWidth * 0.56;
+    // wider slides need a wider arc, otherwise the neighbours creep in over
+    // the active pizza instead of sitting clearly behind it
+    radiusX = contentWidth * 0.62;
     radiusY = slideHeight * 0.5;
 
     // track needs room above the base slide height for the arc's rise, plus
@@ -180,9 +184,13 @@ function initPizzaSelector() {
       const x = Math.sin(rad) * radiusX;
       const y = -(1 - Math.cos(rad)) * radiusY; // rises (negative/up) the further from center
       const rotate = reducedMotion ? 0 : Math.max(-16, Math.min(16, offset * -6));
-      const scale = Math.max(1 - abs * 0.22, 0.4);
+      // steeper falloff than before (was 0.22 / min 0.4): the neighbours
+      // give up more size per step, so the depth reads stronger without
+      // scaling the active slide past 1 — upscaling it would only soften
+      // the 1100px source photo.
+      const scale = Math.max(1 - abs * 0.3, 0.34);
       el.style.transform = `translateX(${x}px) translateY(${y}px) rotate(${rotate}deg) scale(${scale})`;
-      el.style.opacity = String(Math.max(1 - abs * 0.34, 0));
+      el.style.opacity = String(Math.max(1 - abs * 0.38, 0));
       el.style.zIndex = String(Math.round(1000 - abs * 10));
     });
   }
@@ -352,13 +360,29 @@ function initPizzaSelector() {
   updatePanel(dataIndexOf(Math.round(pos)), true);
 }
 
-/* ---------- Infinite gallery strip ---------------------------------------- */
+/* ---------- Infinite gallery strip ----------------------------------------
+   Finished campaign photographs, not the cut-out product shots the menu
+   uses: each frame already carries its own pizza, setting and MOTO
+   branding, so the strip is driven by this list rather than by MOTO_MENU.
+   `focus` becomes the CSS object-position — the default centre crop would
+   push the brand element (the car, the shopfront sign) out of a landscape
+   frame, so those two are anchored to the side that carries it. */
+const MOTO_GALLERY = [
+  { file: "lifestyle-01", alt: "MOTO PIZZA am Fensterplatz mit Blick auf das Kottbusser Tor", focus: "50% 50%" },
+  { file: "lifestyle-02", alt: "MOTO PIZZA auf einer Dachbrüstung vor der Berliner Skyline im Sonnenuntergang", focus: "50% 55%" },
+  { file: "lifestyle-03", alt: "MOTO PIZZA an der Spree vor der Oberbaumbrücke", focus: "50% 55%" },
+  { file: "lifestyle-04", alt: "MOTO PIZZA auf einem Holztisch am Skatepark", focus: "50% 55%" },
+  { file: "lifestyle-05", alt: "MOTO PIZZA im pinken Karton vor dem Neonschild des Stores", focus: "50% 45%" },
+  { file: "lifestyle-06", alt: "MOTO PIZZA im pinken Karton vor dem Brandenburger Tor mit dem MOTO Lieferwagen", focus: "50% 50%" },
+];
+
 function renderGallery() {
   const track = document.getElementById("galleryTrack");
-  if (!track || typeof MOTO_MENU === "undefined") return;
+  if (!track) return;
 
-  const items = MOTO_MENU.map(
-    (p) => `<div class="gallery__item"><img src="assets/images/pizza-${p.id}.png" alt="${p.name} Pizza" loading="lazy" /></div>`
+  const items = MOTO_GALLERY.map(
+    (g) =>
+      `<div class="gallery__item"><img src="assets/images/${g.file}.jpg" alt="${g.alt}" style="object-position:${g.focus}" loading="lazy" /></div>`
   ).join("");
 
   // duplicate content once so the CSS -50% loop is seamless
@@ -368,7 +392,10 @@ function renderGallery() {
 /* ---------- Snacks / Getränke product grids ------------------------------
    Shared renderer for both simple product sections (Snacks, Getränke) —
    image + name + tag/flavor + description + price, image filename prefix
-   distinguishes the two (snack-<id>.png / drink-<id>.png). */
+   distinguishes the two (snack-<id>.png / drink-<id>.png).
+   The deposit line is data-driven: only items carrying a `deposit` field
+   render it, so the canned drinks get it while snacks and the bottled
+   Sprudel stay exactly as they were — no per-section branching needed. */
 function renderProductGrid(gridId, items, imgPrefix) {
   const grid = document.getElementById(gridId);
   if (!grid || !items) return;
@@ -386,6 +413,7 @@ function renderProductGrid(gridId, items, imgPrefix) {
         <p class="product-card__desc">${p.desc}</p>
         ${allergenLine(p)}
         <p class="product-card__price${p.price ? "" : " product-card__price--soon"}">${p.price ? p.price + "&nbsp;€" : "Preis folgt"}</p>
+        ${p.deposit ? `<p class="product-card__deposit">zzgl. ${p.deposit}&nbsp;€ Pfand</p>` : ""}
       </div>
     </article>`
     )

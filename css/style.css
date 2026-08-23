@@ -424,6 +424,70 @@ body {
 .hero__actions .btn--ghost { color: var(--white); box-shadow: inset 0 0 0 2px var(--white); }
 .hero__actions .btn--ghost:hover { background: var(--white); color: var(--pink); }
 
+/* ---------- Opening deal --------------------------------------------------
+   Typography on the pink, not a card: no surface, no border, no shadow box.
+   It borrows the hero headline's own devices so it reads as part of the
+   original design rather than an insert — Good Times throughout, white as
+   the primary, MOTO blue as the accent, and the same blue offset the
+   outline headline line above it already uses.
+   Compact by construction: two short lines beside the number instead of a
+   stacked block, so the headline keeps the stage and the pizza gets its
+   room back. Stays a flow element, so it can never cover anything. */
+.hero__promo {
+  position: relative; z-index: 2;
+  margin: clamp(10px, 1.6vw, 18px) auto 0;
+  display: inline-flex; align-items: center;
+  gap: clamp(9px, 1.5vw, 15px);
+  color: var(--white);
+}
+.hero__promo-value {
+  display: inline-flex; align-items: center; gap: 0.16em;
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6.4vw, 3.9rem);
+  line-height: 0.82;
+  letter-spacing: -0.035em;
+  color: var(--white);
+  flex: none;
+  /* the same blue that outlines "CRUNCH IN EVERY BITE." directly above,
+     here as a hard offset — a decal edge, not a drop shadow */
+  text-shadow: 0.045em 0.05em 0 var(--blue);
+}
+.hero__promo-pct { font-size: 0.58em; align-self: flex-start; margin-top: 0.12em; }
+.hero__promo-bolt {
+  width: 0.42em; height: 0.62em; flex: none;
+  fill: var(--blue);
+  transform: translateY(-0.02em);
+  filter: drop-shadow(0 0 6px rgba(22, 163, 230, 0.55));
+}
+/* hairline instead of a rule: white at low alpha reads as a fold in the
+   layout rather than a divider drawn on top of it */
+.hero__promo-copy {
+  display: flex; flex-direction: column; gap: 1px;
+  padding-left: clamp(9px, 1.5vw, 15px);
+  border-left: 1px solid rgba(255, 255, 255, 0.38);
+  text-align: left;
+}
+.hero__promo-head {
+  font-family: var(--font-display);
+  font-size: clamp(0.7rem, 1.45vw, 0.9rem);
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--white);
+  white-space: nowrap;
+}
+.hero__promo-sub {
+  font-family: var(--font-display);
+  font-size: clamp(0.62rem, 1.25vw, 0.78rem);
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--blue);
+  white-space: nowrap;
+}
+@media (max-width: 380px) {
+  .hero__promo { gap: 8px; margin-top: 8px; }
+  .hero__promo-copy { padding-left: 8px; }
+}
+
 .hero__product {
   position: relative;
   z-index: 1;
@@ -554,6 +618,10 @@ body {
   .hero__title span:nth-child(1) { animation: heroLineIn 0.5s var(--ease-bam) 0.15s both; }
   .hero__title span:nth-child(2) { animation: heroLineIn 0.5s var(--ease-bam) 0.26s both; }
 
+  /* slots into the existing beat between the headline (0.15/0.26s) and the
+     pizza (0.78s), so the hero still reads strictly top to bottom */
+  .hero__promo { opacity: 0; animation: heroPromoIn 0.5s var(--ease-bam) 0.45s both; }
+
   .hero__product { opacity: 0; animation: heroPizzaIn 0.62s var(--ease) 0.78s both; }
 
   /* toppings fall/fly in one at a time, only once the pizza has landed —
@@ -593,6 +661,12 @@ body {
 }
 @keyframes heroPizzaIn {
   from { opacity: 0; transform: translateY(64px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+/* one quiet arrival, then it stays put — deliberately no loop, no pulse,
+   no blink: the card earns attention through contrast, not motion */
+@keyframes heroPromoIn {
+  from { opacity: 0; transform: translateY(14px) scale(0.94); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 @keyframes heroActionsIn {
@@ -694,12 +768,16 @@ body {
    pink/blue with the active slide — no dark background, no glow blobs,
    no dot pattern */
 .selector {
-  /* pizza should be the section's clear visual centerpiece. Sized up from
-     the original 66/56/40%; the frame's height/width ratio (js/main.js
-     measure()) was also changed from a square/portrait shape to match the
-     pizza photos' own landscape ratio, so this width increase translates
-     directly into a much bigger pizza, not just a bigger empty card */
-  --slide-w: 92%;
+  /* pizza should be the section's clear visual centerpiece. Sized up twice:
+     first from the original 66/56/40%, then again to today's values so the
+     active pizza reads as the immediate focal point of the whole section.
+     The frame's height/width ratio (js/main.js measure()) matches the pizza
+     photos' own landscape ratio, so a width increase here translates
+     directly into a bigger pizza, not just a bigger empty card.
+     Ceiling: the source PNGs are 1100x665, so on a 2x display the rendered
+     width should stay near/below 550px per 1x to remain pixel-sharp — the
+     desktop value deliberately trades a little of that for presence. */
+  --slide-w: 110%;
   --tone-accent: var(--pink);
   position: relative;
   overflow: hidden;
@@ -708,8 +786,8 @@ body {
   transition: background 0.5s ease, box-shadow 0.5s ease;
   box-shadow: 0 30px 70px -34px color-mix(in srgb, var(--tone-accent) 50%, transparent);
 }
-@media (min-width: 700px)  { .selector { --slide-w: 78%; } }
-@media (min-width: 1000px) { .selector { --slide-w: 58%; padding: 72px 0 56px; } }
+@media (min-width: 700px)  { .selector { --slide-w: 90%; } }
+@media (min-width: 1000px) { .selector { --slide-w: 73%; padding: 72px 0 56px; } }
 
 .selector[data-tone="pink"] { --tone-accent: var(--pink); background: var(--pink); }
 .selector[data-tone="blue"] { --tone-accent: var(--blue); background: var(--blue); }
@@ -760,8 +838,10 @@ body {
 .selector__frame img {
   /* fill almost the whole frame — object-fit:contain guarantees the full
      pizza (all four corners, full crust) stays visible with no crop, no
-     stretch, just a small safety margin against the card edge */
-  max-width: 92%; max-height: 92%;
+     stretch, just a small safety margin against the card edge. 98% rather
+     than the old 92%: the margin only has to keep the drop-shadow off the
+     card edge, and the reclaimed 6% goes straight into pizza size. */
+  max-width: 98%; max-height: 98%;
   width: auto; height: auto;
   object-fit: contain;
   filter: drop-shadow(0 20px 28px rgba(0, 0, 0, 0.25));
@@ -792,10 +872,14 @@ body {
 
 .selector__panel {
   position: relative; z-index: 1;
-  max-width: 640px; margin: 36px auto 0; padding: 0 var(--pad);
+  /* the enlarged pizza sits flush at the track's bottom edge, so the old
+     36px left the index/category lines crowding it — a bigger pizza needs
+     a proportionally bigger gap to keep reading as a separate block */
+  max-width: 640px; margin: 44px auto 0; padding: 0 var(--pad);
   text-align: center; color: var(--white);
   transition: opacity 0.22s ease, transform 0.22s ease;
 }
+@media (min-width: 1000px) { .selector__panel { margin-top: 60px; } }
 .selector__panel.is-changing { opacity: 0; transform: translateY(8px); }
 
 .selector__index {
@@ -851,8 +935,14 @@ body {
 /* Misu is a second, separate concept surfaced inside the Snacks section —
    its logo rides right next to the section title, sized a step below the
    headline's own cap-height so it reads as a guest badge, not a rebrand. */
-.snacks__title-row { display: flex; align-items: center; flex-wrap: wrap; gap: clamp(10px, 2.5vw, 20px); }
-.snacks__misu-logo { height: clamp(53px, 9.6vw, 95px); width: auto; display: block; }
+/* nowrap, not wrap: the badge must stay on the headline's line at every
+   width — dropping to its own line reads as a second heading. To make that
+   safe on narrow phones both items get a lower floor than their shared
+   defaults (title 2.6rem, logo 53px); the upper ends are unchanged, so
+   DESSERT still matches PIZZEN and GETRÄNKE on desktop. */
+.snacks__title-row { display: flex; align-items: center; flex-wrap: nowrap; gap: clamp(10px, 2.5vw, 20px); }
+.snacks__title-row .section-title { flex: none; white-space: nowrap; font-size: clamp(1.85rem, 7vw, 5.2rem); }
+.snacks__misu-logo { flex: none; height: clamp(32px, 9.6vw, 95px); width: auto; display: block; }
 
 .product-card__price.product-card__price--soon { color: rgba(20, 17, 22, 0.45); font-family: var(--font-body); font-size: 0.95rem; font-weight: 600; }
 
@@ -931,6 +1021,15 @@ body {
   font-family: var(--font-display); font-size: 1.2rem; color: var(--pink);
   margin-top: auto;
 }
+/* deposit sits under the price as a quiet footnote — body face, not the
+   display face, and the same muted ink as the description, so it reads as
+   fine print rather than a second price. `margin-top: auto` above already
+   pinned the price to the card's bottom; this line rides along with it. */
+.product-card__deposit {
+  font-family: var(--font-body); font-size: 0.72rem; line-height: 1.3;
+  color: rgba(20, 17, 22, 0.55);
+  margin-top: 3px;
+}
 
 /* mobile: viewport-relative card widths — always ~1.3–2.3 cards visible
    with a clear peek of the next one, regardless of exact phone width */
@@ -951,6 +1050,7 @@ body {
     display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
   }
   .product-card__price { font-size: 0.92rem; }
+  .product-card__deposit { font-size: 0.6rem; margin-top: 2px; }
 }
 
 /* ==========================================================================
@@ -1508,9 +1608,24 @@ body {
 .gallery { background: var(--cream-dim); padding: 4px 0 110px; overflow: hidden; }
 .gallery__track { display: flex; width: max-content; gap: 18px; animation: galleryScroll 40s linear infinite; }
 .gallery:hover .gallery__track { animation-play-state: paused; }
-.gallery__item { width: 260px; height: 320px; border-radius: 18px; overflow: hidden; flex: none; background: var(--white); box-shadow: 0 4px 20px -8px rgba(20, 17, 22, 0.15); }
-.gallery__item img { width: 100%; height: 100%; object-fit: contain; padding: 18px; box-sizing: border-box; }
+/* landscape 3:2 cards, was 260x320 portrait: the campaign photographs are
+   1536x1024 (four) and 1448x1086 (two), so a portrait frame would have
+   cover-cropped roughly 46% of their width — exactly where the MOTO car,
+   the pink box and the shopfront sign sit. At 3:2 the four wide frames fit
+   with no crop at all and the two 4:3 ones lose ~11% top and bottom, where
+   nothing brand-relevant is. No white card and no padding any more: each
+   photo already brings its own background and fills the frame edge to edge.
+   object-position is set per image inline by renderGallery(). */
+.gallery__item { width: 420px; height: 280px; border-radius: 18px; overflow: hidden; flex: none; box-shadow: 0 4px 20px -8px rgba(20, 17, 22, 0.15); }
+.gallery__item img { width: 100%; height: 100%; object-fit: cover; display: block; }
 @keyframes galleryScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* phones: same 3:2 shape, scaled to the viewport so the motif stays fully
+   readable instead of shrinking into a stamp */
+@media (max-width: 640px) {
+  .gallery__track { gap: 12px; }
+  .gallery__item { width: 78vw; max-width: 330px; height: calc(78vw / 1.5); max-height: 220px; border-radius: 14px; }
+}
 
 /* ==========================================================================
    ORDER / LOCATION
