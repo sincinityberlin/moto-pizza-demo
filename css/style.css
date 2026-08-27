@@ -519,12 +519,12 @@ body {
    z-index 1 (under .hero__inner, z-index 2) and pointer-events:none, so he
    can neither cover the hero's message nor swallow a tap. */
 .hero__max {
-  --max-h: clamp(120px, 18vh, 185px);   /* Desktop large, >=1440 */
+  --max-h: clamp(146px, 22vh, 226px);   /* Desktop large, >=1440 */
   --max-x: 120%;            /* off-screen until js/main.js takes over */
   --max-rot: 0deg;
   position: fixed;
   right: 0;
-  top: 68%;
+  top: 70%;
   height: var(--max-h);
   width: auto;
   z-index: 1;
@@ -545,7 +545,7 @@ body {
    same everywhere — the pizza stays the headline act, Max is a small detail
    at the edge with clear air between the two. */
 @media (max-width: 1439px) and (min-width: 1024px) {
-  .hero__max { --max-h: clamp(115px, 17.5vh, 165px); top: 70%; }
+  .hero__max { --max-h: clamp(140px, 21.5vh, 202px); top: 72%; }
 }
 /* Tablets are defined by shape, not by a width number: an iPad Pro is 1024
    wide in portrait and would otherwise pick up the laptop rule and its 17.5vh,
