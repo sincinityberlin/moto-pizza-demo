@@ -960,6 +960,24 @@ body {
   display: inline-flex; align-items: center;
   gap: clamp(9px, 1.2vw, 14px);
   margin: 0 auto clamp(12px, 1.6vw, 18px);
+  /* it is a control now: the whole unit carries you to Max' recommendation.
+     Feedback stays on the bubble's shadow and a one-pixel lift, so nothing
+     resizes and no layout shifts under the cursor. */
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.selector__pick .selector__pick-bubble,
+.selector__pick .selector__pick-max { transition: transform 0.22s var(--ease), box-shadow 0.22s var(--ease); }
+.selector__pick:hover .selector__pick-bubble {
+  transform: translateY(-1px);
+  box-shadow: 0 13px 26px -11px rgba(20, 17, 22, 0.6);
+}
+.selector__pick:hover .selector__pick-max { transform: translateY(-1px); }
+.selector__pick:active .selector__pick-bubble { transform: translateY(0); }
+.selector__pick:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 5px;
+  border-radius: 16px;
 }
 /* the figure alone is scaled up here — the bubble keeps its size, so the two
    read as one unit with Max as the speaker rather than as a matching pair */

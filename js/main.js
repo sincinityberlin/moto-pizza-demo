@@ -273,6 +273,38 @@ function initPizzaSelector() {
     settleTo(base + steps);
   }
 
+  /* Jump straight to one pizza by its index in MOTO_MENU. Converts the target
+     into a relative step count and hands off to goTo(), so the movement, the
+     easing and the panel update are the very same code path a swipe or an
+     arrow tap uses — no second navigation. The step count takes the shorter
+     way round the ring, so nothing ever travels the long way for a pizza
+     sitting just behind the current one. */
+  function goToData(dataIdx) {
+    const base = settleFrame ? settleTarget : Math.round(pos);
+    let delta = (((dataIdx - dataIndexOf(base)) % count) + count) % count;
+    if (delta > count / 2) delta -= count; // shorter direction
+    if (delta !== 0) goTo(delta);
+  }
+
+  /* Max' Pick is a recommendation, so the whole unit — figure, bubble and
+     both lines — behaves like one button that carries you to the pizza he is
+     recommending. Keyboard included, because it is a control now. */
+  if (els.pick) {
+    const pickIdx = MOTO_MENU.findIndex((p) => p.maxPick);
+    if (pickIdx >= 0) {
+      els.pick.tabIndex = 0;
+      els.pick.setAttribute("role", "button");
+      els.pick.setAttribute("aria-label", `Zu Max' Empfehlung wechseln: ${MOTO_MENU[pickIdx].name}`);
+      els.pick.addEventListener("click", () => goToData(pickIdx));
+      els.pick.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
+          e.preventDefault();
+          goToData(pickIdx);
+        }
+      });
+    }
+  }
+
   document.getElementById("selPrev").addEventListener("click", () => goTo(-1));
   document.getElementById("selNext").addEventListener("click", () => goTo(1));
 
