@@ -306,10 +306,13 @@
 
         <div class="selector__panel" id="selPanel">
           <!-- shown by js/main.js only for the pizza flagged maxPick in data/menu.js -->
-          <p class="selector__pick" id="selPick" hidden>
+          <div class="selector__pick" id="selPick" hidden>
             <img src="assets/images/moto-max.png" alt="Moto Max" class="selector__pick-max" />
-            <span class="selector__pick-label">Max’&nbsp;Pick</span>
-          </p>
+            <p class="selector__pick-bubble">
+              <span class="selector__pick-title">Max’&nbsp;Pick</span>
+              <span class="selector__pick-sub">Mein Favorit!</span>
+            </p>
+          </div>
           <p class="selector__index"><span id="selIndexCurrent">01</span>&nbsp;/&nbsp;<span id="selIndexTotal">10</span></p>
           <p class="selector__category" id="selCategory">—</p>
           <h3 class="selector__name" id="selName">—</h3>
