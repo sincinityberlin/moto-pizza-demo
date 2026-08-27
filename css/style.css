@@ -958,10 +958,12 @@ body {
 .selector__pick[hidden] { display: none; }
 .selector__pick {
   display: inline-flex; align-items: center;
-  gap: clamp(7px, 1vw, 11px);
+  gap: clamp(9px, 1.2vw, 14px);
   margin: 0 auto clamp(12px, 1.6vw, 18px);
 }
-.selector__pick-max { height: clamp(38px, 4.4vw, 54px); width: auto; display: block; flex: none; }
+/* the figure alone is scaled up here — the bubble keeps its size, so the two
+   read as one unit with Max as the speaker rather than as a matching pair */
+.selector__pick-max { height: clamp(55px, 6vw, 76px); width: auto; display: block; flex: none; }
 .selector__pick-bubble {
   position: relative;
   display: flex; flex-direction: column;
@@ -994,8 +996,8 @@ body {
   color: var(--pink); white-space: nowrap; line-height: 1.3;
 }
 @media (max-width: 640px) {
-  .selector__pick { gap: 6px; margin-bottom: 10px; }
-  .selector__pick-max { height: 32px; }
+  .selector__pick { gap: 8px; margin-bottom: 10px; }
+  .selector__pick-max { height: 45px; }
   .selector__pick-bubble { padding: 6px 10px; border-radius: 11px; }
   .selector__pick-bubble::before {
     left: -6px; border-top-width: 6px; border-bottom-width: 6px; border-right-width: 7px;
