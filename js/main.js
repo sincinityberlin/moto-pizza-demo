@@ -107,6 +107,7 @@ function initPizzaSelector() {
     allergens: document.getElementById("selAllergens"),
     price: document.getElementById("selPrice"),
     pick: document.getElementById("selPick"),
+    top: document.getElementById("selTop"),
   };
 
   const count = MOTO_MENU.length;
@@ -215,6 +216,7 @@ function initPizzaSelector() {
         // Max' Pick rides along with the panel's own fade, so it appears and
         // disappears with the rest of the copy instead of popping separately
         if (els.pick) els.pick.hidden = !p.maxPick;
+        if (els.top) els.top.hidden = !p.topSeller;
         els.price.textContent = `${p.price} €`;
         panel.classList.remove("is-changing");
       },
@@ -290,7 +292,13 @@ function initPizzaSelector() {
      both lines — behaves like one button that carries you to the pizza he is
      recommending. Keyboard included, because it is a control now. */
   if (els.pick) {
-    const pickIdx = MOTO_MENU.findIndex((p) => p.maxPick);
+    /* the destination is whatever data/menu.js currently flags as topSeller —
+       move that flag to another pizza and both the label and this jump follow,
+       with no change here. Falls back to the maxPick pizza if no top seller is
+       set, so the control is never left pointing at nothing. */
+    const pickIdx = MOTO_MENU.findIndex((p) => p.topSeller) >= 0
+      ? MOTO_MENU.findIndex((p) => p.topSeller)
+      : MOTO_MENU.findIndex((p) => p.maxPick);
     if (pickIdx >= 0) {
       els.pick.tabIndex = 0;
       els.pick.setAttribute("role", "button");

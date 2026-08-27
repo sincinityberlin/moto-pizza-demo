@@ -62,6 +62,10 @@ const MOTO_MENU = [
   },
   {
     id: "beeflover",
+    // single source of truth for the current top seller: this flag drives
+    // both the "Top Seller" label and where Max' Pick jumps to. Move it to
+    // another pizza and both follow — nothing else needs changing.
+    topSeller: true,
     name: "Beef Lover",
     tag: "Herzhaft & scharf",
     short: "Rind, Kimchi und Knoblauchsauce – herzhaft, scharf und mit koreanischem Twist.",

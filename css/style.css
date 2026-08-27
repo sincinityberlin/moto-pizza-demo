@@ -1023,6 +1023,35 @@ body {
   .selector__pick-title { font-size: 0.6rem; letter-spacing: 0.1em; }
   .selector__pick-sub { font-size: 0.56rem; }
 }
+/* ---------- Top Seller ---------------------------------------------------
+   Deliberately quiet next to Max' Pick: no figure, no bubble, no fill — just
+   a hairline pill with a small MOTO-blue dot, sitting in the same slot at the
+   head of the panel. The two never appear together (one is flagged maxPick,
+   the other topSeller), so sharing the slot costs nothing and keeps the panel
+   from shifting. Shown by js/main.js off the topSeller flag in data/menu.js.
+   [hidden] must be forced: the panel's children are display:block. */
+.selector__top[hidden] { display: none; }
+.selector__top {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin: 0 auto clamp(10px, 1.3vw, 14px);
+  padding: 4px 12px 4px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-size: clamp(0.55rem, 0.72vw, 0.66rem);
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--white); white-space: nowrap;
+}
+.selector__top-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--blue); flex: none;
+  box-shadow: 0 0 0 3px rgba(22, 163, 230, 0.25);
+}
+@media (max-width: 640px) {
+  .selector__top { padding: 3px 10px 3px 8px; gap: 5px; font-size: 0.52rem; letter-spacing: 0.13em; margin-bottom: 9px; }
+  .selector__top-dot { width: 4px; height: 4px; box-shadow: 0 0 0 2px rgba(22, 163, 230, 0.25); }
+}
+
 .selector__index {
   font-family: var(--font-head); font-weight: 600; letter-spacing: 0.1em;
   font-size: 0.8rem; color: rgba(255, 255, 255, 0.7); margin-bottom: 14px;
