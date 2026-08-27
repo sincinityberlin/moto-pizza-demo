@@ -1084,11 +1084,10 @@ body {
    two options carry it instead. One chooser for all ten pizzas, so it sits
    outside .selector__panel and does not inherit the panel's fade.
 
-   Colours come straight from the section's own tone: the block sits on the
-   pink or blue background, an unpicked option is a hairline in white on it,
-   and the picked one is a solid white card with the tone as its accent —
-   no new colour enters the palette. Rendered by initPizzaStyles() in
-   js/main.js from MOTO_PIZZA_STYLES in data/menu.js.
+   The block sits on the section's own pink or blue background, an unpicked
+   option is a hairline in white on it, and the picked one is a solid white
+   card whose price is MOTO blue. No new colour enters the palette. Rendered
+   by initPizzaStyles() in js/main.js from MOTO_PIZZA_STYLES in data/menu.js.
    ---------------------------------------------------------------------- */
 .selector__styles {
   position: relative; z-index: 1;
@@ -1119,7 +1118,7 @@ body {
 
 .selector__style {
   display: flex; flex-direction: column; align-items: center;
-  gap: 6px;
+  gap: 4px;
   min-width: 0;
   padding: clamp(14px, 1.8vw, 20px) clamp(10px, 1.6vw, 18px);
   border: 1.5px solid rgba(255, 255, 255, 0.5);
@@ -1145,20 +1144,6 @@ body {
   box-shadow: 0 14px 28px -14px rgba(20, 17, 22, 0.6);
 }
 
-/* the glyph is the whole difference between the two options, so it is drawn
-   rather than written: a rounded square for Detroit, a circle for New York */
-.selector__style-shape {
-  width: 22px; height: 22px; flex: none;
-  border: 2.5px solid currentColor;
-  border-radius: 5px;
-  opacity: 0.9;
-}
-.selector__style-shape--round { border-radius: 50%; }
-.selector__style.is-active .selector__style-shape {
-  background: currentColor;
-  opacity: 1;
-}
-
 .selector__style-name {
   font-family: var(--font-display); text-transform: uppercase;
   font-size: clamp(0.72rem, 1.05vw, 0.92rem);
@@ -1174,13 +1159,273 @@ body {
   font-family: var(--font-display);
   font-size: clamp(1.15rem, 1.9vw, 1.5rem);
   line-height: 1.1;
-  margin-top: 2px;
+  margin-top: 6px;
 }
-.selector__style.is-active .selector__style-price { color: var(--tone-accent); }
+/* MOTO blue, fixed — not the section's own tone: the price is the one figure
+   on the card that has to stay the same colour while the carousel alternates
+   pink and blue behind it. */
+.selector__style.is-active .selector__style-price { color: var(--blue); }
 
 @media (prefers-reduced-motion: reduce) {
   .selector__style { transition: none; }
   .selector__style.is-active { transform: none; }
+}
+
+/* ==========================================================================
+   MOTO DEALS
+   Sits between two white sections (menu above, dessert below), so it needs
+   its own ground to read as a distinct offer block. That ground is the
+   thinnest wash of MOTO blue over white — a tint of a colour the brand
+   already owns, not a fourth colour — with rounded corners echoing .menu.
+   Everything on top is pink, blue and white.
+
+   The racing note is two dashed arcs behind the cards, the same dashed
+   language as the selector's spinning ring, at low opacity. Decoration only:
+   aria-hidden, pointer-events:none, and it never moves.
+   ========================================================================== */
+.deals {
+  position: relative;
+  overflow: hidden;
+  padding: 84px 0 92px;
+  /* the wash is painted over an explicit white ground: composited straight
+     onto the page's cream body it turns grey instead of blue */
+  background:
+    linear-gradient(rgba(22, 163, 230, 0.06), rgba(22, 163, 230, 0.06)),
+    var(--white);
+}
+.deals[hidden] { display: none; }
+@media (max-width: 640px) { .deals { padding: 62px 0 70px; } }
+
+.deals__inner {
+  position: relative; z-index: 1;
+  max-width: var(--container); margin: 0 auto;
+}
+
+/* the two arcs. Sized off the section, anchored off-canvas so only the sweep
+   shows — no element of the layout has to make room for them. */
+.deals::before,
+.deals::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.deals::before {
+  width: 620px; height: 620px;
+  top: -230px; right: -190px;
+  border: 2px dashed rgba(236, 30, 141, 0.16);
+}
+.deals::after {
+  width: 460px; height: 460px;
+  bottom: -220px; left: -150px;
+  border: 2px dashed rgba(22, 163, 230, 0.2);
+}
+@media (max-width: 640px) {
+  .deals::before { width: 380px; height: 380px; top: -150px; right: -140px; }
+  .deals::after { width: 300px; height: 300px; bottom: -160px; left: -110px; }
+}
+
+.deals__head {
+  padding: 0 var(--pad);
+  margin-bottom: clamp(30px, 4vw, 44px);
+}
+
+/* ---------- the limited-time flag ---------------------------------------
+   A pill in the brand pink with two speed lines running out of it — the
+   racing cue does the shouting, so the words do not have to. No exclamation
+   marks, no starburst, no "SALE": it reads as part of the branding rather
+   than as a discount sticker stuck on top. */
+.deals__limited {
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 7px 16px 7px 13px;
+  border-radius: 999px;
+  background: var(--pink);
+  color: var(--white);
+  font-family: var(--font-display);
+  font-size: clamp(0.6rem, 0.84vw, 0.74rem);
+  letter-spacing: 0.16em; text-transform: uppercase;
+  white-space: nowrap;
+  margin-bottom: clamp(14px, 1.8vw, 20px);
+  box-shadow: 0 12px 26px -14px rgba(236, 30, 141, 0.9);
+}
+.deals__limited-dot {
+  width: 7px; height: 7px; border-radius: 50%; flex: none;
+  background: var(--white);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3);
+}
+.deals__limited-sep { margin: 0 0.5em; opacity: 0.65; }
+/* the speed lines — three tapering strokes trailing the pill, drawn with a
+   repeating gradient so there is no extra markup and nothing to load */
+.deals__limited::after {
+  content: "";
+  width: clamp(18px, 2.6vw, 30px); height: 9px;
+  margin-left: 3px; flex: none;
+  background:
+    linear-gradient(to right, rgba(255,255,255,0.85), rgba(255,255,255,0)) top left / 100% 1.5px no-repeat,
+    linear-gradient(to right, rgba(255,255,255,0.6), rgba(255,255,255,0)) center left / 78% 1.5px no-repeat,
+    linear-gradient(to right, rgba(255,255,255,0.85), rgba(255,255,255,0)) bottom left / 90% 1.5px no-repeat;
+}
+@media (max-width: 640px) {
+  .deals__limited { padding: 6px 13px 6px 11px; gap: 7px; letter-spacing: 0.12em; }
+  .deals__limited-dot { width: 6px; height: 6px; box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3); }
+}
+
+/* MOTO in pink, DEALS in blue — the wordmark carries the M-O-T-O, so the
+   brand name is the logotype here exactly as it is everywhere else. */
+.deals__title { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.28em; }
+.deals__title-moto { color: var(--pink); display: inline-flex; align-items: baseline; }
+.deals__title-word { color: var(--blue); }
+
+.deals__slogan {
+  margin-top: clamp(12px, 1.6vw, 18px);
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 1.9vw, 1.45rem);
+  letter-spacing: 0.02em; text-transform: uppercase;
+  color: var(--ink);
+}
+.deals__slogan .moto-mark { color: var(--pink); }
+
+/* ---------- the slider --------------------------------------------------
+   The track is the scroll container. Cards scroll inside it, so the page
+   itself never gains a horizontal scrollbar however narrow the viewport is.
+   scroll-padding + the matching track padding keep a snapped card aligned
+   with the section's own left edge instead of the raw container edge. */
+.deals__slider { position: relative; }
+
+.deals__track {
+  display: flex;
+  gap: clamp(14px, 2vw, 24px);
+  padding: 6px var(--pad) 10px;
+  scroll-padding-left: var(--pad);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  outline: none;
+}
+.deals__track::-webkit-scrollbar { display: none; }
+.deals__track.is-dragging { cursor: grabbing; scroll-snap-type: none; }
+.deals__track:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; border-radius: 8px; }
+
+/* one card at a time on a phone with the next one clearly peeking, two on a
+   tablet, all three at once from the point they fit without shrinking the
+   photo — the picture is the point of the card, so it never gets squeezed */
+.deal-card {
+  flex: 0 0 82%;
+  scroll-snap-align: start;
+  min-width: 0;
+  display: flex; flex-direction: column;
+  background: var(--white);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 22px 44px -28px rgba(20, 17, 22, 0.45);
+}
+@media (min-width: 620px)  { .deal-card { flex-basis: 54%; } }
+@media (min-width: 900px)  { .deal-card { flex-basis: 40%; } }
+@media (min-width: 1180px) { .deal-card { flex-basis: calc((100% - 2 * clamp(14px, 2vw, 24px)) / 3); } }
+
+/* the photo sits on the same blue wash as the section, so the product's own
+   white cut-out has a ground instead of dissolving into the card */
+.deal-card__media {
+  background: rgba(22, 163, 230, 0.07);
+  border-bottom: 1px dashed rgba(22, 163, 230, 0.28);
+  aspect-ratio: 3 / 2;
+  display: flex; align-items: center; justify-content: center;
+  padding: 10px;
+}
+.deal-card__media img {
+  width: 100%; height: 100%;
+  object-fit: contain;      /* full slice and full can, never cropped */
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+.deal-card__body {
+  display: flex; flex-direction: column;
+  flex: 1;
+  padding: clamp(18px, 2.2vw, 26px) clamp(16px, 2vw, 24px) clamp(18px, 2.2vw, 24px);
+}
+.deal-card__name {
+  font-family: var(--font-display); text-transform: uppercase;
+  font-size: clamp(1.05rem, 1.7vw, 1.4rem);
+  line-height: 1.1; letter-spacing: 0.01em;
+  color: var(--ink);
+  margin-bottom: clamp(10px, 1.3vw, 14px);
+}
+.deal-card__items {
+  list-style: none;
+  display: flex; flex-direction: column; gap: 5px;
+  margin-bottom: clamp(14px, 1.8vw, 20px);
+}
+.deal-card__items li {
+  position: relative;
+  padding-left: 16px;
+  font-size: clamp(0.86rem, 1.05vw, 0.95rem);
+  line-height: 1.45;
+  color: rgba(20, 17, 22, 0.7);
+}
+/* a short pink dash instead of a bullet — same racing shorthand as the rest
+   of the section, and it lines the two rows up on their own left edge */
+.deal-card__items li::before {
+  content: "";
+  position: absolute; left: 0; top: 0.66em;
+  width: 9px; height: 2px;
+  background: var(--pink);
+  border-radius: 1px;
+}
+/* the price is the loudest thing on the card, and it is pushed to the
+   bottom so all three read on one line however long the item list gets */
+.deal-card__price {
+  margin-top: auto;
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 3vw, 2.3rem);
+  line-height: 1;
+  color: var(--pink);
+}
+
+/* ---------- slider controls ---------------------------------------------
+   Both are hidden by js/main.js whenever the track does not overflow. */
+.deals__arrow[hidden], .deals__dots[hidden] { display: none; }
+
+.deals__arrow {
+  position: absolute; top: calc(50% - 46px); z-index: 3;
+  transform: translateY(-50%);
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--white);
+  color: var(--blue);
+  box-shadow: 0 14px 28px -14px rgba(20, 17, 22, 0.5);
+  transition: background 0.25s var(--ease), color 0.25s var(--ease),
+              transform 0.2s var(--ease), opacity 0.25s var(--ease);
+}
+.deals__arrow--prev { left: calc(var(--pad) - 23px); }
+.deals__arrow--next { right: calc(var(--pad) - 23px); }
+.deals__arrow:hover { background: var(--blue); color: var(--white); }
+.deals__arrow:active { transform: translateY(-50%) scale(0.9); }
+.deals__arrow:disabled { opacity: 0; pointer-events: none; }
+.deals__arrow:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+@media (max-width: 767px) { .deals__arrow { display: none; } }
+
+.deals__dots {
+  display: flex; justify-content: center; align-items: center;
+  gap: 9px;
+  margin-top: clamp(16px, 2vw, 22px);
+  padding: 0 var(--pad);
+}
+.deals__dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(20, 17, 22, 0.18);
+  transition: background 0.25s var(--ease), transform 0.25s var(--ease);
+  cursor: pointer;
+}
+.deals__dot.is-active { background: var(--pink); transform: scale(1.35); }
+.deals__dot:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) {
+  .deals__dot, .deals__arrow { transition: none; }
+  .deals__dot.is-active { transform: none; }
 }
 
 /* ==========================================================================

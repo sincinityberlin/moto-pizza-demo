@@ -339,6 +339,42 @@
   </section>
 
   <!-- ==========================================================================
+       MOTO DEALS
+       Limited combo offers, between the pizza section and DESSERT. The cards
+       themselves are injected by initDeals() in js/main.js from MOTO_DEALS in
+       data/menu.js — empty that list and the section hides itself.
+       ========================================================================== -->
+  <section class="deals" id="deals" data-section="deals" hidden>
+    <div class="deals__inner">
+      <div class="deals__head">
+        <p class="deals__limited reveal" data-reveal>
+          <span class="deals__limited-dot" aria-hidden="true"></span>
+          <span class="deals__limited-text">Limited Deals<span class="deals__limited-sep" aria-hidden="true">·</span>nur für kurze Zeit</span>
+        </p>
+        <h2 class="section-title deals__title reveal" data-reveal data-delay="1">
+          <span class="deals__title-moto"><svg class="moto-mark" role="img" aria-label="MOTO"><use href="#moto-wordmark"/></svg></span><span class="deals__title-word">DEALS</span>
+        </h2>
+        <p class="deals__slogan reveal" data-reveal data-delay="2">
+Wer Käse liebt, liebt <svg class="moto-mark" role="img" aria-label="MOTO"><use href="#moto-wordmark"/></svg>.</p>
+      </div>
+
+      <div class="deals__slider reveal" data-reveal data-delay="3">
+        <button class="deals__arrow deals__arrow--prev" id="dealsPrev" type="button" aria-label="Vorheriger Deal" hidden>
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 4l-8 8 8 8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+
+        <div class="deals__track" id="dealsTrack" tabindex="0" role="group" aria-label="MOTO Deals, horizontal scrollbar"><!-- injected by js/main.js from data/menu.js --></div>
+
+        <button class="deals__arrow deals__arrow--next" id="dealsNext" type="button" aria-label="Nächster Deal" hidden>
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 4l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+
+        <div class="deals__dots" id="dealsDots" role="tablist" aria-label="Deal auswählen" hidden><!-- injected by js/main.js --></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
        SNACKS
        ========================================================================== -->
   <section class="snacks" id="snacks" data-section="snacks">

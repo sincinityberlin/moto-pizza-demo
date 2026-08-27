@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initPizzaSelector();
   initPizzaStyles();
   renderGallery();
+  initDeals();
   renderProductGrid("snacksGrid", MOTO_SNACKS, "snack");
   renderProductGrid("drinksGrid", MOTO_DRINKS, "drink");
   initNavScroll();
@@ -411,8 +412,10 @@ function initPizzaSelector() {
    the carousel moves.
 
    Everything visible here comes from MOTO_PIZZA_STYLES in data/menu.js:
-   labels, notes, shape glyph and both prices. Changing a price is a one-line
-   edit there; nothing in this function names a style or a number.
+   labels, notes and both prices. Changing a price is a one-line edit there;
+   nothing in this function names a style or a number. (The `shape` field is
+   left in the data untouched — the cards carry no glyph any more, so nothing
+   reads it right now.)
 
    Semantics are a real radiogroup: one tab stop for the whole group, arrow
    keys move between the options, Home/End jump to the ends. Arrow keys are
@@ -432,7 +435,6 @@ function initPizzaStyles() {
       (s, i) => `
     <button type="button" role="radio" class="selector__style" data-style-id="${escapeHtml(s.id)}"
             aria-checked="${i === activeIdx}" tabindex="${i === activeIdx ? 0 : -1}">
-      <span class="selector__style-shape selector__style-shape--${s.shape === "round" ? "round" : "square"}" aria-hidden="true"></span>
       <span class="selector__style-name">${escapeHtml(s.name)}</span>
       ${s.note ? `<span class="selector__style-note">${escapeHtml(s.note)}</span>` : ""}
       <span class="selector__style-price">${escapeHtml(s.price)}&nbsp;€</span>
@@ -501,6 +503,172 @@ function renderGallery() {
 
   // duplicate content once so the CSS -50% loop is seamless
   track.innerHTML = items + items;
+}
+
+/* ---------- MOTO DEALS slider ---------------------------------------------
+   A different animal from the pizza selector on purpose: that one is an arc
+   of ten slides driven frame by frame from JS. Three deals need none of
+   that, so the motion here is the browser's own — a scroll container with
+   CSS scroll-snap. Touch swipe, trackpad, shift-wheel, arrow keys and the
+   scrollbar all work for free, momentum feels native on every device, and
+   because the cards scroll *inside* the track the page itself can never gain
+   a horizontal scrollbar.
+
+   JS only does what CSS cannot: keep the dots in sync with the scroll
+   position, move the track when a dot or arrow is used, and hide both
+   controls when everything already fits (wide desktop shows all three, and
+   controls for a scroller that cannot scroll would be a lie).
+
+   The section starts `hidden` in index.html and is only revealed once there
+   is something to show, so emptying MOTO_DEALS ends the promotion with no
+   other change anywhere.
+   ---------------------------------------------------------------------- */
+function initDeals() {
+  const section = document.getElementById("deals");
+  const track = document.getElementById("dealsTrack");
+  const dots = document.getElementById("dealsDots");
+  const prev = document.getElementById("dealsPrev");
+  const next = document.getElementById("dealsNext");
+  if (!section || !track || typeof MOTO_DEALS === "undefined" || !MOTO_DEALS.length) return;
+
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const scrollBehavior = reducedMotion ? "auto" : "smooth";
+
+  track.innerHTML = MOTO_DEALS.map(
+    (d) => `
+    <article class="deal-card">
+      <div class="deal-card__media">
+        <img src="assets/images/deal-${escapeHtml(d.id)}.png"
+             alt="${escapeHtml(d.name)} — ${escapeHtml(d.items.join(" und "))}" loading="lazy" draggable="false" />
+      </div>
+      <div class="deal-card__body">
+        <h3 class="deal-card__name">${withMotoMark(d.name)}</h3>
+        <ul class="deal-card__items">
+          ${d.items.map((i) => `<li>${withMotoMark(i)}</li>`).join("")}
+        </ul>
+        <p class="deal-card__price">${escapeHtml(d.price)}&nbsp;€</p>
+      </div>
+    </article>`
+  ).join("");
+
+  section.hidden = false;
+
+  const cards = [...track.children];
+
+  dots.innerHTML = MOTO_DEALS.map(
+    (d, i) => `<button type="button" role="tab" class="deals__dot" data-idx="${i}"
+                 aria-selected="${i === 0}" aria-label="Deal ${i + 1} von ${MOTO_DEALS.length}: ${escapeHtml(d.name)}"></button>`
+  ).join("");
+  const dotEls = [...dots.children];
+
+  /* the card nearest the track's left edge is the one being read — same
+     answer the snap points settle on, so the dots never disagree with what
+     the eye sees */
+  function activeIndex() {
+    let best = 0;
+    let bestDist = Infinity;
+    cards.forEach((card, i) => {
+      const dist = Math.abs(card.offsetLeft - track.scrollLeft - parseFloat(getComputedStyle(track).paddingLeft));
+      if (dist < bestDist) {
+        bestDist = dist;
+        best = i;
+      }
+    });
+    return best;
+  }
+
+  function scrollToCard(i) {
+    const target = cards[Math.max(0, Math.min(cards.length - 1, i))];
+    track.scrollTo({ left: target.offsetLeft - parseFloat(getComputedStyle(track).paddingLeft), behavior: scrollBehavior });
+  }
+
+  let syncFrame = null;
+  function sync() {
+    if (syncFrame) return;
+    syncFrame = requestAnimationFrame(() => {
+      syncFrame = null;
+      const i = activeIndex();
+      dotEls.forEach((dot, di) => {
+        dot.classList.toggle("is-active", di === i);
+        dot.setAttribute("aria-selected", String(di === i));
+      });
+      // at the ends there is nowhere left to go — say so rather than
+      // offering a control that does nothing
+      const max = track.scrollWidth - track.clientWidth;
+      prev.disabled = track.scrollLeft <= 1;
+      next.disabled = track.scrollLeft >= max - 1;
+    });
+  }
+
+  /* controls only exist while the track actually overflows: on a wide desktop
+     all three deals are on screen at once and there is nothing to navigate */
+  function updateControls() {
+    const overflows = track.scrollWidth - track.clientWidth > 2;
+    dots.hidden = !overflows;
+    prev.hidden = !overflows;
+    next.hidden = !overflows;
+    if (overflows) sync();
+  }
+
+  track.addEventListener("scroll", sync, { passive: true });
+  dotEls.forEach((dot, i) => dot.addEventListener("click", () => scrollToCard(i)));
+  prev.addEventListener("click", () => scrollToCard(activeIndex() - 1));
+  next.addEventListener("click", () => scrollToCard(activeIndex() + 1));
+
+  /* mouse drag, for pointers that have no swipe. Touch is left entirely to
+     the browser so native momentum and snap stay intact. The 6px deadzone
+     keeps a plain click from being read as a drag. */
+  if (window.matchMedia("(pointer: fine)").matches) {
+    let dragging = false;
+    let startX = 0;
+    let startScroll = 0;
+    let moved = false;
+
+    track.addEventListener("pointerdown", (e) => {
+      if (e.pointerType !== "mouse") return;
+      dragging = true;
+      moved = false;
+      startX = e.clientX;
+      startScroll = track.scrollLeft;
+      track.classList.add("is-dragging");
+    });
+    track.addEventListener("pointermove", (e) => {
+      if (!dragging) return;
+      const dx = e.clientX - startX;
+      if (!moved && Math.abs(dx) < 6) return;
+      moved = true;
+      track.setPointerCapture(e.pointerId);
+      track.scrollLeft = startScroll - dx;
+    });
+    const endDrag = () => {
+      if (!dragging) return;
+      dragging = false;
+      track.classList.remove("is-dragging");
+      if (moved) scrollToCard(activeIndex()); // settle onto the nearest snap point
+    };
+    track.addEventListener("pointerup", endDrag);
+    track.addEventListener("pointercancel", endDrag);
+    track.addEventListener("pointerleave", endDrag);
+  }
+
+  let dealsResizeTimer;
+  window.addEventListener("resize", () => {
+    clearTimeout(dealsResizeTimer);
+    dealsResizeTimer = setTimeout(updateControls, 120);
+  });
+
+  /* the first measurement happens before the webfonts and the deal photos
+     have settled the card heights, so whether the track overflows can still
+     change under us. Watch the track itself and re-decide when it does —
+     otherwise a first paint that overflowed leaves dots on a slider that no
+     longer scrolls. */
+  if ("ResizeObserver" in window) {
+    new ResizeObserver(() => updateControls()).observe(track);
+  }
+  window.addEventListener("load", updateControls);
+
+  observeReveal(section.querySelectorAll("[data-reveal]"));
+  updateControls();
 }
 
 /* ---------- Snacks / Getränke product grids ------------------------------

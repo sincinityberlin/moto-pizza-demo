@@ -180,6 +180,39 @@ const MOTO_MENU = [
   },
 ];
 
+/* ==========================================================================
+   MOTO DEALS — limited-time combo offers
+   Own list, deliberately separate from MOTO_MENU: a deal is a combination at
+   its own price, not a pizza, and the ten pizzas must stay untouched by it.
+
+   id matches assets/images/deal-<id>.png. `items` is the deal's contents, one
+   line per entry, rendered in order. Price is per deal — all three share
+   6,90 today, but each carries its own so one can change alone.
+
+   To end the promotion, empty this list: the section renders nothing and
+   hides itself, with no change in index.html or js/main.js.
+   ========================================================================== */
+const MOTO_DEALS = [
+  {
+    id: "frico",
+    name: "Frico Deal",
+    items: ["1× Detroit Pizza Slice Frico", "1× Dose nach Wahl"],
+    price: "6,90",
+  },
+  {
+    id: "pepperoniking",
+    name: "Pepperoni King Deal",
+    items: ["1× Detroit Pizza Slice Pepperoni King", "1× Dose nach Wahl"],
+    price: "6,90",
+  },
+  {
+    id: "beeflover",
+    name: "Beef Lover Deal",
+    items: ["1× Detroit Pizza Slice Beef Lover", "1× Dose nach Wahl"],
+    price: "6,90",
+  },
+];
+
 /* id matches assets/images/snack-<id>.png. price: "" renders the
    "Preis folgt" placeholder in renderProductGrid (js/main.js) instead of
    inventing a number — swap in the real price string (e.g. "4,50") once
