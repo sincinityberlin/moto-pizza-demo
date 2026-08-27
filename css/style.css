@@ -505,39 +505,44 @@ body {
 @media (min-width: 900px) { .hero__product-img { max-height: 64vh; } }
 
 /* ---------- Moto Max in the hero -----------------------------------------
-   Anchored to the bottom-right corner and pushed a third of his own height
-   past the edge, so the hero's overflow:hidden crops him — he reads as
-   leaning into frame, not as a sticker placed on top. z-index 1 keeps him
-   under .hero__inner (z-index 2): logo, headline, deal, pizza and CTAs all
-   paint over him, so he can never obscure the message. pointer-events:none
-   so he never intercepts a tap meant for the CTA beneath. */
+   Fixed to the viewport's right edge, not placed inside the hero: he should
+   read as hiding *behind the screen edge* and peering in, which only works
+   if he stays glued to that edge while the page moves underneath him.
+   position:fixed also means his size never depends on how tall the hero
+   happens to be on a given window.
+   Everything about his horizontal position is driven by js/main.js through
+   --max-x, recomputed on scroll inside a rAF: resting he shows ~36% of
+   himself (desktop) / ~30% (mobile), leans a little further out as the hero
+   scrolls past, then slides fully off to the right as the hero ends.
+   The transition is what keeps that motion soft — the scroll handler sets
+   coarse targets and CSS eases between them, so no frame ever jumps.
+   z-index 1 keeps him under .hero__inner (z-index 2) and pointer-events:none
+   means he can never swallow a tap meant for a CTA. */
 .hero__max {
-  --max-h: clamp(104px, 17vh, 200px);
-  position: absolute;
-  right: clamp(4px, 2.5vw, 60px);
-  /* anchored to the first screenful, NOT to the hero's own bottom edge: the
-     hero grows well past 100svh on desktop (headline + deal + a 64vh pizza +
-     CTAs), so bottom:0 would park him far below the fold — exactly where he
-     then fades out on scroll, i.e. never seen. Pinning him to the 100svh line
-     and letting ~28% of him sit below it gives the intended "leaning in from
-     the bottom of the screen" on first paint, at every window height. */
-  top: calc(100svh - var(--max-h) * 0.72);
+  --max-h: clamp(120px, 21vh, 230px);
+  --max-x: 120%;            /* off-screen until js/main.js takes over */
+  position: fixed;
+  right: 0;
+  top: 62%;
   height: var(--max-h);
   width: auto;
   z-index: 1;
+  opacity: 0;
   pointer-events: none;
   user-select: none;
-  filter: drop-shadow(0 12px 22px rgba(20, 17, 22, 0.28));
-  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+  transform: translate(var(--max-x), -50%);
+  filter: drop-shadow(-10px 14px 26px rgba(20, 17, 22, 0.3));
+  transition: transform 0.35s var(--ease), opacity 0.45s var(--ease);
+  will-change: transform;
 }
-/* set by js/main.js when the entrance animation ends — the resting state the
-   scroll rule below then overrides (higher specificity, so it wins) */
-.hero__max.is-settled { opacity: 1; }
-/* leaves as quietly as he arrived, on the nav's existing scroll signal */
-.hero.is-scrolled .hero__max,
-.hero.is-scrolled .hero__max.is-settled { opacity: 0; transform: translateY(38%); }
+.hero__max.is-in { opacity: 1; }
 @media (max-width: 640px) {
-  .hero__max { --max-h: clamp(84px, 13vh, 132px); right: 2px; }
+  .hero__max { --max-h: clamp(96px, 15vh, 150px); top: 58%; }
+}
+/* no scroll choreography for anyone who asked for less motion — he simply
+   sits at his resting peek and stays there */
+@media (prefers-reduced-motion: reduce) {
+  .hero__max { transition: opacity 0.3s linear; }
 }
 
 .hero__scroll {
@@ -662,7 +667,6 @@ body {
 
   /* last beat of the hero choreography, after the CTAs at 2.4s: he rises the
      last bit of the way in and stops. One pass, no loop, no idle motion. */
-  .hero__max { opacity: 0; animation: heroMaxIn 0.75s var(--ease) 2.6s both; }
 
   /* toppings fall/fly in one at a time, only once the pizza has landed —
      most from above (heroToppingIn), several from the side for variety */
@@ -708,13 +712,6 @@ body {
 @keyframes heroPromoIn {
   from { opacity: 0; transform: translateY(14px) scale(0.94); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
-}
-/* comes up from behind the bottom edge and settles with a barely-there tilt
-   that resolves to straight — the "wave" without any waving */
-@keyframes heroMaxIn {
-  from { opacity: 0; transform: translateY(46%) rotate(3.5deg); }
-  60%  { opacity: 1; transform: translateY(-6%) rotate(-1.2deg); }
-  to   { opacity: 1; transform: translateY(0) rotate(0deg); }
 }
 @keyframes heroActionsIn {
   from { opacity: 0; transform: translateY(20px); }

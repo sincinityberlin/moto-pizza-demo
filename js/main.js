@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderProductGrid("snacksGrid", MOTO_SNACKS, "snack");
   renderProductGrid("drinksGrid", MOTO_DRINKS, "drink");
   initNavScroll();
+  initHeroMax();
   initMobileNav();
   initMagneticButtons();
   initHeroParallax();
@@ -430,30 +431,68 @@ function renderProductGrid(gridId, items, imgPrefix) {
 function initNavScroll() {
   const nav = document.querySelector(".nav");
   if (!nav) return;
-  // the hero's Moto Max fades out on the same signal — no second scroll
-  // listener, no extra work per frame
-  const hero = document.querySelector(".hero");
-
-  /* His entrance runs with animation-fill-mode:both, and a filled animation
-     outranks a plain declaration — so .hero.is-scrolled's opacity:0 would be
-     ignored for good. Hand off the moment the entrance ends: drop the
-     animation and mark him settled, which is the state the scroll rule then
-     overrides. The class (not an inline opacity, the way the toppings do it)
-     is what keeps the fade-out able to win afterwards. */
-  const max = document.querySelector(".hero__max");
-  if (max) {
-    max.addEventListener("animationend", () => {
-      max.style.animation = "none";
-      max.classList.add("is-settled");
-    }, { once: true });
-  }
-  const onScroll = () => {
-    const scrolled = window.scrollY > 40;
-    nav.classList.toggle("is-scrolled", scrolled);
-    if (hero) hero.classList.toggle("is-scrolled", scrolled);
-  };
+  const onScroll = () => nav.classList.toggle("is-scrolled", window.scrollY > 40);
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });
+}
+
+/* ---------- Moto Max peeking in from the right screen edge ----------------
+   He is position:fixed against the viewport, so the page scrolls underneath
+   him and he stays glued to the edge he is "hiding behind". This drives only
+   his horizontal offset, as a percentage of his own width, via --max-x:
+
+     at rest        ~64% of him tucked away, so about a third shows
+     down the hero  leans out to 50% hidden, over the first 80%
+     last fifth     slides to 118% and is clear of the screen
+
+   The handler writes one custom property and is rAF-coalesced, so a fast
+   flick costs at most one style write per frame. CSS eases between the
+   values, which is what keeps the motion soft rather than welded to the
+   scroll position. It runs in reverse on the way back up for free, because
+   the value is derived from scrollY, not from a scroll direction.
+   -------------------------------------------------------------------- */
+function initHeroMax() {
+  const max = document.querySelector(".hero__max");
+  const hero = document.querySelector(".hero");
+  if (!max || !hero) return;
+
+  const REST = 64;   // % of his own width behind the edge at rest
+  const LEAN = 50;   // % once the hero has scrolled by
+  const GONE = 118;  // % — fully clear of the viewport
+
+  const phone = () => window.matchMedia("(max-width: 640px)").matches;
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let ticking = false;
+
+  function update() {
+    ticking = false;
+    const rest = phone() ? REST + 6 : REST; // a little less of him on phones
+    const travel = hero.offsetHeight - window.innerHeight * 0.35;
+    const p = Math.min(Math.max(window.scrollY / Math.max(travel, 1), 0), 1);
+
+    // he leans out for most of the hero and only starts leaving in the last
+    // fifth, so the exit reads as "the hero is over" rather than as an early
+    // retreat while the pizza is still on screen
+    const x = p <= 0.8
+      ? rest + (LEAN - rest) * (p / 0.8)          // leans out, gently
+      : LEAN + (GONE - LEAN) * ((p - 0.8) / 0.2); // and slides away
+
+    max.style.setProperty("--max-x", x.toFixed(2) + "%");
+    max.classList.toggle("is-in", p < 0.985);
+  }
+
+  const onScroll = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  };
+
+  update();
+  // let the hero's own entrance finish first, then he leans into frame
+  setTimeout(() => { update(); max.classList.add("is-in"); }, reduced ? 200 : 2400);
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll, { passive: true });
 }
 
 /* ---------- Mobile nav toggle ---------------------------------------------- */
