@@ -323,7 +323,16 @@
           <p class="selector__short" id="selShort">—</p>
           <p class="selector__ingredients"><span>Zutaten</span><span id="selIngredients">—</span></p>
           <div class="selector__allergens" id="selAllergens"><!-- injected by js/main.js (allergenLine) --></div>
-          <p class="selector__price" id="selPrice">—</p>
+        </div>
+
+        <!-- Variant chooser. Sits outside .selector__panel on purpose: the
+             choice is the same for all ten pizzas, so it must not fade and
+             re-render every time the carousel moves — it stays put while the
+             pizza above it changes. Options and prices come from
+             MOTO_PIZZA_STYLES in data/menu.js. -->
+        <div class="selector__styles" id="selStyles">
+          <p class="selector__styles-label" id="selStylesLabel">Wähle deine Form — jede Pizza gibt&rsquo;s in zwei Styles</p>
+          <div class="selector__styles-options" id="selStylesOptions" role="radiogroup" aria-labelledby="selStylesLabel"><!-- injected by js/main.js from data/menu.js --></div>
         </div>
       </div>
     </div>
