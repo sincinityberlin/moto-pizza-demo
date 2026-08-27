@@ -6,6 +6,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   initScrollReveal(); // must run first: initPizzaSelector()/renderGallery() observe new nodes via revealObserver
   initPizzaSelector();
+  initPizzaStyles();
   renderGallery();
   renderProductGrid("snacksGrid", MOTO_SNACKS, "snack");
   renderProductGrid("drinksGrid", MOTO_DRINKS, "drink");
@@ -105,7 +106,6 @@ function initPizzaSelector() {
     short: document.getElementById("selShort"),
     ingredients: document.getElementById("selIngredients"),
     allergens: document.getElementById("selAllergens"),
-    price: document.getElementById("selPrice"),
     pick: document.getElementById("selPick"),
     top: document.getElementById("selTop"),
   };
@@ -217,7 +217,6 @@ function initPizzaSelector() {
         // disappears with the rest of the copy instead of popping separately
         if (els.pick) els.pick.hidden = !p.maxPick;
         if (els.top) els.top.hidden = !p.topSeller;
-        els.price.textContent = `${p.price} €`;
         panel.classList.remove("is-changing");
       },
       instant ? 0 : 160
@@ -403,6 +402,76 @@ function initPizzaSelector() {
   measure();
   layout();
   updatePanel(dataIndexOf(Math.round(pos)), true);
+}
+
+/* ---------- Pizza style / variant chooser ---------------------------------
+   Every pizza comes in both styles at the same two prices, so this is one
+   chooser for the whole section rather than a control per pizza — which is
+   also why it lives outside .selector__panel and keeps its selection while
+   the carousel moves.
+
+   Everything visible here comes from MOTO_PIZZA_STYLES in data/menu.js:
+   labels, notes, shape glyph and both prices. Changing a price is a one-line
+   edit there; nothing in this function names a style or a number.
+
+   Semantics are a real radiogroup: one tab stop for the whole group, arrow
+   keys move between the options, Home/End jump to the ends. Arrow keys are
+   safe here because the carousel listens on .selector__stage, not on the
+   panel or on this block.
+   ---------------------------------------------------------------------- */
+function initPizzaStyles() {
+  const box = document.getElementById("selStylesOptions");
+  if (!box || typeof MOTO_PIZZA_STYLES === "undefined" || !MOTO_PIZZA_STYLES.length) return;
+
+  const styles = MOTO_PIZZA_STYLES;
+  // exactly one option is preselected — the flagged one, else the first
+  let activeIdx = Math.max(styles.findIndex((s) => s.default), 0);
+
+  box.innerHTML = styles
+    .map(
+      (s, i) => `
+    <button type="button" role="radio" class="selector__style" data-style-id="${escapeHtml(s.id)}"
+            aria-checked="${i === activeIdx}" tabindex="${i === activeIdx ? 0 : -1}">
+      <span class="selector__style-shape selector__style-shape--${s.shape === "round" ? "round" : "square"}" aria-hidden="true"></span>
+      <span class="selector__style-name">${escapeHtml(s.name)}</span>
+      ${s.note ? `<span class="selector__style-note">${escapeHtml(s.note)}</span>` : ""}
+      <span class="selector__style-price">${escapeHtml(s.price)}&nbsp;€</span>
+    </button>`
+    )
+    .join("");
+
+  const buttons = [...box.children];
+
+  function select(idx, focus) {
+    activeIdx = idx;
+    buttons.forEach((btn, i) => {
+      const on = i === idx;
+      btn.setAttribute("aria-checked", String(on));
+      btn.tabIndex = on ? 0 : -1;
+      btn.classList.toggle("is-active", on);
+    });
+    // the chosen style is readable from the DOM, so anything added later
+    // (an order flow, analytics) can pick it up without a second store
+    box.dataset.selected = styles[idx].id;
+    if (focus) buttons[idx].focus();
+  }
+
+  buttons.forEach((btn, i) => {
+    btn.addEventListener("click", () => select(i, false));
+    btn.addEventListener("keydown", (e) => {
+      const last = buttons.length - 1;
+      let next = null;
+      if (e.key === "ArrowRight" || e.key === "ArrowDown") next = i === last ? 0 : i + 1;
+      if (e.key === "ArrowLeft" || e.key === "ArrowUp") next = i === 0 ? last : i - 1;
+      if (e.key === "Home") next = 0;
+      if (e.key === "End") next = last;
+      if (next === null) return;
+      e.preventDefault();
+      select(next, true);
+    });
+  });
+
+  select(activeIdx, false);
 }
 
 /* ---------- Infinite gallery strip ----------------------------------------

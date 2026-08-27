@@ -1079,8 +1079,108 @@ body {
   letter-spacing: 0.1em; text-transform: uppercase; font-size: 0.72rem;
   color: rgba(255, 255, 255, 0.58); margin-bottom: 6px;
 }
-.selector__price {
-  font-family: var(--font-display); font-size: 1.6rem; color: var(--white);
+/* ---------- Pizza style / variant chooser ---------------------------------
+   Replaces the single price line: the price now depends on the style, so the
+   two options carry it instead. One chooser for all ten pizzas, so it sits
+   outside .selector__panel and does not inherit the panel's fade.
+
+   Colours come straight from the section's own tone: the block sits on the
+   pink or blue background, an unpicked option is a hairline in white on it,
+   and the picked one is a solid white card with the tone as its accent —
+   no new colour enters the palette. Rendered by initPizzaStyles() in
+   js/main.js from MOTO_PIZZA_STYLES in data/menu.js.
+   ---------------------------------------------------------------------- */
+.selector__styles {
+  position: relative; z-index: 1;
+  max-width: 640px; margin: clamp(26px, 3.4vw, 38px) auto 0;
+  padding: 0 var(--pad);
+  color: var(--white);
+}
+.selector__styles-label {
+  font-family: var(--font-head); font-weight: 700;
+  font-size: clamp(0.58rem, 0.78vw, 0.7rem);
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+  text-align: center;
+  margin-bottom: clamp(12px, 1.6vw, 16px);
+}
+
+/* one column on phones, two from the point the pair still fits without the
+   labels wrapping — minmax(0,1fr) so a long label shrinks the column instead
+   of pushing the grid wider than the panel (no horizontal scrollbar) */
+.selector__styles-options {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(10px, 1.4vw, 14px);
+}
+@media (min-width: 560px) {
+  .selector__styles-options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.selector__style {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 6px;
+  min-width: 0;
+  padding: clamp(14px, 1.8vw, 20px) clamp(10px, 1.6vw, 18px);
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--white);
+  text-align: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.24s var(--ease), border-color 0.24s var(--ease),
+              color 0.24s var(--ease), transform 0.24s var(--ease),
+              box-shadow 0.24s var(--ease);
+}
+.selector__style:hover { background: rgba(255, 255, 255, 0.16); border-color: var(--white); }
+.selector__style:active { transform: translateY(0); }
+.selector__style:focus-visible { outline: 2px solid var(--white); outline-offset: 4px; }
+
+.selector__style.is-active {
+  background: var(--white);
+  border-color: var(--white);
+  color: var(--ink);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px -14px rgba(20, 17, 22, 0.6);
+}
+
+/* the glyph is the whole difference between the two options, so it is drawn
+   rather than written: a rounded square for Detroit, a circle for New York */
+.selector__style-shape {
+  width: 22px; height: 22px; flex: none;
+  border: 2.5px solid currentColor;
+  border-radius: 5px;
+  opacity: 0.9;
+}
+.selector__style-shape--round { border-radius: 50%; }
+.selector__style.is-active .selector__style-shape {
+  background: currentColor;
+  opacity: 1;
+}
+
+.selector__style-name {
+  font-family: var(--font-display); text-transform: uppercase;
+  font-size: clamp(0.72rem, 1.05vw, 0.92rem);
+  letter-spacing: 0.05em; line-height: 1.2;
+}
+.selector__style-note {
+  font-family: var(--font-body);
+  font-size: clamp(0.68rem, 0.85vw, 0.78rem);
+  line-height: 1.3;
+  opacity: 0.66;
+}
+.selector__style-price {
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 1.9vw, 1.5rem);
+  line-height: 1.1;
+  margin-top: 2px;
+}
+.selector__style.is-active .selector__style-price { color: var(--tone-accent); }
+
+@media (prefers-reduced-motion: reduce) {
+  .selector__style { transition: none; }
+  .selector__style.is-active { transform: none; }
 }
 
 /* ==========================================================================

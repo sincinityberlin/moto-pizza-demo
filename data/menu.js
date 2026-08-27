@@ -3,7 +3,11 @@
    Edit this file to change pizzas, prices or descriptions.
    Each item: id (matches an image in assets/images/pizza-*.jpg), name,
    tag (short vibe word / category), short (one-line teaser for the pizza
-   selector), desc (ingredients), price, badge (optional).
+   selector), desc (ingredients), badge (optional).
+
+   Pizza prices are NOT on the items — every pizza is offered in both styles
+   below at the same two prices, so the price belongs to the style, not to
+   the pizza. See MOTO_PIZZA_STYLES. Snacks and drinks keep their own price.
 
    ALLERGEN LABELLING — read before editing `allergens`
    ---------------------------------------------------
@@ -35,6 +39,36 @@
    Beef Lover is as precise as the printed source allows.
    ========================================================================== */
 
+/* ==========================================================================
+   PIZZA STYLES — single source of truth for the variant chooser
+   Every one of the ten pizzas is available in both styles, so the price sits
+   here and not on the individual pizza. Edit a price, a name or a note in
+   this list and the chooser under the selector follows; add or remove an
+   entry and the chooser renders one option more or less, with no change in
+   js/main.js or css/style.css.
+
+   default: true marks the option preselected on load — exactly one entry
+   should carry it (the first one wins if several do). `shape` picks the
+   little glyph in front of the label: "square" or "round".
+   ========================================================================== */
+const MOTO_PIZZA_STYLES = [
+  {
+    id: "detroit",
+    name: "Detroit Style",
+    note: "eckig · 25 × 25 cm",
+    shape: "square",
+    price: "18,90",
+    default: true,
+  },
+  {
+    id: "newyork",
+    name: "New York Style",
+    note: "rund · 45 cm",
+    shape: "round",
+    price: "22,00",
+  },
+];
+
 const MOTO_MENU = [
   {
     id: "moto",
@@ -43,7 +77,6 @@ const MOTO_MENU = [
     tag: "Der Klassiker",
     short: "Der Detroit-Klassiker: würzige Peperoni-Salami trifft auf Champignons, Oliven und Paprika.",
     desc: "Peperoni-Salami, Champignons, Zwiebeln, grüne Paprika, Oliven, Parmesan & Tomatensoße",
-    price: "22,00",
     badge: "Signature",
     allergens: ["V", "Y"],
     allergensPending: false,
@@ -55,7 +88,6 @@ const MOTO_MENU = [
     tag: "Für Salami-Fans",
     short: "Für alle, die es deftig mögen: extra viel Pepperoni-Salami auf MOTO-Käse.",
     desc: "Extra viel Pepperoni-Salami, Parmesan & Tomatensauce",
-    price: "22,00",
     allergens: ["V", "Y"],
     allergensPending: false,
     additives: ["2", "3"],
@@ -70,7 +102,6 @@ const MOTO_MENU = [
     tag: "Herzhaft & scharf",
     short: "Rind, Kimchi und Knoblauchsauce – herzhaft, scharf und mit koreanischem Twist.",
     desc: "Beef, Zwiebeln, Knoblauchsauce, eingelegter Kohl, Kimchi, schwarzer Sesam & Rohrzuckeressig",
-    price: "22,00",
     badge: "Bestseller",
     allergens: ["V", "Y", "R", "T", "M"],
     allergensPending: false,
@@ -82,7 +113,6 @@ const MOTO_MENU = [
     tag: "Süß trifft scharf",
     short: "Scharfe Salami und Kabanossi, gekrönt von einem Schuss scharfem Honig.",
     desc: "Pepperoni-Salami, Kabanossi, Parmesan & Tomatensauce, getoppt mit scharfem Honig",
-    price: "22,00",
     allergens: ["V", "Y", "S", "U"],
     allergensPending: false,
     additives: ["2", "5"],
@@ -93,7 +123,6 @@ const MOTO_MENU = [
     tag: "BBQ Deluxe",
     short: "Speck, Kabanossi und eine BBQ-Sauce mit Calamansi-Limette – deftig und rauchig.",
     desc: "Speckwürfel, Kabanossi, Zwiebeln, Parmesan, Calamansi-Limetten-Sauce & BIG HOG BBQ-Sauce",
-    price: "22,00",
     allergens: ["V", "Y", "S", "U"],
     allergensPending: false,
     additives: ["2", "3"],
@@ -104,7 +133,6 @@ const MOTO_MENU = [
     tag: "Vom Meer",
     short: "Scharfe Garnelen, Chiliöl und cremige Sauce Hollandaise – MOTO vom Meer.",
     desc: "Scharfe Garnelen, Parmesan, Schnittlauch, Calamansi-Limetten-Sauce, Chiliöl & Sauce Hollandaise",
-    price: "22,00",
     allergens: ["V", "Y", "P", "S", "X"],
     allergensPending: false,
     additives: [],
@@ -115,7 +143,6 @@ const MOTO_MENU = [
     tag: "Cremig & mild",
     short: "Zartes Hähnchen, Crème fraîche und ein Hauch Sriracha – mild und cremig.",
     desc: "Crème fraîche, Hähnchenbruststreifen, Frühlingszwiebeln & Sriracha-Sauce",
-    price: "22,00",
     allergens: ["V", "Y", "S"],
     allergensPending: false,
     additives: [],
@@ -126,7 +153,6 @@ const MOTO_MENU = [
     tag: "Für Pilzfans",
     short: "Waldig & erdig: eine Oyster-Pilzmischung auf cremiger Ricotta-Sauce.",
     desc: "Oyster-Pilzmischung, Ricotta-Sauce & Parmesan",
-    price: "22,00",
     allergens: ["V", "Y"],
     allergensPending: false,
     additives: [],
@@ -137,7 +163,6 @@ const MOTO_MENU = [
     tag: "Vegetarisch",
     short: "Rucola, eingelegter Kohl und Knoblauchsauce – frisch, vegetarisch, würzig.",
     desc: "Rucola, eingelegter Kohl, Parmesan, Knoblauchsauce, Tomatensauce, Meersalz & schwarzer Sesam",
-    price: "22,00",
     badge: "Veggie",
     allergens: ["V", "Y", "M"],
     allergensPending: false,
@@ -149,7 +174,6 @@ const MOTO_MENU = [
     tag: "Simply cheesy",
     short: "Puristisch und ehrlich: nur MOTO-Käsemischung, Parmesan und Tomatensauce.",
     desc: "MOTO-Käsemischung, Parmesan & Tomatensauce",
-    price: "22,00",
     allergens: ["V", "Y"],
     allergensPending: false,
     additives: [],
