@@ -38,6 +38,7 @@
 const MOTO_MENU = [
   {
     id: "moto",
+    maxPick: true, // flagged as Max' Pick — shown by the selector panel
     name: "MOTO",
     tag: "Der Klassiker",
     short: "Der Detroit-Klassiker: würzige Peperoni-Salami trifft auf Champignons, Oliven und Paprika.",

@@ -105,6 +105,7 @@ function initPizzaSelector() {
     ingredients: document.getElementById("selIngredients"),
     allergens: document.getElementById("selAllergens"),
     price: document.getElementById("selPrice"),
+    pick: document.getElementById("selPick"),
   };
 
   const count = MOTO_MENU.length;
@@ -210,6 +211,9 @@ function initPizzaSelector() {
         els.short.innerHTML = withMotoMark(p.short || p.desc);
         els.ingredients.innerHTML = withMotoMark(p.desc);
         if (els.allergens) els.allergens.innerHTML = allergenLine(p);
+        // Max' Pick rides along with the panel's own fade, so it appears and
+        // disappears with the rest of the copy instead of popping separately
+        if (els.pick) els.pick.hidden = !p.maxPick;
         els.price.textContent = `${p.price} €`;
         panel.classList.remove("is-changing");
       },
@@ -426,7 +430,28 @@ function renderProductGrid(gridId, items, imgPrefix) {
 function initNavScroll() {
   const nav = document.querySelector(".nav");
   if (!nav) return;
-  const onScroll = () => nav.classList.toggle("is-scrolled", window.scrollY > 40);
+  // the hero's Moto Max fades out on the same signal — no second scroll
+  // listener, no extra work per frame
+  const hero = document.querySelector(".hero");
+
+  /* His entrance runs with animation-fill-mode:both, and a filled animation
+     outranks a plain declaration — so .hero.is-scrolled's opacity:0 would be
+     ignored for good. Hand off the moment the entrance ends: drop the
+     animation and mark him settled, which is the state the scroll rule then
+     overrides. The class (not an inline opacity, the way the toppings do it)
+     is what keeps the fade-out able to win afterwards. */
+  const max = document.querySelector(".hero__max");
+  if (max) {
+    max.addEventListener("animationend", () => {
+      max.style.animation = "none";
+      max.classList.add("is-settled");
+    }, { once: true });
+  }
+  const onScroll = () => {
+    const scrolled = window.scrollY > 40;
+    nav.classList.toggle("is-scrolled", scrolled);
+    if (hero) hero.classList.toggle("is-scrolled", scrolled);
+  };
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });
 }

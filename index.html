@@ -236,6 +236,12 @@
       </div>
     </div>
 
+    <!-- Moto Max, decorative only: peeks in from the bottom-right edge, is
+         clipped by the hero's own overflow:hidden, and fades out as soon as
+         the page scrolls. Sits behind .hero__inner (z-index 2), so it can
+         never come between the reader and logo, headline, pizza or CTAs. -->
+    <img src="assets/images/moto-max.png" alt="" aria-hidden="true" class="hero__max" />
+
     <a href="#marquee" class="hero__scroll" aria-label="Nach unten scrollen">
       <span></span>
     </a>
@@ -299,6 +305,11 @@
         </div>
 
         <div class="selector__panel" id="selPanel">
+          <!-- shown by js/main.js only for the pizza flagged maxPick in data/menu.js -->
+          <p class="selector__pick" id="selPick" hidden>
+            <img src="assets/images/moto-max.png" alt="Moto Max" class="selector__pick-max" />
+            <span class="selector__pick-label">Max’&nbsp;Pick</span>
+          </p>
           <p class="selector__index"><span id="selIndexCurrent">01</span>&nbsp;/&nbsp;<span id="selIndexTotal">10</span></p>
           <p class="selector__category" id="selCategory">—</p>
           <h3 class="selector__name" id="selName">—</h3>
@@ -477,6 +488,21 @@
         <li class="reveal" data-reveal data-delay="2"><span>03</span>Kräftige Zutaten.</li>
         <li class="reveal" data-reveal data-delay="3"><span>04</span>Gebacken in der typischen rechteckigen Form.</li>
       </ul>
+
+      <!-- the one place Moto Max is shown in full; reuses the section's own
+           reveal mechanic and kicker style, so it reads as part of the story
+           rather than a bolted-on mascot panel -->
+      <div class="about__max reveal" data-reveal>
+        <img src="assets/images/moto-max.png" alt="Moto Max, das Maskottchen von MOTO PIZZA" class="about__max-figure" />
+        <div class="about__max-copy">
+          <p class="about__kicker"><span aria-hidden="true">▢</span>Unser Maskottchen</p>
+          <h3 class="about__max-title">MEET<br /><span class="hl hl--blue">MOTO</span> <span class="hl hl--pink">MAX</span></h3>
+          <p class="about__max-text">
+            Moto Max ist das Gesicht von <svg class="moto-mark" role="img" aria-label="MOTO"><use href="#moto-wordmark"/></svg>&nbsp;PIZZA –
+            laut, locker und immer auf der Suche nach dem perfekten Crispy Edge.
+          </p>
+        </div>
+      </div>
 
       <div class="about__finale">
         <span class="about__finale-line">

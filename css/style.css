@@ -504,6 +504,42 @@ body {
 }
 @media (min-width: 900px) { .hero__product-img { max-height: 64vh; } }
 
+/* ---------- Moto Max in the hero -----------------------------------------
+   Anchored to the bottom-right corner and pushed a third of his own height
+   past the edge, so the hero's overflow:hidden crops him — he reads as
+   leaning into frame, not as a sticker placed on top. z-index 1 keeps him
+   under .hero__inner (z-index 2): logo, headline, deal, pizza and CTAs all
+   paint over him, so he can never obscure the message. pointer-events:none
+   so he never intercepts a tap meant for the CTA beneath. */
+.hero__max {
+  --max-h: clamp(104px, 17vh, 200px);
+  position: absolute;
+  right: clamp(4px, 2.5vw, 60px);
+  /* anchored to the first screenful, NOT to the hero's own bottom edge: the
+     hero grows well past 100svh on desktop (headline + deal + a 64vh pizza +
+     CTAs), so bottom:0 would park him far below the fold — exactly where he
+     then fades out on scroll, i.e. never seen. Pinning him to the 100svh line
+     and letting ~28% of him sit below it gives the intended "leaning in from
+     the bottom of the screen" on first paint, at every window height. */
+  top: calc(100svh - var(--max-h) * 0.72);
+  height: var(--max-h);
+  width: auto;
+  z-index: 1;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 12px 22px rgba(20, 17, 22, 0.28));
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+}
+/* set by js/main.js when the entrance animation ends — the resting state the
+   scroll rule below then overrides (higher specificity, so it wins) */
+.hero__max.is-settled { opacity: 1; }
+/* leaves as quietly as he arrived, on the nav's existing scroll signal */
+.hero.is-scrolled .hero__max,
+.hero.is-scrolled .hero__max.is-settled { opacity: 0; transform: translateY(38%); }
+@media (max-width: 640px) {
+  .hero__max { --max-h: clamp(84px, 13vh, 132px); right: 2px; }
+}
+
 .hero__scroll {
   position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%);
   z-index: 2; width: 26px; height: 42px; border-radius: 100px;
@@ -624,6 +660,10 @@ body {
 
   .hero__product { opacity: 0; animation: heroPizzaIn 0.62s var(--ease) 0.78s both; }
 
+  /* last beat of the hero choreography, after the CTAs at 2.4s: he rises the
+     last bit of the way in and stops. One pass, no loop, no idle motion. */
+  .hero__max { opacity: 0; animation: heroMaxIn 0.75s var(--ease) 2.6s both; }
+
   /* toppings fall/fly in one at a time, only once the pizza has landed —
      most from above (heroToppingIn), several from the side for variety */
   .hero__topping { opacity: 0; animation: heroToppingIn 0.4s var(--ease) both; }
@@ -668,6 +708,13 @@ body {
 @keyframes heroPromoIn {
   from { opacity: 0; transform: translateY(14px) scale(0.94); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+/* comes up from behind the bottom edge and settles with a barely-there tilt
+   that resolves to straight — the "wave" without any waving */
+@keyframes heroMaxIn {
+  from { opacity: 0; transform: translateY(46%) rotate(3.5deg); }
+  60%  { opacity: 1; transform: translateY(-6%) rotate(-1.2deg); }
+  to   { opacity: 1; transform: translateY(0) rotate(0deg); }
 }
 @keyframes heroActionsIn {
   from { opacity: 0; transform: translateY(20px); }
@@ -881,6 +928,33 @@ body {
 }
 @media (min-width: 1000px) { .selector__panel { margin-top: 60px; } }
 .selector__panel.is-changing { opacity: 0; transform: translateY(8px); }
+
+/* ---------- Max' Pick ----------------------------------------------------
+   A quiet endorsement line above the index, not a shouty sticker: Max is
+   deliberately smaller than the type beside him and far smaller than any
+   product image. Lives inside .selector__panel, so it inherits the panel's
+   own fade when the carousel changes pizza and adds no animation of its own.
+   [hidden] must be forced — the panel's children are display:block. */
+.selector__pick[hidden] { display: none; }
+.selector__pick {
+  display: inline-flex; align-items: center; gap: 8px;
+  margin: 0 auto 12px;
+  padding: 5px 14px 5px 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+}
+.selector__pick-max { height: 30px; width: auto; display: block; flex: none; }
+.selector__pick-label {
+  font-family: var(--font-display);
+  font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--white); white-space: nowrap;
+}
+@media (max-width: 640px) {
+  .selector__pick { gap: 6px; padding: 4px 11px 4px 5px; margin-bottom: 9px; }
+  .selector__pick-max { height: 24px; }
+  .selector__pick-label { font-size: 0.6rem; letter-spacing: 0.11em; }
+}
 
 .selector__index {
   font-family: var(--font-head); font-weight: 600; letter-spacing: 0.1em;
@@ -1241,6 +1315,64 @@ body {
   line-height: 1.3;
   max-width: 640px;
   margin: 40px auto 28px;
+}
+
+/* ---------- Meet Moto Max ------------------------------------------------
+   The one full-figure appearance. Two columns on desktop, stacked with the
+   figure first on phones. Colour comes only from the existing hl--blue /
+   hl--pink accents plus one soft pink halo behind the figure — no panel, no
+   border, no comic devices, and the section's light background is untouched.
+   The figure is capped at 200px so it stays within the source PNG's own
+   resolution (248x346) even on a 2x display. */
+.about__max {
+  position: relative;
+  margin: 74px auto 0;
+  max-width: 760px;
+  display: flex; align-items: center;
+  gap: clamp(22px, 4vw, 54px);
+}
+.about__max::before {
+  content: ""; position: absolute; z-index: 0;
+  left: 0; top: 50%;
+  width: clamp(170px, 24vw, 226px); aspect-ratio: 1;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(236, 30, 141, 0.14) 0%, rgba(236, 30, 141, 0) 70%);
+  pointer-events: none;
+}
+.about__max-figure {
+  position: relative; z-index: 1;
+  /* capped at 172px, not larger: the extracted figure is 248x346, so on a 2x
+     display 172 CSS px is exactly its native resolution. Anything above this
+     upscales a source that came from a screenshot of the turnaround sheet. */
+  height: clamp(140px, 20vw, 172px);
+  width: auto; flex: none; display: block;
+  filter: drop-shadow(0 18px 30px rgba(20, 17, 22, 0.2));
+}
+/* the section centres its prose; in this two-column block left-aligned copy
+   reads as deliberate rather than as a stray centred paragraph */
+.about__max-copy { position: relative; z-index: 1; text-align: left; }
+.about__max-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3.4vw, 2.3rem);
+  line-height: 1.06; letter-spacing: -0.01em;
+  text-transform: uppercase;
+  margin: 6px 0 14px;
+}
+.about__max-text {
+  font-size: clamp(0.94rem, 1.5vw, 1.05rem);
+  line-height: 1.6;
+  color: rgba(20, 17, 22, 0.72);
+  max-width: 42ch;
+}
+@media (max-width: 720px) {
+  .about__max {
+    flex-direction: column; align-items: center; text-align: center;
+    gap: 18px; margin-top: 54px;
+  }
+  .about__max::before { left: 50%; top: clamp(70px, 12vw, 100px); transform: translate(-50%, -50%); }
+  .about__max-copy { text-align: center; }
+  .about__max-text { margin-inline: auto; }
 }
 
 .about__marks {
