@@ -823,7 +823,40 @@ body {
   display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between;
   gap: 24px; margin-bottom: 56px;
 }
-.menu__note { max-width: 320px; color: rgba(20, 17, 22, 0.6); font-size: 1rem; }
+/* short explanatory note, not a second headline: it rides at the right-hand
+   end of the head row, set a good step smaller than body copy and ragged
+   left so its right edge lines up with the section's own margin. Black for
+   contrast, small for hierarchy — the size is what keeps it subordinate to
+   UNSERE PIZZEN, not a lighter grey.
+   .menu__head is a wrapping flex row, so below ~800px the note drops under
+   the headline on its own; there it goes back to ragged right and stays at
+   the smaller size rather than filling the width like a heading. */
+.menu__note {
+  /* a little wider than the old 300px so the bigger type still lands on
+     three lines instead of four — margin-left:auto pins the right edge, so
+     the extra width grows leftwards into the empty gap and the note does not
+     move */
+  max-width: 380px;
+  margin-left: auto;
+  padding-bottom: 6px;
+  color: var(--ink);
+  font-size: clamp(0.98rem, 1.18vw, 1.12rem);
+  /* 600 is a real cut of AdelleSansARA (Semibold), so this is drawn type and
+     not a synthetically smeared 400 — it carries at this size without the
+     heaviness 700 would bring to three lines of running text */
+  font-weight: 600;
+  line-height: 1.55;
+  text-align: right;
+}
+@media (max-width: 799px) {
+  .menu__note {
+    margin-left: 0;
+    padding-bottom: 0;
+    max-width: 360px;
+    font-size: 0.98rem;
+    text-align: left;
+  }
+}
 
 /* ---- interactive pizza selector ---- */
 /* every pizza sits on a full, flat brand-colour card that alternates
