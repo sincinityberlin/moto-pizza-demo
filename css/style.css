@@ -505,42 +505,43 @@ body {
 @media (min-width: 900px) { .hero__product-img { max-height: 64vh; } }
 
 /* ---------- Moto Max peeking round the right screen edge ------------------
-   Uses the side view from the character turnaround (assets/images/
-   moto-max-peek.png), not the front view: a frontal figure sliced by a
-   vertical edge only ever reads as "cut off". In profile he faces left —
-   into the page — so the same vertical cut reads as a head leaning round a
-   corner, with cap, face, eye and his near glove on the visible side.
-   The figure is never scaled non-uniformly, rotated beyond a couple of
-   degrees or otherwise distorted; only how much of it clears the edge
-   changes, and that is driven by --max-x from js/main.js.
-   Fixed to the viewport so he stays glued to the edge he hides behind,
-   z-index 1 (under .hero__inner) and pointer-events:none so he can neither
-   cover nor intercept anything. */
+   Built from the user's reference composition (assets/images/
+   moto-max-peek.png): a large head seen from the front — both eyes, cap and
+   smile — with the arm and glove reaching down to the edge. The body is not
+   in the asset at all, because in this framing it is behind the edge, which
+   is exactly why it beats a full figure sliced by a vertical cut.
+   The viewport's right border does the occluding: he is fixed to it, and
+   only the part that has travelled left of it is drawn. Nothing masks him
+   artificially — the edge of the screen IS the mask.
+   How far he has come round is the only animated value, --max-x from
+   js/main.js, so the motion is one continuous horizontal translation and
+   never a fade or a scale.
+   z-index 1 (under .hero__inner, z-index 2) and pointer-events:none, so he
+   can neither cover the hero's message nor swallow a tap. */
 .hero__max {
-  --max-h: clamp(190px, 30vh, 320px);
+  --max-h: clamp(280px, 44vh, 440px);
   --max-x: 120%;            /* off-screen until js/main.js takes over */
   --max-rot: 0deg;
   position: fixed;
   right: 0;
-  top: 48%;
+  top: 46%;
   height: var(--max-h);
   width: auto;
   z-index: 1;
   opacity: 0;
   pointer-events: none;
   user-select: none;
-  transform-origin: 88% 30%;   /* pivots near the edge, roughly at his neck */
+  transform-origin: 90% 26%;   /* pivots at the edge, roughly where he grips */
   transform: translate(var(--max-x), -50%) rotate(var(--max-rot));
-  filter: drop-shadow(-12px 14px 26px rgba(20, 17, 22, 0.32));
+  filter: drop-shadow(-14px 16px 30px rgba(20, 17, 22, 0.34));
   transition: transform 0.4s var(--ease), opacity 0.5s var(--ease);
   will-change: transform;
 }
 .hero__max.is-in { opacity: 1; }
 @media (max-width: 640px) {
-  /* 52%, not 44%: at the higher anchor his cap ran into the band the
-     20% deal line occupies. He is behind it either way, but the line
-     deserves clear air around it. */
-  .hero__max { --max-h: clamp(150px, 24vh, 215px); top: 52%; }
+  /* phones get their own scale and anchor, not the desktop pixels: less
+     width to give away, and the 20% deal line sits higher up */
+  .hero__max { --max-h: clamp(180px, 25vh, 250px); top: 62%; }
 }
 @media (prefers-reduced-motion: reduce) {
   .hero__max { transition: opacity 0.3s linear; }

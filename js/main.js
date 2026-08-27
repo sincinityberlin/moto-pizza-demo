@@ -442,10 +442,10 @@ function initNavScroll() {
    animated — how much of him is still tucked away, as a percentage of his
    own width, written to --max-x:
 
-     at rest   38% hidden, i.e. cap, face, eye and his near glove clear the
-               edge while the body stays behind it (44% on phones, which are
-               narrower and need him to take less room)
-     scrolling he leans further out, down to 8% hidden by the end of the hero
+     at rest   24% hidden — the whole face, cap and the gripping glove are
+               over the edge, the rest of him is not (30% on phones, which
+               have less width to give away)
+     scrolling he pulls himself round, past 0% to -6%, i.e. clear of the edge
      the last   slides to 118% and is clear of the screen, easing out rather
      fifth      than being cut off
 
@@ -463,8 +463,12 @@ function initHeroMax() {
   const hero = document.querySelector(".hero");
   if (!max || !hero) return;
 
-  const REST = 38;   // % of his own width behind the edge at rest
-  const OUT = 8;     // % once the hero has scrolled by
+  /* Percentages of his own width still behind the edge. The asset is already
+     just head + arm, so at rest only a quarter needs hiding for the face to
+     read fully while the grip sits on the edge; by the end of the hero he has
+     pulled himself right around it and a little way into the page. */
+  const REST = 24;   // % of his own width behind the edge at rest
+  const OUT = -6;    // % once the hero has scrolled by — fully round the corner
   const GONE = 118;  // % — fully clear of the viewport
   const EXIT = 0.86; // share of the hero after which he leaves
 
