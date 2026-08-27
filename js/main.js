@@ -436,29 +436,37 @@ function initNavScroll() {
   window.addEventListener("scroll", onScroll, { passive: true });
 }
 
-/* ---------- Moto Max peeking in from the right screen edge ----------------
+/* ---------- Moto Max peeking round the right screen edge ------------------
    He is position:fixed against the viewport, so the page scrolls underneath
-   him and he stays glued to the edge he is "hiding behind". This drives only
-   his horizontal offset, as a percentage of his own width, via --max-x:
+   him and he stays glued to the edge he is hiding behind. Only one number is
+   animated — how much of him is still tucked away, as a percentage of his
+   own width, written to --max-x:
 
-     at rest        ~64% of him tucked away, so about a third shows
-     down the hero  leans out to 50% hidden, over the first 80%
-     last fifth     slides to 118% and is clear of the screen
+     at rest   38% hidden, i.e. cap, face, eye and his near glove clear the
+               edge while the body stays behind it (44% on phones, which are
+               narrower and need him to take less room)
+     scrolling he leans further out, down to 8% hidden by the end of the hero
+     the last   slides to 118% and is clear of the screen, easing out rather
+     fifth      than being cut off
 
-   The handler writes one custom property and is rAF-coalesced, so a fast
-   flick costs at most one style write per frame. CSS eases between the
-   values, which is what keeps the motion soft rather than welded to the
-   scroll position. It runs in reverse on the way back up for free, because
-   the value is derived from scrollY, not from a scroll direction.
+   A couple of degrees of counter-rotation ride along, straightening as he
+   emerges, so the lean looks like a body moving rather than an image sliding.
+
+   The handler writes two custom properties and is rAF-coalesced, so a fast
+   flick costs at most one style write per frame; CSS eases between the
+   values, which is what keeps it smooth instead of welded to scrollY. It
+   runs in reverse on the way back up for free, because everything is derived
+   from the scroll position, not from a direction.
    -------------------------------------------------------------------- */
 function initHeroMax() {
   const max = document.querySelector(".hero__max");
   const hero = document.querySelector(".hero");
   if (!max || !hero) return;
 
-  const REST = 64;   // % of his own width behind the edge at rest
-  const LEAN = 50;   // % once the hero has scrolled by
+  const REST = 38;   // % of his own width behind the edge at rest
+  const OUT = 8;     // % once the hero has scrolled by
   const GONE = 118;  // % — fully clear of the viewport
+  const EXIT = 0.86; // share of the hero after which he leaves
 
   const phone = () => window.matchMedia("(max-width: 640px)").matches;
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -467,18 +475,25 @@ function initHeroMax() {
   function update() {
     ticking = false;
     const rest = phone() ? REST + 6 : REST; // a little less of him on phones
-    const travel = hero.offsetHeight - window.innerHeight * 0.35;
+    // spans almost the whole hero, so 25/50/75% of scrolling the hero really
+    // is 25/50/75% of his emergence; he only starts leaving once the hero
+    // itself is on its way out
+    const travel = hero.offsetHeight - window.innerHeight * 0.12;
     const p = Math.min(Math.max(window.scrollY / Math.max(travel, 1), 0), 1);
 
-    // he leans out for most of the hero and only starts leaving in the last
-    // fifth, so the exit reads as "the hero is over" rather than as an early
-    // retreat while the pizza is still on screen
-    const x = p <= 0.8
-      ? rest + (LEAN - rest) * (p / 0.8)          // leans out, gently
-      : LEAN + (GONE - LEAN) * ((p - 0.8) / 0.2); // and slides away
-
+    let x, rot;
+    if (p <= EXIT) {
+      const t = p / EXIT;
+      x = rest + (OUT - rest) * t;   // emerges, progressively
+      rot = -3 + 3 * t;              // and straightens up as he does
+    } else {
+      const t = (p - EXIT) / (1 - EXIT);
+      x = OUT + (GONE - OUT) * t;    // then slides away to the right
+      rot = 3 * t;
+    }
     max.style.setProperty("--max-x", x.toFixed(2) + "%");
-    max.classList.toggle("is-in", p < 0.985);
+    max.style.setProperty("--max-rot", rot.toFixed(2) + "deg");
+    max.classList.toggle("is-in", p < 0.99);
   }
 
   const onScroll = () => {

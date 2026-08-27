@@ -504,43 +504,44 @@ body {
 }
 @media (min-width: 900px) { .hero__product-img { max-height: 64vh; } }
 
-/* ---------- Moto Max in the hero -----------------------------------------
-   Fixed to the viewport's right edge, not placed inside the hero: he should
-   read as hiding *behind the screen edge* and peering in, which only works
-   if he stays glued to that edge while the page moves underneath him.
-   position:fixed also means his size never depends on how tall the hero
-   happens to be on a given window.
-   Everything about his horizontal position is driven by js/main.js through
-   --max-x, recomputed on scroll inside a rAF: resting he shows ~36% of
-   himself (desktop) / ~30% (mobile), leans a little further out as the hero
-   scrolls past, then slides fully off to the right as the hero ends.
-   The transition is what keeps that motion soft — the scroll handler sets
-   coarse targets and CSS eases between them, so no frame ever jumps.
-   z-index 1 keeps him under .hero__inner (z-index 2) and pointer-events:none
-   means he can never swallow a tap meant for a CTA. */
+/* ---------- Moto Max peeking round the right screen edge ------------------
+   Uses the side view from the character turnaround (assets/images/
+   moto-max-peek.png), not the front view: a frontal figure sliced by a
+   vertical edge only ever reads as "cut off". In profile he faces left —
+   into the page — so the same vertical cut reads as a head leaning round a
+   corner, with cap, face, eye and his near glove on the visible side.
+   The figure is never scaled non-uniformly, rotated beyond a couple of
+   degrees or otherwise distorted; only how much of it clears the edge
+   changes, and that is driven by --max-x from js/main.js.
+   Fixed to the viewport so he stays glued to the edge he hides behind,
+   z-index 1 (under .hero__inner) and pointer-events:none so he can neither
+   cover nor intercept anything. */
 .hero__max {
-  --max-h: clamp(120px, 21vh, 230px);
+  --max-h: clamp(190px, 30vh, 320px);
   --max-x: 120%;            /* off-screen until js/main.js takes over */
+  --max-rot: 0deg;
   position: fixed;
   right: 0;
-  top: 62%;
+  top: 48%;
   height: var(--max-h);
   width: auto;
   z-index: 1;
   opacity: 0;
   pointer-events: none;
   user-select: none;
-  transform: translate(var(--max-x), -50%);
-  filter: drop-shadow(-10px 14px 26px rgba(20, 17, 22, 0.3));
-  transition: transform 0.35s var(--ease), opacity 0.45s var(--ease);
+  transform-origin: 88% 30%;   /* pivots near the edge, roughly at his neck */
+  transform: translate(var(--max-x), -50%) rotate(var(--max-rot));
+  filter: drop-shadow(-12px 14px 26px rgba(20, 17, 22, 0.32));
+  transition: transform 0.4s var(--ease), opacity 0.5s var(--ease);
   will-change: transform;
 }
 .hero__max.is-in { opacity: 1; }
 @media (max-width: 640px) {
-  .hero__max { --max-h: clamp(96px, 15vh, 150px); top: 58%; }
+  /* 52%, not 44%: at the higher anchor his cap ran into the band the
+     20% deal line occupies. He is behind it either way, but the line
+     deserves clear air around it. */
+  .hero__max { --max-h: clamp(150px, 24vh, 215px); top: 52%; }
 }
-/* no scroll choreography for anyone who asked for less motion — he simply
-   sits at his resting peek and stays there */
 @media (prefers-reduced-motion: reduce) {
   .hero__max { transition: opacity 0.3s linear; }
 }
