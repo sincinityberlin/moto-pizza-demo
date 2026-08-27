@@ -519,7 +519,7 @@ body {
    z-index 1 (under .hero__inner, z-index 2) and pointer-events:none, so he
    can neither cover the hero's message nor swallow a tap. */
 .hero__max {
-  --max-h: clamp(170px, 25.5vh, 258px);
+  --max-h: clamp(120px, 18vh, 185px);   /* Desktop large, >=1440 */
   --max-x: 120%;            /* off-screen until js/main.js takes over */
   --max-rot: 0deg;
   position: fixed;
@@ -538,10 +538,26 @@ body {
   will-change: transform;
 }
 .hero__max.is-in { opacity: 1; }
-@media (max-width: 640px) {
-  /* phones get their own scale and anchor, not the desktop pixels: less
-     width to give away, and the 20% deal line sits higher up */
-  .hero__max { --max-h: clamp(135px, 19vh, 182px); top: 69%; }
+/* Four separate bands, because one size cannot serve them: the hero pizza's
+   silhouette is widest at its own mid-height and narrows towards the bottom,
+   and how much room is left beside it depends on both viewport width and
+   height. Each band therefore gets its own height and anchor; the aim is the
+   same everywhere — the pizza stays the headline act, Max is a small detail
+   at the edge with clear air between the two. */
+@media (max-width: 1439px) and (min-width: 1024px) {
+  .hero__max { --max-h: clamp(115px, 17.5vh, 165px); top: 70%; }
+}
+/* Tablets are defined by shape, not by a width number: an iPad Pro is 1024
+   wide in portrait and would otherwise pick up the laptop rule and its 17.5vh,
+   which on a 1366-tall screen is a very large figure. Anything portrait from
+   768 up is therefore treated as a tablet — sized off the short side and sat
+   lowest of all, where the pizza's silhouette has narrowed to about half its
+   widest point. Declared after the width bands so it wins over them. */
+@media (min-width: 768px) and (orientation: portrait) {
+  .hero__max { --max-h: clamp(88px, 8.5vh, 124px); top: 80%; }
+}
+@media (max-width: 767px) {
+  .hero__max { --max-h: clamp(100px, 15vh, 145px); top: 70%; }
 }
 @media (prefers-reduced-motion: reduce) {
   .hero__max { transition: opacity 0.3s linear; }
