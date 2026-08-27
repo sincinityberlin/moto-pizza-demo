@@ -519,12 +519,12 @@ body {
    z-index 1 (under .hero__inner, z-index 2) and pointer-events:none, so he
    can neither cover the hero's message nor swallow a tap. */
 .hero__max {
-  --max-h: clamp(280px, 44vh, 440px);
+  --max-h: clamp(170px, 25.5vh, 258px);
   --max-x: 120%;            /* off-screen until js/main.js takes over */
   --max-rot: 0deg;
   position: fixed;
   right: 0;
-  top: 46%;
+  top: 68%;
   height: var(--max-h);
   width: auto;
   z-index: 1;
@@ -541,7 +541,7 @@ body {
 @media (max-width: 640px) {
   /* phones get their own scale and anchor, not the desktop pixels: less
      width to give away, and the 20% deal line sits higher up */
-  .hero__max { --max-h: clamp(180px, 25vh, 250px); top: 62%; }
+  .hero__max { --max-h: clamp(135px, 19vh, 182px); top: 69%; }
 }
 @media (prefers-reduced-motion: reduce) {
   .hero__max { transition: opacity 0.3s linear; }
