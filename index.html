@@ -325,14 +325,79 @@
           <div class="selector__allergens" id="selAllergens"><!-- injected by js/main.js (allergenLine) --></div>
         </div>
 
-        <!-- Variant chooser. Sits outside .selector__panel on purpose: the
-             choice is the same for all ten pizzas, so it must not fade and
-             re-render every time the carousel moves — it stays put while the
-             pizza above it changes. Options and prices come from
-             MOTO_PIZZA_STYLES in data/menu.js. -->
+        <!-- Style and price of THIS carousel. Not a chooser any more: which
+             style you are looking at is decided by which carousel you are in,
+             so each one states its own single box. data-style picks the entry
+             in MOTO_PIZZA_STYLES (data/menu.js) that js/main.js renders here —
+             the price still lives in exactly one place. Sits outside
+             .selector__panel so it does not fade on every slide change. -->
         <div class="selector__styles" id="selStyles">
-          <p class="selector__styles-label" id="selStylesLabel">Wähle deine Form — jede Pizza gibt&rsquo;s in zwei Styles</p>
-          <div class="selector__styles-options" id="selStylesOptions" role="radiogroup" aria-labelledby="selStylesLabel"><!-- injected by js/main.js from data/menu.js --></div>
+          <div class="selector__styles-options" id="selStyleBox" data-style="detroit"><!-- injected by js/main.js from data/menu.js --></div>
+        </div>
+      </div>
+
+      <!-- ------------------------------------------------------------------
+           NEW YORK STYLE — second carousel, same ten pizzas in the round
+           45 cm shape. Deliberately the same markup and the same .selector
+           classes as the block above: both are driven by the very same
+           initPizzaSelector() in js/main.js, so appearance, motion, easing,
+           swipe, loop and keyboard are not "matched", they are literally the
+           same code. Only the ids, the image prefix and the frame ratio
+           differ.
+
+           No Max' Pick and no Top Seller here on purpose — those mark one
+           recommendation for the whole menu, and repeating them in a second
+           carousel would show them twice. Their elements are simply absent;
+           js/main.js null-guards both.
+           ------------------------------------------------------------------ -->
+      <div class="ny-head reveal" data-reveal>
+        <h3 class="ny-head__title">New&nbsp;York&nbsp;Style</h3>
+        <p class="ny-head__sub"><span>45&nbsp;cm</span><span class="ny-head__dot" aria-hidden="true">·</span><span>rund</span></p>
+      </div>
+
+      <div class="selector" id="nySelector" data-tone="pink" data-reveal="scale">
+        <div class="selector__stage" id="nyStage" tabindex="0" aria-label="New York Style Pizza-Auswahl, mit Pfeiltasten oder Wischen bedienbar">
+          <button class="selector__arrow selector__arrow--prev" id="nyPrev" aria-label="Vorherige New York Style Pizza">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 4l-8 8 8 8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+
+          <div class="selector__track" id="nyTrack"><!-- injected by js/main.js from data/menu.js --></div>
+
+          <button class="selector__arrow selector__arrow--next" id="nyNext" aria-label="Nächste New York Style Pizza">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 4l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+
+        <div class="selector__panel" id="nyPanel">
+          <!-- same block as in the Detroit panel above, and driven by the same
+               code: shown on the pizza flagged maxPick, and clicking it takes
+               this carousel to the pizza flagged topSeller — its own carousel
+               only, because each instance keeps its own state. -->
+          <div class="selector__pick" id="nyPick" hidden>
+            <img src="assets/images/moto-max.png" alt="Moto Max" class="selector__pick-max" />
+            <p class="selector__pick-bubble">
+              <span class="selector__pick-title">Max’&nbsp;Pick</span>
+              <span class="selector__pick-sub">Mein Favorit!</span>
+            </p>
+          </div>
+          <!-- same markup as the Detroit panel, same class, same place in the
+               order — and driven by the same line in js/main.js, which reads
+               the topSeller flag out of data/menu.js. It therefore shows on
+               Beef Lover however you got there: arrows, swipe, keyboard or
+               Max' Pick. -->
+          <p class="selector__top" id="nyTop" hidden>
+            <span class="selector__top-dot" aria-hidden="true"></span>Top&nbsp;Seller
+          </p>
+          <p class="selector__index"><span id="nyIndexCurrent">01</span>&nbsp;/&nbsp;<span id="nyIndexTotal">10</span></p>
+          <p class="selector__category" id="nyCategory">—</p>
+          <h3 class="selector__name" id="nyName">—</h3>
+          <p class="selector__short" id="nyShort">—</p>
+          <p class="selector__ingredients"><span>Zutaten</span><span id="nyIngredients">—</span></p>
+          <div class="selector__allergens" id="nyAllergens"><!-- injected by js/main.js (allergenLine) --></div>
+        </div>
+
+        <div class="selector__styles" id="nyStyles">
+          <div class="selector__styles-options" id="nyStyleBox" data-style="newyork"><!-- injected by js/main.js from data/menu.js --></div>
         </div>
       </div>
     </div>

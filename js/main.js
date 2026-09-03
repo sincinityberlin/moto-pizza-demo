@@ -5,7 +5,30 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   initScrollReveal(); // must run first: initPizzaSelector()/renderGallery() observe new nodes via revealObserver
-  initPizzaSelector();
+  /* Two instances of the very same carousel. Everything visual and
+     behavioural lives in initPizzaSelector(); an instance only says which
+     elements it owns, which pizzas it shows, where its photos are and how
+     tall its image frame is.
+
+     Both read MOTO_MENU: the ten pizzas are the same ten recipes in either
+     style — that is exactly what the note beside UNSERE PIZZEN promises —
+     so names, descriptions, ingredients and allergens must come from one
+     list, not from a second copy that could drift out of step.
+
+     ratio is the image frame's height relative to its width, and it is the
+     one number that has to differ: the Detroit photos are landscape
+     (1100x664), the round New York cut-outs are flatter to the eye but
+     nearly square in file terms, so 0.62 would render them about a third
+     smaller than the square pizzas. 0.72 gives the round pizza the same
+     width on screen as the square one. */
+  initPizzaSelector({
+    root: "pizzaSelector", prefix: "sel", data: MOTO_MENU,
+    imgPrefix: "pizza-", styleLabel: "Detroit Style", ratio: 0.62,
+  });
+  initPizzaSelector({
+    root: "nySelector", prefix: "ny", data: MOTO_MENU,
+    imgPrefix: "pizza-ny-", styleLabel: "New York Style", ratio: 0.72,
+  });
   initPizzaStyles();
   renderGallery();
   initDeals();
@@ -92,38 +115,42 @@ function allergenLine(item) {
    (see normalizePos) — a clone looks identical to the real pizza it stands
    in for, so the jump is invisible.
    ---------------------------------------------------------------------- */
-function initPizzaSelector() {
-  const root = document.getElementById("pizzaSelector");
-  const stage = document.getElementById("selStage");
-  const track = document.getElementById("selTrack");
-  const panel = document.getElementById("selPanel");
-  if (!root || !stage || !track || !panel || typeof MOTO_MENU === "undefined") return;
+function initPizzaSelector(cfg) {
+  const id = (suffix) => document.getElementById(cfg.prefix + suffix);
+  const root = document.getElementById(cfg.root);
+  const stage = id("Stage");
+  const track = id("Track");
+  const panel = id("Panel");
+  const data = cfg.data;
+  if (!root || !stage || !track || !panel || !Array.isArray(data) || !data.length) return;
 
   const els = {
-    current: document.getElementById("selIndexCurrent"),
-    total: document.getElementById("selIndexTotal"),
-    category: document.getElementById("selCategory"),
-    name: document.getElementById("selName"),
-    short: document.getElementById("selShort"),
-    ingredients: document.getElementById("selIngredients"),
-    allergens: document.getElementById("selAllergens"),
-    pick: document.getElementById("selPick"),
-    top: document.getElementById("selTop"),
+    current: id("IndexCurrent"),
+    total: id("IndexTotal"),
+    category: id("Category"),
+    name: id("Name"),
+    short: id("Short"),
+    ingredients: id("Ingredients"),
+    allergens: id("Allergens"),
+    // both are optional: an instance whose markup omits them simply never
+    // shows them, and every use below is already null-guarded
+    pick: id("Pick"),
+    top: id("Top"),
   };
 
-  const count = MOTO_MENU.length;
+  const count = data.length;
   const CLONES = 3; // buffer slides per side — also the max steps one flick may cover
   const totalSlides = count + CLONES * 2;
   const dataIndexOf = (trackIdx) => (((trackIdx - CLONES) % count) + count) % count;
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   track.innerHTML = Array.from({ length: totalSlides }, (_, trackIdx) => {
-    const p = MOTO_MENU[dataIndexOf(trackIdx)];
+    const p = data[dataIndexOf(trackIdx)];
     return `
     <div class="selector__slide">
       <div class="selector__frame">
         <span class="selector__ring" aria-hidden="true"></span>
-        <img src="assets/images/pizza-${p.id}.png" alt="${p.name} – vollständige Detroit Style Pizza" loading="lazy" draggable="false" />
+        <img src="assets/images/${cfg.imgPrefix}${p.id}.png" alt="${p.name} – vollständige ${cfg.styleLabel} Pizza" loading="lazy" draggable="false" />
       </div>
     </div>`;
   }).join("");
@@ -159,7 +186,7 @@ function initPizzaSelector() {
     // photo lets object-fit:contain fill it edge to edge instead.
     // 0.62 (was 0.68) hugs the photo aspect more tightly, so the now much
     // wider slide does not drag a band of dead pink along with it.
-    const ratio = 0.62;
+    const ratio = cfg.ratio;
     const slideHeight = slideWidth * ratio;
 
     // wider slides need a wider arc, otherwise the neighbours creep in over
@@ -207,7 +234,7 @@ function initPizzaSelector() {
     panel.classList.add("is-changing");
     panelTimer = setTimeout(
       () => {
-        const p = MOTO_MENU[dataIdx];
+        const p = data[dataIdx];
         els.current.textContent = String(dataIdx + 1).padStart(2, "0");
         els.category.textContent = p.tag;
         els.name.innerHTML = withMotoMark(p.name);
@@ -275,7 +302,7 @@ function initPizzaSelector() {
     settleTo(base + steps);
   }
 
-  /* Jump straight to one pizza by its index in MOTO_MENU. Converts the target
+  /* Jump straight to one pizza by its index in this instance's data. Converts the target
      into a relative step count and hands off to goTo(), so the movement, the
      easing and the panel update are the very same code path a swipe or an
      arrow tap uses — no second navigation. The step count takes the shorter
@@ -296,13 +323,13 @@ function initPizzaSelector() {
        move that flag to another pizza and both the label and this jump follow,
        with no change here. Falls back to the maxPick pizza if no top seller is
        set, so the control is never left pointing at nothing. */
-    const pickIdx = MOTO_MENU.findIndex((p) => p.topSeller) >= 0
-      ? MOTO_MENU.findIndex((p) => p.topSeller)
-      : MOTO_MENU.findIndex((p) => p.maxPick);
+    const pickIdx = data.findIndex((p) => p.topSeller) >= 0
+      ? data.findIndex((p) => p.topSeller)
+      : data.findIndex((p) => p.maxPick);
     if (pickIdx >= 0) {
       els.pick.tabIndex = 0;
       els.pick.setAttribute("role", "button");
-      els.pick.setAttribute("aria-label", `Zu Max' Empfehlung wechseln: ${MOTO_MENU[pickIdx].name}`);
+      els.pick.setAttribute("aria-label", `Zu Max' Empfehlung wechseln: ${data[pickIdx].name}`);
       els.pick.addEventListener("click", () => goToData(pickIdx));
       els.pick.addEventListener("keydown", (e) => {
         if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
@@ -313,8 +340,8 @@ function initPizzaSelector() {
     }
   }
 
-  document.getElementById("selPrev").addEventListener("click", () => goTo(-1));
-  document.getElementById("selNext").addEventListener("click", () => goTo(1));
+  id("Prev").addEventListener("click", () => goTo(-1));
+  id("Next").addEventListener("click", () => goTo(1));
 
   stage.addEventListener("keydown", (e) => {
     if (e.key === "ArrowLeft") goTo(-1);
@@ -405,75 +432,40 @@ function initPizzaSelector() {
   updatePanel(dataIndexOf(Math.round(pos)), true);
 }
 
-/* ---------- Pizza style / variant chooser ---------------------------------
-   Every pizza comes in both styles at the same two prices, so this is one
-   chooser for the whole section rather than a control per pizza — which is
-   also why it lives outside .selector__panel and keeps its selection while
-   the carousel moves.
+/* ---------- Style and price box per carousel ------------------------------
+   This used to be one chooser offering both styles. It is not a choice any
+   more: the Detroit carousel shows Detroit pizzas and the New York carousel
+   shows round ones, so which style you are looking at is already decided by
+   where you are. Each carousel therefore states its own single box, and the
+   two can never contradict each other by both being on screen under one
+   pizza.
 
-   Everything visible here comes from MOTO_PIZZA_STYLES in data/menu.js:
-   labels, notes and both prices. Changing a price is a one-line edit there;
-   nothing in this function names a style or a number. (The `shape` field is
-   left in the data untouched — the cards carry no glyph any more, so nothing
-   reads it right now.)
+   Each style is sold whole and by the slice, so a carousel states both: one
+   box per entry in that style's `forms` list. Nothing about a style or a
+   price is written here — the container names the style it wants in
+   data-style, and label, line and price all come out of MOTO_PIZZA_STYLES in
+   data/menu.js. Add a third form there and a third box appears by itself.
 
-   Semantics are a real radiogroup: one tab stop for the whole group, arrow
-   keys move between the options, Home/End jump to the ends. Arrow keys are
-   safe here because the carousel listens on .selector__stage, not on the
-   panel or on this block.
+   The box is plain text now, not a control: no radiogroup, no aria-checked,
+   no keyboard handling, because there is nothing left to operate.
    ---------------------------------------------------------------------- */
 function initPizzaStyles() {
-  const box = document.getElementById("selStylesOptions");
-  if (!box || typeof MOTO_PIZZA_STYLES === "undefined" || !MOTO_PIZZA_STYLES.length) return;
+  if (typeof MOTO_PIZZA_STYLES === "undefined") return;
 
-  const styles = MOTO_PIZZA_STYLES;
-  // exactly one option is preselected — the flagged one, else the first
-  let activeIdx = Math.max(styles.findIndex((s) => s.default), 0);
-
-  box.innerHTML = styles
-    .map(
-      (s, i) => `
-    <button type="button" role="radio" class="selector__style" data-style-id="${escapeHtml(s.id)}"
-            aria-checked="${i === activeIdx}" tabindex="${i === activeIdx ? 0 : -1}">
-      <span class="selector__style-name">${escapeHtml(s.name)}</span>
-      ${s.note ? `<span class="selector__style-note">${escapeHtml(s.note)}</span>` : ""}
-      <span class="selector__style-price">${escapeHtml(s.price)}&nbsp;€</span>
-    </button>`
-    )
-    .join("");
-
-  const buttons = [...box.children];
-
-  function select(idx, focus) {
-    activeIdx = idx;
-    buttons.forEach((btn, i) => {
-      const on = i === idx;
-      btn.setAttribute("aria-checked", String(on));
-      btn.tabIndex = on ? 0 : -1;
-      btn.classList.toggle("is-active", on);
-    });
-    // the chosen style is readable from the DOM, so anything added later
-    // (an order flow, analytics) can pick it up without a second store
-    box.dataset.selected = styles[idx].id;
-    if (focus) buttons[idx].focus();
-  }
-
-  buttons.forEach((btn, i) => {
-    btn.addEventListener("click", () => select(i, false));
-    btn.addEventListener("keydown", (e) => {
-      const last = buttons.length - 1;
-      let next = null;
-      if (e.key === "ArrowRight" || e.key === "ArrowDown") next = i === last ? 0 : i + 1;
-      if (e.key === "ArrowLeft" || e.key === "ArrowUp") next = i === 0 ? last : i - 1;
-      if (e.key === "Home") next = 0;
-      if (e.key === "End") next = last;
-      if (next === null) return;
-      e.preventDefault();
-      select(next, true);
-    });
+  document.querySelectorAll("[data-style]").forEach((box) => {
+    const style = MOTO_PIZZA_STYLES.find((st) => st.id === box.dataset.style);
+    if (!style || !style.forms) return;
+    box.innerHTML = style.forms
+      .map(
+        (form) => `
+      <div class="selector__style selector__style--static">
+        <span class="selector__style-name">${escapeHtml(form.label)}</span>
+        <span class="selector__style-note">${escapeHtml(form.note)}</span>
+        <span class="selector__style-price">${escapeHtml(form.price)}&nbsp;€</span>
+      </div>`
+      )
+      .join("");
   });
-
-  select(activeIdx, false);
 }
 
 /* ---------- Infinite gallery strip ----------------------------------------

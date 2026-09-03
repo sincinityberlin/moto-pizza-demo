@@ -40,32 +40,36 @@
    ========================================================================== */
 
 /* ==========================================================================
-   PIZZA STYLES — single source of truth for the variant chooser
+   PIZZA STYLES — single source of truth for the price boxes
    Every one of the ten pizzas is available in both styles, so the price sits
-   here and not on the individual pizza. Edit a price, a name or a note in
-   this list and the chooser under the selector follows; add or remove an
-   entry and the chooser renders one option more or less, with no change in
-   js/main.js or css/style.css.
+   here and not on the individual pizza. Each carousel shows the entry that
+   matches it (data-style in index.html); edit a price or a line in this list
+   and the boxes follow, with no change in js/main.js or css/style.css.
 
-   default: true marks the option preselected on load — exactly one entry
-   should carry it (the first one wins if several do). `shape` picks the
-   little glyph in front of the label: "square" or "round".
+   Each style is sold in two forms — a whole pizza and a single slice — and
+   `forms` lists them in the order they appear. A form is purely a price
+   statement: label, the line underneath, and the price. Nothing here is a
+   control, and there is no ordering or basket behind it.
+
+   The slice costs 5,90 in both styles, but each form carries its own price
+   so one can change without touching the other.
    ========================================================================== */
 const MOTO_PIZZA_STYLES = [
   {
     id: "detroit",
     name: "Detroit Style",
-    note: "eckig · 25 × 25 cm",
-    shape: "square",
-    price: "18,90",
-    default: true,
+    forms: [
+      { label: "Ganze Pizza", note: "Detroit Style · 25 × 25 cm", price: "18,90" },
+      { label: "Stückpizza", note: "Detroit Style · 1 Stück", price: "5,90" },
+    ],
   },
   {
     id: "newyork",
     name: "New York Style",
-    note: "rund · 45 cm",
-    shape: "round",
-    price: "22,00",
+    forms: [
+      { label: "Ganze Pizza", note: "New York Style · rund · 45 cm", price: "22,00" },
+      { label: "Stückpizza", note: "New York Style · 1 Stück", price: "5,90" },
+    ],
   },
 ];
 
