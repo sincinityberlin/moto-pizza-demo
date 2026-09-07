@@ -47,9 +47,10 @@
    and the boxes follow, with no change in js/main.js or css/style.css.
 
    Each style is sold in two forms — a whole pizza and a single slice — and
-   `forms` lists them in the order they appear. A form is purely a price
-   statement: label, the line underneath, and the price. Nothing here is a
-   control, and there is no ordering or basket behind it.
+   `forms` lists them in the order they appear. A form carries its label, the
+   line underneath, its price, and `variant`: the picture set the carousel
+   shows while this form is chosen ("whole" or "slice"). Picking a form only
+   swaps pictures and price — it is not an order or a basket.
 
    The slice costs 5,90 in both styles, but each form carries its own price
    so one can change without touching the other.
@@ -59,16 +60,16 @@ const MOTO_PIZZA_STYLES = [
     id: "detroit",
     name: "Detroit Style",
     forms: [
-      { label: "Ganze Pizza", note: "Detroit Style · 25 × 25 cm", price: "18,90" },
-      { label: "Stückpizza", note: "Detroit Style · 1 Stück", price: "5,90" },
+      { variant: "whole", label: "Ganze Pizza", note: "Detroit Style · 25 × 25 cm", price: "18,90" },
+      { variant: "slice", label: "Stückpizza", note: "Detroit Style · 1 Stück", price: "5,90" },
     ],
   },
   {
     id: "newyork",
     name: "New York Style",
     forms: [
-      { label: "Ganze Pizza", note: "New York Style · rund · 45 cm", price: "22,00" },
-      { label: "Stückpizza", note: "New York Style · 1 Stück", price: "5,90" },
+      { variant: "whole", label: "Ganze Pizza", note: "New York Style · rund · 45 cm", price: "22,00" },
+      { variant: "slice", label: "Stückpizza", note: "New York Style · 1 Stück", price: "5,90" },
     ],
   },
 ];

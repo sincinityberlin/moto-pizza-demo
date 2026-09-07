@@ -21,15 +21,25 @@ document.addEventListener("DOMContentLoaded", () => {
      nearly square in file terms, so 0.62 would render them about a third
      smaller than the square pizzas. 0.72 gives the round pizza the same
      width on screen as the square one. */
-  initPizzaSelector({
-    root: "pizzaSelector", prefix: "sel", data: MOTO_MENU,
-    imgPrefix: "pizza-", styleLabel: "Detroit Style", ratio: 0.62,
-  });
-  initPizzaSelector({
-    root: "nySelector", prefix: "ny", data: MOTO_MENU,
-    imgPrefix: "pizza-ny-", styleLabel: "New York Style", ratio: 0.72,
-  });
-  initPizzaStyles();
+  const karussells = {
+    detroit: initPizzaSelector({
+      root: "pizzaSelector", prefix: "sel", data: MOTO_MENU, ratio: 0.62,
+      startVariante: "whole",
+      varianten: {
+        whole: { imgPrefix: "pizza-", ext: "png", alt: "vollständige Detroit Style Pizza" },
+        slice: { imgPrefix: "slice-", ext: "png", alt: "Detroit Style Pizza, ein Stück" },
+      },
+    }),
+    newyork: initPizzaSelector({
+      root: "nySelector", prefix: "ny", data: MOTO_MENU, ratio: 0.72,
+      startVariante: "whole",
+      varianten: {
+        whole: { imgPrefix: "pizza-ny-", ext: "png", alt: "vollständige New York Style Pizza" },
+        slice: { imgPrefix: "slice-ny-", ext: "png", alt: "New York Style Pizza, ein Stück" },
+      },
+    }),
+  };
+  initPizzaStyles(karussells);
   renderGallery();
   initDeals();
   renderProductGrid("snacksGrid", MOTO_SNACKS, "snack");
@@ -138,6 +148,17 @@ function initPizzaSelector(cfg) {
     top: id("Top"),
   };
 
+  /* Welche Bildstrecke gerade laeuft. Der Wechsel tauscht ausschliesslich
+     src und alt der bereits vorhandenen Slides — kein Neuaufbau, keine
+     Neuvermessung, `pos` bleibt unangetastet. Deshalb springt beim
+     Umschalten weder die Seite noch das Karussell, und die aktuelle Pizza
+     bleibt stehen. Das Rahmenverhaeltnis gehoert zum Karussell, nicht zur
+     Variante, damit sich die Hoehe nie aendert. */
+  let variante = cfg.varianten[cfg.startVariante];
+
+  const bildPfad = (p) => `assets/images/${variante.imgPrefix}${p.id}.${variante.ext}`;
+  const bildAlt = (p) => `${p.name} – ${variante.alt}`;
+
   const count = data.length;
   const CLONES = 3; // buffer slides per side — also the max steps one flick may cover
   const totalSlides = count + CLONES * 2;
@@ -150,7 +171,7 @@ function initPizzaSelector(cfg) {
     <div class="selector__slide">
       <div class="selector__frame">
         <span class="selector__ring" aria-hidden="true"></span>
-        <img src="assets/images/${cfg.imgPrefix}${p.id}.png" alt="${p.name} – vollständige ${cfg.styleLabel} Pizza" loading="lazy" draggable="false" />
+        <img src="${bildPfad(p)}" alt="${bildAlt(p)}" loading="lazy" draggable="false" />
       </div>
     </div>`;
   }).join("");
@@ -430,41 +451,90 @@ function initPizzaSelector(cfg) {
   measure();
   layout();
   updatePanel(dataIndexOf(Math.round(pos)), true);
+
+  return {
+    setVariante(name) {
+      if (!cfg.varianten[name] || cfg.varianten[name] === variante) return;
+      variante = cfg.varianten[name];
+      slideEls.forEach((el, trackIdx) => {
+        const p = data[dataIndexOf(trackIdx)];
+        const img = el.querySelector("img");
+        img.src = bildPfad(p);
+        img.alt = bildAlt(p);
+      });
+    },
+  };
 }
 
-/* ---------- Style and price box per carousel ------------------------------
-   This used to be one chooser offering both styles. It is not a choice any
-   more: the Detroit carousel shows Detroit pizzas and the New York carousel
-   shows round ones, so which style you are looking at is already decided by
-   where you are. Each carousel therefore states its own single box, and the
-   two can never contradict each other by both being on screen under one
-   pizza.
+/* ---------- Verkaufsform waehlen: ganze Pizza oder Stueck ------------------
+   Die beiden Preiskaesten sind selbst der Umschalter. Ein zusaetzliches
+   Bedienelement daneben waere doppelt: die Kaesten nennen ohnehin schon
+   "Ganze Pizza" und "Stueckpizza" samt Preis, also treffen sie die Wahl auch.
+   Das haelt die Sektion frei von einem neuen Modul und zeigt immer genau den
+   Preis, der zur gezeigten Ware gehoert.
 
-   Each style is sold whole and by the slice, so a carousel states both: one
-   box per entry in that style's `forms` list. Nothing about a style or a
-   price is written here — the container names the style it wants in
-   data-style, and label, line and price all come out of MOTO_PIZZA_STYLES in
-   data/menu.js. Add a third form there and a third box appears by itself.
+   Der Klick tauscht nur die Bildstrecke des zugehoerigen Karussells. Slide,
+   Nummerierung, Name, Zutaten und Allergene bleiben stehen — es ist dieselbe
+   Pizza, nur ganz oder als Stueck. Deshalb springt beim Wechsel nichts.
 
-   The box is plain text now, not a control: no radiogroup, no aria-checked,
-   no keyboard handling, because there is nothing left to operate.
+   Beschriftung, Zeile und Preis kommen aus MOTO_PIZZA_STYLES in
+   data/menu.js; hier steht kein Text und keine Zahl.
+
+   Echte Radiogroup: ein Tabstopp fuer die Gruppe, Pfeiltasten und Home/End
+   darin. Das kollidiert nicht mit den Karussell-Pfeiltasten, die auf
+   .selector__stage lauschen.
    ---------------------------------------------------------------------- */
-function initPizzaStyles() {
+function initPizzaStyles(karussells) {
   if (typeof MOTO_PIZZA_STYLES === "undefined") return;
 
   document.querySelectorAll("[data-style]").forEach((box) => {
     const style = MOTO_PIZZA_STYLES.find((st) => st.id === box.dataset.style);
     if (!style || !style.forms) return;
+    const karussell = karussells && karussells[box.dataset.style];
+
     box.innerHTML = style.forms
       .map(
-        (form) => `
-      <div class="selector__style selector__style--static">
+        (form, i) => `
+      <button type="button" role="radio" aria-checked="${i === 0}" tabindex="${i === 0 ? 0 : -1}"
+              class="selector__style${i === 0 ? " is-active" : ""}" data-variante="${escapeHtml(form.variant)}">
         <span class="selector__style-name">${escapeHtml(form.label)}</span>
         <span class="selector__style-note">${escapeHtml(form.note)}</span>
         <span class="selector__style-price">${escapeHtml(form.price)}&nbsp;€</span>
-      </div>`
+      </button>`
       )
       .join("");
+    box.setAttribute("role", "radiogroup");
+    box.setAttribute("aria-label", "Verkaufsform wählen");
+
+    const knoepfe = [...box.children];
+
+    function waehle(idx, fokus) {
+      knoepfe.forEach((btn, i) => {
+        const an = i === idx;
+        btn.classList.toggle("is-active", an);
+        btn.setAttribute("aria-checked", String(an));
+        btn.tabIndex = an ? 0 : -1;
+      });
+      if (karussell) karussell.setVariante(knoepfe[idx].dataset.variante);
+      if (fokus) knoepfe[idx].focus();
+    }
+
+    knoepfe.forEach((btn, i) => {
+      btn.addEventListener("click", () => waehle(i, false));
+      btn.addEventListener("keydown", (e) => {
+        const letzter = knoepfe.length - 1;
+        let ziel = null;
+        if (e.key === "ArrowRight" || e.key === "ArrowDown") ziel = i === letzter ? 0 : i + 1;
+        if (e.key === "ArrowLeft" || e.key === "ArrowUp") ziel = i === 0 ? letzter : i - 1;
+        if (e.key === "Home") ziel = 0;
+        if (e.key === "End") ziel = letzter;
+        if (ziel === null) return;
+        e.preventDefault();
+        waehle(ziel, true);
+      });
+    });
+
+    waehle(0, false); // Standard: die erste Form, also die ganze Pizza
   });
 }
 
