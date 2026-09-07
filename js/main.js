@@ -452,7 +452,44 @@ function initPizzaSelector(cfg) {
   layout();
   updatePanel(dataIndexOf(Math.round(pos)), true);
 
+  /* Bilder einer Variante in den Browser-Cache holen, ohne sie anzuzeigen.
+     Beim Umschalten stehen sie dann sofort da, statt sichtbar nachzuladen.
+
+     Reihenfolge ab der gerade gezeigten Pizza nach aussen: was man nach dem
+     Klick als Erstes sieht, ist als Erstes da. Nacheinander statt alle auf
+     einmal, damit das Vorladen nichts verdraengt, was gerade wirklich
+     gebraucht wird. Jede Variante wird hoechstens einmal geholt. */
+  const vorgeladen = new Set();
+  function vorladen(name) {
+    const v = cfg.varianten[name];
+    if (!v || vorgeladen.has(name)) return;
+    vorgeladen.add(name);
+
+    const start = dataIndexOf(Math.round(pos));
+    const reihenfolge = data.map((_, i) => data[(start + i) % count]);
+
+    let i = 0;
+    (function weiter() {
+      if (i >= reihenfolge.length) return;
+      const img = new Image();
+      img.onload = img.onerror = weiter;   // auch bei Fehler weitermachen
+      img.src = `assets/images/${v.imgPrefix}${reihenfolge[i++].id}.${v.ext}`;
+    })();
+  }
+
+  /* einmal in Ruhe nachladen, wenn die Seite fertig ist: der Besucher, der
+     nie umschaltet, wartet dadurch auf nichts, und wer umschaltet, findet
+     die Bilder meist schon vor */
+  const spaeterVorladen = () => {
+    Object.keys(cfg.varianten).forEach((name) => {
+      if (name !== cfg.startVariante) vorladen(name);
+    });
+  };
+  if (document.readyState === "complete") setTimeout(spaeterVorladen, 1200);
+  else window.addEventListener("load", () => setTimeout(spaeterVorladen, 1200));
+
   return {
+    vorladen,
     setVariante(name) {
       if (!cfg.varianten[name] || cfg.varianten[name] === variante) return;
       variante = cfg.varianten[name];
@@ -520,6 +557,15 @@ function initPizzaStyles(karussells) {
     }
 
     knoepfe.forEach((btn, i) => {
+      /* Sobald jemand den Knopf ansteuert, wird seine Bildstrecke geholt —
+         auf dem Touchscreen beim Aufsetzen des Fingers, mit Maus schon beim
+         Ueberfahren. Das ueberbrueckt die Zeit bis zum Klick und kostet
+         nichts bei jemandem, der nie umschaltet. */
+      const anstossen = () => { if (karussell) karussell.vorladen(btn.dataset.variante); };
+      btn.addEventListener("pointerenter", anstossen);
+      btn.addEventListener("pointerdown", anstossen);
+      btn.addEventListener("focus", anstossen);
+
       btn.addEventListener("click", () => waehle(i, false));
       btn.addEventListener("keydown", (e) => {
         const letzter = knoepfe.length - 1;
