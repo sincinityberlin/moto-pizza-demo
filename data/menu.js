@@ -190,8 +190,11 @@ const MOTO_MENU = [
    its own price, not a pizza, and the ten pizzas must stay untouched by it.
 
    id matches assets/images/deal-<id>.png. `items` is the deal's contents, one
-   line per entry, rendered in order. Price is per deal — all three share
-   6,90 today, but each carries its own so one can change alone.
+   line per entry, rendered in order. Price is per deal — all six share 6,90
+   today, but each carries its own so one can change alone.
+
+   Order is Detroit first, then New York; the slider shows them in exactly
+   this order and adapts its dots to however many entries are here.
 
    To end the promotion, empty this list: the section renders nothing and
    hides itself, with no change in index.html or js/main.js.
@@ -213,6 +216,24 @@ const MOTO_DEALS = [
     id: "beeflover",
     name: "Beef Lover Deal",
     items: ["1× Detroit Pizza Slice Beef Lover", "1× Dose nach Wahl"],
+    price: "6,90",
+  },
+  {
+    id: "ny-frico",
+    name: "New York Frico Deal",
+    items: ["1× New York Style Pizza Slice Frico", "1× Dose nach Wahl"],
+    price: "6,90",
+  },
+  {
+    id: "ny-pepperoniking",
+    name: "New York Pepperoni King Deal",
+    items: ["1× New York Style Pizza Slice Pepperoni King", "1× Dose nach Wahl"],
+    price: "6,90",
+  },
+  {
+    id: "ny-beeflover",
+    name: "New York Beef Lover Deal",
+    items: ["1× New York Style Pizza Slice Beef Lover", "1× Dose nach Wahl"],
     price: "6,90",
   },
 ];
