@@ -1,12 +1,14 @@
 # MOTO PIZZA — Projektübergabe
 
-**Stand:** 08.09.2026 · **Live auf motopizza.de:** `e76fdaf` (Inhalt = `68b1313`) · Working Tree sauber
+**Stand:** 09.09.2026 · **Live auf motopizza.de:** `327805a` · Working Tree sauber
 
-> **Zuerst Abschnitt 14 lesen.** Er beschreibt den aktuellen, live geprüften Stand und
-> ersetzt alles, was die Abschnitte 1–13 über die Speisekarte und das Deployment sagen.
-> Diese Abschnitte stammen vom 18.08.2026 und bleiben nur als Historie erhalten —
-> insbesondere die dort genannten Commits und Menü-Beschreibungen sind überholt.
-> Für Karriere-, Franchise- und Airtable-Themen sind sie weiterhin gültig.
+> **Zuerst Abschnitt 15 lesen.** Er beschreibt den aktuellen, live geprüften Stand.
+> Danach Abschnitt 14 — er gilt weiterhin für Netlify, die Karussells und die
+> Stückpizza-Bilder, ist aber bei der Angebotssektion überholt: die dort beschriebenen
+> MOTO DEALS gibt es nicht mehr, an ihrer Stelle stehen die MOTO MENÜS aus Abschnitt 15.
+> Die Abschnitte 1–13 stammen vom 18.08.2026 und bleiben nur als Historie erhalten;
+> die dort genannten Commits und Menü-Beschreibungen sind überholt. Für Karriere-,
+> Franchise- und Airtable-Themen sind sie weiterhin gültig.
 
 `README.md` ist veraltet — ignorieren.
 Ergänzend: `AIRTABLE-SETUP.md` (Mitarbeiter-System) und `FRANCHISE-SETUP.md` (Franchise-System).
@@ -22,11 +24,11 @@ plus zwei serverseitige Netlify Functions, die Bewerbungen in Airtable schreiben
 
 | | |
 |---|---|
-| Projektordner | `/Users/efeelbagli/Desktop/moto-pizza-demo/` |
+| Projektordner | `/Users/efeelbagli/Desktop/moto/moto-pizza-demo/` |
 | GitHub | `https://github.com/sincinityberlin/moto-pizza-demo` (Branch `main`) |
 | GitHub Pages (Altbestand) | `https://sincinityberlin.github.io/moto-pizza-demo/` — **statisch, ohne Functions** |
 | Netlify (produktiv) | vom Nutzer verbunden; **nur dort funktionieren die Formulare** |
-| Originalmaterial | `/Users/efeelbagli/Desktop/Moto pizza/` (Speisekarten-Fotos, Logos, Produktbilder) |
+| Originalmaterial | `/Users/efeelbagli/Desktop/moto/Moto pizza/` (Speisekarten-Fotos, Logos, Produktbilder, Aktionsmotive) |
 
 > **Wichtig:** Auf GitHub Pages existiert `/api/*` nicht. Formulartests **immer** über die Netlify-Adresse.
 
@@ -394,7 +396,8 @@ brechen den Netlify-CDN-Cache **nicht**.
 - **MAX' PICK und TOP SELLER** in beiden Karussells, datengetrieben über die Flaggen
   `maxPick` und `topSeller`. Max' Pick springt über `goToData()` zum Top Seller — derselbe
   Weg wie die Pfeile, deshalb erscheint Top Seller auch beim normalen Blättern.
-- **MOTO DEALS** mit sechs Karten: drei Detroit, drei New York, je 6,90 €.
+- ~~**MOTO DEALS** mit sechs Karten: drei Detroit, drei New York, je 6,90 €.~~
+  **Überholt am 09.09.2026** — vollständig ersetzt durch die MOTO MENÜS, siehe Abschnitt 15.
 - **Vorladen** der Stückbilder: einmal ruhig eine Sekunde nach `load`, zusätzlich sobald
   jemand den Umschalter ansteuert. Gemessen sind nach dem Klick alle Slides sofort da.
 
@@ -405,6 +408,16 @@ Quelle sind echte Stück-Fotos aus `~/Desktop/moto/Moto pizza/`; die Originale d
 unangetastet.
 
 **Nicht erneut „optimieren" oder neu freistellen — der Stand ist freigegeben.**
+
+**Nachtrag 08.09.2026, Commit `c5c0239`:** An einigen Konturen standen noch helle
+Reste des Studiohintergrunds. Getrennt wird seither über das **Verhältnis** von
+Kanalspanne zu Helligkeit statt über die absolute Sättigung — gemessen liegt der
+Schatten bei 6 %, die Kruste bei 18 %, und das bleibt auch dort gültig, wo der
+Schatten zur Auflagekante hin dunkler wird und eine absolute Schwelle ihn für Pizza
+hält. Entfernt wird davon nur, was mit dem Bildrand zusammenhängt, damit helle
+Stellen mitten auf der Pizza (Parmesan, Ricotta, helle Sauce) unberührt bleiben.
+Helle Randpixel über alle 20 Bilder: von 4.017 auf 31. Leinwand, Flächennormierung
+und Mittelpunkt sind dabei unverändert geblieben.
 
 Wie sie entstanden sind, falls es je wiederholt werden muss:
 
@@ -448,7 +461,7 @@ Auf motopizza.de selbst geprüft, nicht lokal:
 
 Detroit- und New-York-Karussell samt Bewegung, Pfeilen, Loop, Easing und Nummerierung ·
 die 20 Stückbilder und die 20 Ganzpizza-Bilder · Namen, Zutaten, Allergene, Reihenfolge ·
-alle Preise · MAX' PICK und TOP SELLER · MOTO DEALS · Dessert · Getränke · Galerie ·
+alle Preise · MAX' PICK und TOP SELLER · MOTO MENÜS (Abschnitt 15) · Dessert · Getränke · Galerie ·
 Navigation · Hero · die Marquee-Zeile „FRISCH AUS DEM DURCHLAUFOFEN".
 
 ### 14.6 Arbeitsweise, die sich bewährt hat
@@ -456,3 +469,157 @@ Navigation · Hero · die Marquee-Zeile „FRISCH AUS DEM DURCHLAUFOFEN".
 Lokale Vorschau nach jeder CSS- oder JS-Änderung auf einem **neuen Port** starten, sonst
 liefert der Browser Zwischenstände aus dem Cache. Deployt wird ausschließlich über
 `git push origin main`; Netlify baut selbst.
+
+---
+
+## 15. AKTUELLER STAND — live geprüft am 09.09.2026
+
+**Live auf motopizza.de:** Commit `327805a` „MOTO DEALS durch die acht MOTO Menues ersetzt".
+Vorgänger: `c5c0239` (Kantenkorrektur der Stückbilder, 20-%-Eröffnungsdeal aus der Hero
+entfernt) und `e76fdaf`. Working Tree sauber, `main` und `origin/main` gleichauf.
+
+Deployment lief über den bestehenden Weg: `git push origin main`, Netlify baut selbst.
+Die neue Fassung war rund 20 Sekunden nach dem Push ausgeliefert. An Deployment-Konfiguration,
+Branches, Domain und DNS wurde nichts geändert.
+
+### 15.1 Die MOTO-MENÜS-Sektion
+
+Steht zwischen Speisekarte und Dessert — **exakt an der Stelle der früheren MOTO DEALS**.
+Reihenfolge der Seite: `#menu` → `#menues` → `#snacks` (Dessert / MO MISU) → `#drinks` → …
+
+Aufbau: Eyebrow-Pille „DEIN MOTO · DEIN MENÜ", Titel **MOTO** (pink) **MENÜS** (blau),
+Unterzeile „Mehr MOTO. Mehr Geschmack.", darunter der Menü-Carousel mit Zähler 01/08 und
+acht Punkten. Sektionsgrund, Typografie und die gestrichelten Bögen sind dieselben wie
+zuvor bei den Deals, damit die Sektion an ihrem Platz nicht wie ein Fremdkörper wirkt.
+
+### 15.2 Die acht Menüs — Reihenfolge, Preise, Bilddateien
+
+Reihenfolge in `MOTO_MENUES` (`data/menu.js`) = Anzeigereihenfolge.
+
+| Nr | Name | Inhalt | Preis | Bilddatei in `assets/images/` |
+|---|---|---|---|---|
+| 1 | MOTO Solo | 1× Detroit Pizza 25 × 25 cm + 1× Getränk 0,33 l | ab 16,90 € | `menue-1-moto-solo.png` |
+| 2 | MOTO Full Tank | 1× Detroit Pizza + 1× Getränk + 1× MO MISU | ab 20,90 € | `menue-2-moto-full-tank.png` |
+| 3 | MOTO Double | 2× Detroit Pizza + 2× Getränke | ab 31,90 € | `menue-3-moto-double.png` |
+| 4 | MOTO Date Night | 2× Detroit Pizza + 2× Getränke + 1× MO MISU | ab 35,90 € | `menue-4-moto-date-night.png` |
+| 5 | MOTO Crew | 3× Detroit Pizza + 3× Getränke + 2× MO MISU | ab 49,90 € | `menue-5-moto-crew.png` |
+| 6 | MOTO Family | 4× Detroit Pizza + 4× Getränke + 2× MO MISU | ab 64,90 € | `menue-6-moto-family.png` |
+| **7** | **NY Solo** | 1× New York Style Pizza 45 cm + 1× Getränk | ab 19,90 € | `menue-7-ny-solo.png` |
+| **8** | **NY Full Tank** | 1× New York Style Pizza 45 cm + 2× Getränke + 1× MO MISU | ab 24,90 € | `menue-8-ny-full-tank.png` |
+
+Menü 1–6 sind Detroit Style (25 × 25 cm), **Menü 7 und 8 New York Style (45 cm, rund)**.
+Der Unterschied erscheint als kleiner Chip in der Bildunterschrift; es bleibt **eine**
+gemeinsame Sektion, keine zweite New-York-Sektion.
+
+Die Motive kamen fertig gestaltet vom Nutzer aus `~/Desktop/moto/Moto pizza/` (dort unter
+UUID-Namen abgelegt, siehe unten) und wurden **byte-identisch** ins Projekt kopiert —
+nichts generiert, freigestellt, zugeschnitten oder umkodiert. **Sie sind final und dürfen
+nicht bearbeitet werden.**
+
+| im Projekt | Original im Quellordner |
+|---|---|
+| `menue-1-moto-solo.png` | `5DAA11CD-DD68-46C3-BBA5-34ADE31B5065.PNG` |
+| `menue-2-moto-full-tank.png` | `F6AD58BF-A4D1-40AB-85C7-C39AC531E342.PNG` |
+| `menue-3-moto-double.png` | `33B91065-0BAD-44E6-B624-2B5C3B16A084.PNG` |
+| `menue-4-moto-date-night.png` | `ACF6A3F0-CD8B-41EE-89B7-59664F1A4C39.PNG` |
+| `menue-5-moto-crew.png` | `C5DC9DE3-9817-4ACB-8B5E-DD9C6C66A887.PNG` |
+| `menue-6-moto-family.png` | `18CF95B4-3867-4362-92FE-7A4937AC24AF.PNG` |
+| `menue-7-ny-solo.png` | `05A9E18E-FD7D-41D5-A336-940CAA914D73.PNG` |
+| `menue-8-ny-full-tank.png` | `9095E32A-D071-4941-BC78-6F01F27EFA25.PNG` |
+
+Sieben Motive sind 1254 × 1254 px, **Menü 7 als einziges 1370 × 1148 px**. Die echten Maße
+stehen als `bw`/`bh` in den Daten und als `width`/`height` im Markup, damit der Browser den
+Platz vor dem Laden kennt. Zusammen wiegen die acht rund 19 MB; sie laden verzögert
+(`loading="lazy"`), die Startseite wird davon nicht langsamer. Eine WebP-Fassung wäre etwa
+zehnmal kleiner, wurde aber bewusst **nicht** erzeugt, weil die Motive final sind.
+
+### 15.3 Entfernt: MOTO DEALS
+
+Vollständig entfernt, nicht versteckt und nicht deaktiviert:
+
+- `index.html`: die gesamte `<section class="deals" id="deals">`
+- `data/menu.js`: die Liste `MOTO_DEALS` (sechs Einträge à 6,90 €)
+- `js/main.js`: `initDeals()` samt Aufruf
+- `css/style.css`: der komplette `.deals` / `.deal-card`-Block
+- `assets/images/`: die sechs Bilder `deal-frico.png`, `deal-pepperoniking.png`,
+  `deal-beeflover.png`, `deal-ny-frico.png`, `deal-ny-pepperoniking.png`,
+  `deal-ny-beeflover.png` (zusammen rund 9,6 MB)
+
+Im Code gibt es keine Restklasse und keinen Restverweis mehr; live liefern alle sechs
+Bildpfade HTTP 404. **Die Dateien stecken weiterhin in der Git-Historie** (bis `c5c0239`)
+und wären über `git checkout c5c0239 -- assets/images/deal-...` zurückholbar.
+
+### 15.4 Wie der Carousel funktioniert
+
+Derselbe Transport wie zuvor bei den Deals: **CSS `scroll-snap`**, keine Bibliothek.
+Wischen, Trägheit, Trackpad, Shift-Wheel, Pfeiltasten und Scrollbar kommen damit vom
+Browser, und weil die Karten *innerhalb* der Bahn scrollen, kann die Seite selbst nie eine
+Querscrollbar bekommen.
+
+Ein Unterschied zu den Deals: dort lagen mehrere Karten nebeneinander und die Bahn rastete
+**links** ein. Ein Menü ist ein ganzes Werbemotiv und bekommt die Bühne für sich — die
+Karten rasten deshalb **mittig** ein (`scroll-snap-align: center`), links und rechts schauen
+die Nachbarn an. Damit auch die erste und die letzte Karte in die Mitte fahren können, ist
+das seitliche Polster der Bahn `max(var(--pad), (100% − var(--karte)) / 2)`.
+
+Zwei Fallen, die dabei aufgetreten sind und nicht zurückkehren dürfen:
+
+1. **`--karte` muss absolut sein, nicht in Prozent.** Das mittige Polster wird aus dieser
+   Breite berechnet; eine Prozentangabe löst sich gegen die dadurch bereits verkleinerte
+   Innenbreite auf — die Karte schrumpft sich selbst. Gemessen kamen so 240 px statt
+   560 px heraus. Deshalb `vw` mit `min()`: 72vw mobil, `min(58vw, 470px)` ab 620 px,
+   `min(56vw, 560px)` ab 900 px, `min(48vw, 680px)` ab 1180 px.
+2. **Position über `getBoundingClientRect()`, nicht über `offsetLeft`.** `offsetLeft` zählt
+   ab dem positionierten Vorfahren und weiß nichts von der Scrollposition der Bahn; die
+   Mitte läge je nach Scrollstand woanders. Der Versatz zwischen Kartenmitte und Bahnmitte
+   ist dagegen immer genau die Strecke, die noch zu scrollen ist.
+
+Kein Autoplay. Die Fokuskarte ist ab 900 px leicht vergrößert (`scale(1)` gegen `0.94`),
+bei `prefers-reduced-motion` entfällt jede Transition.
+
+### 15.5 Warum die Motive nie beschnitten werden
+
+Die Motive tragen MOTO-Logo, Menünummer, Namen, Produkte, Preis und Kleingedrucktes
+bereits selbst. Die Karte gibt deshalb **nur die Breite** vor, die Höhe folgt dem
+Seitenverhältnis des Bildes (`width: 100%; height: auto`). Kein `object-fit: cover`, kein
+festes `aspect-ratio` — sonst würde Menü 7 als einziges nicht quadratisches Motiv entweder
+beschnitten oder mit Balken versehen. Geprüft: dargestelltes und natürliches
+Seitenverhältnis stimmen bei allen acht überein.
+
+Darunter steht bewusst nur **eine schmale Zeile** (Nummer, Name, Stil, Preis). Alles
+Weitere ein zweites Mal danebenzuschreiben hätte die Sektion nur zugestellt. Der
+Alternativtext des Bildes nennt dagegen den vollen Inhalt, damit Vorlesen und Bildausfall
+dieselbe Information liefern wie das Motiv.
+
+### 15.6 Live-Prüfung am 09.09.2026
+
+Auf motopizza.de selbst geprüft, nicht lokal:
+
+| Prüfpunkt | Ergebnis |
+|---|---|
+| Sektion `#menues` vorhanden, `#deals` verschwunden | ✓ |
+| Acht Menüs, Reihenfolge, Namen, Preise, Bilddateien | **8 / 8 korrekt** |
+| Menü 7 = NY Solo, Menü 8 = NY Full Tank | ✓ |
+| Die acht Motive live gegen die lokalen Dateien (MD5) | **8 / 8 byte-identisch** |
+| Alle acht Bilder geladen | ✓ |
+| Alte `deal-*.png` | **6 × HTTP 404** |
+| `MOTO_DEALS` in den Live-Daten | nicht mehr vorhanden |
+| Desktop 1440 / Tablet 834 / Mobile 390 — Kartenbreite | 680 / 470 / 281 px |
+| Pfeil rechts bis 08/08, dort deaktiviert | ✓ auf allen drei |
+| Pfeil links zurück auf 01/08, dort deaktiviert | ✓ auf allen drei |
+| Punkt 7 springt exakt auf NY Solo | ✓ Abweichung 0 px |
+| Karten überlappen | nein |
+| Horizontaler Seiten-Overflow | 0, auch bei 320 px |
+| Konsolenfehler | keine |
+| Beide Pizza-Karussells und Dessert weiterhin da | ✓ |
+
+### 15.7 Nicht verändern
+
+Zusätzlich zu Abschnitt 14.5:
+
+Die acht Aktionsmotive — **weder bearbeiten, freistellen, zuschneiden, umkodieren noch
+ersetzen** · Reihenfolge, Namen, Inhalte und Preise der acht Menüs · die Position der
+Sektion zwischen Speisekarte und Dessert · die mittige Rastung und die absolute
+Kartenbreite (siehe die beiden Fallen in 15.4) · dass Höhe dem Bildseitenverhältnis folgt.
+
+Die MOTO-MENÜS-Sektion ist **eine** Sektion. Menü 7 und 8 bekommen keine eigene.
