@@ -25,22 +25,17 @@ document.addEventListener("DOMContentLoaded", () => {
     detroit: initPizzaSelector({
       root: "pizzaSelector", prefix: "sel", data: MOTO_MENU, ratio: 0.62,
       startVariante: "whole",
-      /* maxHoehe: Anteil der Rahmenhoehe. 98 % ist der Normalfall — so fuellt
-         die ganze Pizza den Rahmen ueber die Breite. Fuer die Stuecke ist der
-         Wert so gewaehlt, dass ihre gerenderte Hoehe der ganzen Pizza
-         entspricht: 0.98 / 1.66 (Seitenverhaeltnis ganz) / 0.62 (Rahmen). */
       varianten: {
-        whole: { imgPrefix: "pizza-", ext: "png", maxHoehe: "98%", alt: "vollständige Detroit Style Pizza" },
-        slice: { imgPrefix: "slice-", ext: "png", maxHoehe: "95%", alt: "Detroit Style Pizza, ein Stück" },
+        whole: { imgPrefix: "pizza-", ext: "png", alt: "vollständige Detroit Style Pizza" },
+        slice: { imgPrefix: "slice-", ext: "png", alt: "Detroit Style Pizza, ein Stück" },
       },
     }),
     newyork: initPizzaSelector({
       root: "nySelector", prefix: "ny", data: MOTO_MENU, ratio: 0.72,
       startVariante: "whole",
-      /* 0.98 / 1.49 / 0.72 — dieselbe Rechnung mit den Werten dieses Karussells */
       varianten: {
-        whole: { imgPrefix: "pizza-ny-", ext: "png", maxHoehe: "98%", alt: "vollständige New York Style Pizza" },
-        slice: { imgPrefix: "slice-ny-", ext: "png", maxHoehe: "91%", alt: "New York Style Pizza, ein Stück" },
+        whole: { imgPrefix: "pizza-ny-", ext: "png", alt: "vollständige New York Style Pizza" },
+        slice: { imgPrefix: "slice-ny-", ext: "png", alt: "New York Style Pizza, ein Stück" },
       },
     }),
   };
@@ -160,15 +155,6 @@ function initPizzaSelector(cfg) {
      bleibt stehen. Das Rahmenverhaeltnis gehoert zum Karussell, nicht zur
      Variante, damit sich die Hoehe nie aendert. */
   let variante = cfg.varianten[cfg.startVariante];
-
-  /* Wie hoch ein Bild im Rahmen hoechstens werden darf. Die ganzen Pizzen
-     haben alle dasselbe Seitenverhaeltnis und fuellen den Rahmen ueber die
-     Breite; die Stueckbilder sind steiler und unterschiedlich geschnitten,
-     mit derselben Grenze wuerden sie hoeher ausfallen als eine ganze Pizza
-     und in die Nachbarn ragen. Der Wert je Variante deckelt genau das, ohne
-     etwas zu beschneiden oder zu verzerren — object-fit bleibt contain. */
-  const hoeheSetzen = () => root.style.setProperty("--bild-max-h", variante.maxHoehe);
-  hoeheSetzen();
 
   const bildPfad = (p) => `assets/images/${variante.imgPrefix}${p.id}.${variante.ext}`;
   const bildAlt = (p) => `${p.name} – ${variante.alt}`;
@@ -507,7 +493,6 @@ function initPizzaSelector(cfg) {
     setVariante(name) {
       if (!cfg.varianten[name] || cfg.varianten[name] === variante) return;
       variante = cfg.varianten[name];
-      hoeheSetzen();
       slideEls.forEach((el, trackIdx) => {
         const p = data[dataIndexOf(trackIdx)];
         const img = el.querySelector("img");

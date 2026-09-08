@@ -936,9 +936,7 @@ body {
      stretch, just a small safety margin against the card edge. 98% rather
      than the old 92%: the margin only has to keep the drop-shadow off the
      card edge, and the reclaimed 6% goes straight into pizza size. */
-  /* die Hoehengrenze kommt je Variante aus js/main.js (--bild-max-h), damit
-     ein Stueck nie hoeher wird als eine ganze Pizza; 98 % ist der Rueckfall */
-  max-width: 98%; max-height: var(--bild-max-h, 98%);
+  max-width: 98%; max-height: 98%;
   width: auto; height: auto;
   object-fit: contain;
   filter: drop-shadow(0 20px 28px rgba(0, 0, 0, 0.25));
