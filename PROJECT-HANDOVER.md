@@ -1,8 +1,14 @@
 # MOTO PIZZA — Projektübergabe
 
-**Stand:** 18.08.2026 · **Letzter Commit:** `0376ead` auf `main` · Working Tree sauber
+**Stand:** 08.09.2026 · **Live auf motopizza.de:** `e76fdaf` (Inhalt = `68b1313`) · Working Tree sauber
 
-Diese Datei ist die **maßgebliche Quelle der Wahrheit**. `README.md` ist veraltet — ignorieren.
+> **Zuerst Abschnitt 14 lesen.** Er beschreibt den aktuellen, live geprüften Stand und
+> ersetzt alles, was die Abschnitte 1–13 über die Speisekarte und das Deployment sagen.
+> Diese Abschnitte stammen vom 18.08.2026 und bleiben nur als Historie erhalten —
+> insbesondere die dort genannten Commits und Menü-Beschreibungen sind überholt.
+> Für Karriere-, Franchise- und Airtable-Themen sind sie weiterhin gültig.
+
+`README.md` ist veraltet — ignorieren.
 Ergänzend: `AIRTABLE-SETUP.md` (Mitarbeiter-System) und `FRANCHISE-SETUP.md` (Franchise-System).
 
 ---
@@ -342,3 +348,111 @@ angelegt sind. Danach:
 4. Erst danach die beiden E-Mail-Automationen scharf schalten und gegentesten
 
 **Keine Code-Änderungen nötig, bevor dieser Test gelaufen ist.**
+
+---
+
+## 14. AKTUELLER STAND — live geprüft am 08.09.2026
+
+**Live auf motopizza.de:** Commit `e76fdaf`. Dessen Inhalt ist identisch mit dem
+freigegebenen `68b1313`; `e76fdaf` ist ein leerer Commit ohne Dateiänderung, der nur
+den Netlify-Build ausgelöst hat.
+
+### 14.1 Netlify — wieder funktionsfähig
+
+Der **Personal Plan ist aktiv**, Production-Deployments laufen wieder. Ein Deploy ist
+etwa 12 Sekunden nach dem Push live.
+
+Vorgeschichte, damit sie sich nicht wiederholt: Zwischen dem 07. und 08.09. baute
+Netlify nicht mehr. Vier Commits (`e3d6ec3`, `d4c81e4`, `b639c5f`, `68b1313`) lagen auf
+GitHub und wurden nicht veröffentlicht; motopizza.de lieferte über zwei Tage unverändert
+`965633d`. Ursache war das **erschöpfte Build-Kontingent**.
+
+**Wichtig für den nächsten solchen Fall:** Netlify holt übersprungene Commits nach dem
+Aufladen **nicht selbsttätig nach**. Es braucht einen neuen Auslöser — entweder im
+Dashboard unter *Deploys → Trigger deploy → Clear cache and deploy site*, oder ein
+leerer Commit (`git commit --allow-empty`), der nichts am Inhalt ändert.
+
+Zur Diagnose taugt weder der Umweg über GitHub-Webhooks (Netlify hängt als GitHub-App
+dran, `/hooks` ist leer) noch über Commit-Status (Netlify schreibt für dieses Repo
+keine). Aussagekräftig ist nur der direkte Vergleich der ausgelieferten Datei, etwa
+`curl -s https://motopizza.de/js/main.js | wc -c` gegen die lokale Größe. Query-Strings
+brechen den Netlify-CDN-Cache **nicht**.
+
+### 14.2 Was die Speisekarte seit dem 18.08. bekommen hat
+
+- **Zwei Karussells**: Detroit Style (eckig, 25 × 25 cm) und New York Style (rund, 45 cm),
+  beide mit denselben zehn Pizzen aus `MOTO_MENU`. Es ist dieselbe Funktion
+  `initPizzaSelector()`, zweimal mit eigener Konfiguration aufgerufen — jeder Aufruf hält
+  seinen Zustand in der eigenen Closure, deshalb sind die beiden unabhängig.
+- **Style-Überschriften** über beiden Karussells, gemeinsame Klasse `style-head`.
+- **Umschalter „Ganze Pizza / Stückpizza"** je Karussell. Die beiden Preiskästen *sind*
+  der Umschalter; ein zusätzliches Bedienelement wäre doppelt gewesen. Der Klick tauscht
+  nur `src` und `alt` der vorhandenen Slides — `pos` bleibt unangetastet, deshalb springt
+  nichts. Standard: Ganze Pizza.
+- **Preise** in `MOTO_PIZZA_STYLES` (`data/menu.js`): Detroit ganz 18,90 €, New York ganz
+  22,00 €, Stück 5,90 € in beiden Styles.
+- **MAX' PICK und TOP SELLER** in beiden Karussells, datengetrieben über die Flaggen
+  `maxPick` und `topSeller`. Max' Pick springt über `goToData()` zum Top Seller — derselbe
+  Weg wie die Pfeile, deshalb erscheint Top Seller auch beim normalen Blättern.
+- **MOTO DEALS** mit sechs Karten: drei Detroit, drei New York, je 6,90 €.
+- **Vorladen** der Stückbilder: einmal ruhig eine Sekunde nach `load`, zusätzlich sobald
+  jemand den Umschalter ansteuert. Gemessen sind nach dem Klick alle Slides sofort da.
+
+### 14.3 Die 20 Stückpizza-Bilder
+
+`assets/images/slice-<id>.png` (Detroit) und `slice-ny-<id>.png` (New York), je zehn.
+Quelle sind echte Stück-Fotos aus `~/Desktop/moto/Moto pizza/`; die Originale dort sind
+unangetastet.
+
+**Nicht erneut „optimieren" oder neu freistellen — der Stand ist freigegeben.**
+
+Wie sie entstanden sind, falls es je wiederholt werden muss:
+
+1. **Freigestellt** wird über die Pizza, nicht über den Hintergrund. Der Weg über den
+   Hintergrund scheitert am Studioschatten: er ist neutral wie der Hintergrund, seine
+   weiche Auslaufkante aber texturiert — je nach Kriterium bleibt ein grauer Saum stehen
+   oder heller Käse am Slice-Rand wird weggeschnitten. Die Pizza ist dagegen eindeutig:
+   entweder farbig (Kruste, Sauce, Belag) oder hell **und** texturiert (Käse, Ricotta).
+   Gemessen liegt die lokale Standardabweichung des Hintergrunds bei 0,7, die der
+   Pizzaoberfläche bei 15,6.
+2. **Kantenreinigung.** Die Weichzeichnung der Maske macht Pixel außerhalb der Kontur
+   halbtransparent — das sind Hintergrund und Schatten, daher der helle Saum. Die weiche
+   Kante sitzt deshalb auf echtem Pizzarand, und die Farbe der Randpixel kommt aus sechs
+   Pixel Tiefe. Mit der Farbe direkt vom Rand bleibt der Saum bestehen, dort liegen schon
+   Mischpixel (gemessen 255, 255, 250).
+3. **Einheitliche Leinwand** 1500 × 1000 für alle 20, skaliert über die **Fläche** der
+   Pizza statt über die Bounding-Box — ein Dreieck und ein Quadrat mit gleich hoher Box
+   wirken sonst unterschiedlich groß. Flächenabweichung über alle 20: unter 0,2 %.
+
+Weil die Einheitlichkeit damit in den Dateien liegt, braucht das CSS **keine Sonderregel
+pro Variante**. Eine frühere Lösung über `--bild-max-h` wurde wieder entfernt; sie darf
+nicht zurückkommen.
+
+### 14.4 Live-Prüfung am 08.09.2026
+
+Auf motopizza.de selbst geprüft, nicht lokal:
+
+| Prüfpunkt | Ergebnis |
+|---|---|
+| Alle vier Kombinationen, je 10 Slides | **40 / 40 fehlerfrei** |
+| Zuordnung Pizza 01 → Stück 01 | durchgehend korrekt |
+| Detroit Stückpizza, gerenderte Bildbox | 654 × 436 bei allen zehn |
+| New York Stückpizza, gerenderte Bildbox | 704 × 469 bei allen zehn |
+| Alle 40 Karussellbilder | HTTP 200, keins fehlt |
+| Kaputte Bilder | 0 |
+| Helle Ränder / abgeschnittene Pizzen | keine, auf Pink und auf Blau geprüft |
+| Horizontaler Overflow Desktop + Mobile | 0 |
+| Konsolenfehler | keine |
+
+### 14.5 Nicht verändern
+
+Detroit- und New-York-Karussell samt Bewegung, Pfeilen, Loop, Easing und Nummerierung ·
+die 20 Stückbilder und die 20 Ganzpizza-Bilder · Namen, Zutaten, Allergene, Reihenfolge ·
+alle Preise · MAX' PICK und TOP SELLER · MOTO DEALS · Dessert · Getränke · Galerie ·
+Navigation · Hero · die Marquee-Zeile „FRISCH AUS DEM DURCHLAUFOFEN".
+
+### 14.6 Arbeitsweise, die sich bewährt hat
+
+Lokale Vorschau nach jeder CSS- oder JS-Änderung auf einem **neuen Port** starten, sonst
+liefert der Browser Zwischenstände aus dem Cache. Deployt wird ausschließlich über
+`git push origin main`; Netlify baut selbst.

@@ -424,78 +424,19 @@ body {
 .hero__actions .btn--ghost { color: var(--white); box-shadow: inset 0 0 0 2px var(--white); }
 .hero__actions .btn--ghost:hover { background: var(--white); color: var(--pink); }
 
-/* ---------- Opening deal --------------------------------------------------
-   Typography on the pink, not a card: no surface, no border, no shadow box.
-   It borrows the hero headline's own devices so it reads as part of the
-   original design rather than an insert — Good Times throughout, white as
-   the primary, MOTO blue as the accent, and the same blue offset the
-   outline headline line above it already uses.
-   Compact by construction: two short lines beside the number instead of a
-   stacked block, so the headline keeps the stage and the pizza gets its
-   room back. Stays a flow element, so it can never cover anything. */
-.hero__promo {
-  position: relative; z-index: 2;
-  margin: clamp(10px, 1.6vw, 18px) auto 0;
-  display: inline-flex; align-items: center;
-  gap: clamp(9px, 1.5vw, 15px);
-  color: var(--white);
-}
-.hero__promo-value {
-  display: inline-flex; align-items: center; gap: 0.16em;
-  font-family: var(--font-display);
-  font-size: clamp(2.5rem, 6.4vw, 3.9rem);
-  line-height: 0.82;
-  letter-spacing: -0.035em;
-  color: var(--white);
-  flex: none;
-  /* the same blue that outlines "CRUNCH IN EVERY BITE." directly above,
-     here as a hard offset — a decal edge, not a drop shadow */
-  text-shadow: 0.045em 0.05em 0 var(--blue);
-}
-.hero__promo-pct { font-size: 0.58em; align-self: flex-start; margin-top: 0.12em; }
-.hero__promo-bolt {
-  width: 0.42em; height: 0.62em; flex: none;
-  fill: var(--blue);
-  transform: translateY(-0.02em);
-  filter: drop-shadow(0 0 6px rgba(22, 163, 230, 0.55));
-}
-/* hairline instead of a rule: white at low alpha reads as a fold in the
-   layout rather than a divider drawn on top of it */
-.hero__promo-copy {
-  display: flex; flex-direction: column; gap: 1px;
-  padding-left: clamp(9px, 1.5vw, 15px);
-  border-left: 1px solid rgba(255, 255, 255, 0.38);
-  text-align: left;
-}
-.hero__promo-head {
-  font-family: var(--font-display);
-  font-size: clamp(0.7rem, 1.45vw, 0.9rem);
-  letter-spacing: 0.11em;
-  text-transform: uppercase;
-  color: var(--white);
-  white-space: nowrap;
-}
-.hero__promo-sub {
-  font-family: var(--font-display);
-  font-size: clamp(0.62rem, 1.25vw, 0.78rem);
-  letter-spacing: 0.11em;
-  text-transform: uppercase;
-  color: var(--blue);
-  white-space: nowrap;
-}
-@media (max-width: 380px) {
-  .hero__promo { gap: 8px; margin-top: 8px; }
-  .hero__promo-copy { padding-left: 8px; }
-}
-
 .hero__product {
   position: relative;
   z-index: 1;
   width: 100%;
-  margin-top: 14px;
+  /* der Eroeffnungs-Deal sass frueher zwischen Headline und Pizza und hat den
+     Abstand mitgetragen. Ohne ihn stand die Pizza mit 18 px direkt unter der
+     Headline, waehrend darunter 40 px zu den Buttons blieben. Der obere
+     Abstand entspricht jetzt exakt dem unteren (.hero__actions), damit die
+     Pizza sauber zwischen beiden sitzt statt an der Headline zu kleben. */
+  margin-top: 30px;
   display: flex; align-items: center; justify-content: center;
 }
-@media (min-width: 900px) { .hero__product { margin-top: 18px; } }
+@media (min-width: 900px) { .hero__product { margin-top: 40px; } }
 .hero__product-img {
   width: 100%; height: auto;
   max-height: 46vh;
@@ -579,7 +520,7 @@ body {
   .hero__logo { height: 76px; margin-bottom: 30px; }
   .hero__title { font-size: clamp(1.65rem, 8.1vw, 2.3rem); gap: 3px; }
   .hero__actions { margin-top: 20px; gap: 10px; }
-  .hero__product { margin-top: 10px; }
+  .hero__product { margin-top: 20px; }
   .hero__product-img { max-height: 42vh; }
 }
 
@@ -677,10 +618,6 @@ body {
   .hero__title span:nth-child(1) { animation: heroLineIn 0.5s var(--ease-bam) 0.15s both; }
   .hero__title span:nth-child(2) { animation: heroLineIn 0.5s var(--ease-bam) 0.26s both; }
 
-  /* slots into the existing beat between the headline (0.15/0.26s) and the
-     pizza (0.78s), so the hero still reads strictly top to bottom */
-  .hero__promo { opacity: 0; animation: heroPromoIn 0.5s var(--ease-bam) 0.45s both; }
-
   .hero__product { opacity: 0; animation: heroPizzaIn 0.62s var(--ease) 0.78s both; }
 
   /* last beat of the hero choreography, after the CTAs at 2.4s: he rises the
@@ -723,12 +660,6 @@ body {
 }
 @keyframes heroPizzaIn {
   from { opacity: 0; transform: translateY(64px) scale(0.95); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
-}
-/* one quiet arrival, then it stays put — deliberately no loop, no pulse,
-   no blink: the card earns attention through contrast, not motion */
-@keyframes heroPromoIn {
-  from { opacity: 0; transform: translateY(14px) scale(0.94); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 @keyframes heroActionsIn {
