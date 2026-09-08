@@ -394,37 +394,45 @@
   </section>
 
   <!-- ==========================================================================
-       MOTO DEALS
-       Limited combo offers, between the pizza section and DESSERT. The cards
-       themselves are injected by initDeals() in js/main.js from MOTO_DEALS in
-       data/menu.js — empty that list and the section hides itself.
+       MOTO MENÜS
+       Die acht Kombi-Menüs, an derselben Stelle wie zuvor die Deals: zwischen
+       Pizza-Sektion und DESSERT. Die Karten spritzt initMenues() in
+       js/main.js aus MOTO_MENUES in data/menu.js ein — leert man die Liste,
+       blendet sich die Sektion aus.
+
+       Die acht Aktionsmotive tragen Menünummer, Namen, Inhalt und Preis
+       bereits selbst und sind der Star der Sektion. Deshalb steht daneben nur
+       eine schmale Bildunterschrift statt einer zweiten Textfassung.
        ========================================================================== -->
-  <section class="deals" id="deals" data-section="deals" hidden>
-    <div class="deals__inner">
-      <div class="deals__head">
-        <p class="deals__limited reveal" data-reveal>
-          <span class="deals__limited-dot" aria-hidden="true"></span>
-          <span class="deals__limited-text">Limited Deals<span class="deals__limited-sep" aria-hidden="true">·</span>nur für kurze Zeit</span>
+  <section class="menues" id="menues" data-section="menues" hidden>
+    <div class="menues__inner">
+      <div class="menues__head">
+        <p class="menues__eyebrow reveal" data-reveal>
+          <span class="menues__eyebrow-dot" aria-hidden="true"></span>
+          <span class="menues__eyebrow-text">Dein <svg class="moto-mark" role="img" aria-label="MOTO"><use href="#moto-wordmark"/></svg>.<span class="menues__eyebrow-sep" aria-hidden="true">·</span>Dein Menü.</span>
         </p>
-        <h2 class="section-title deals__title reveal" data-reveal data-delay="1">
-          <span class="deals__title-moto"><svg class="moto-mark" role="img" aria-label="MOTO"><use href="#moto-wordmark"/></svg></span><span class="deals__title-word">DEALS</span>
+        <h2 class="section-title menues__title reveal" data-reveal data-delay="1">
+          <span class="menues__title-moto"><svg class="moto-mark" role="img" aria-label="MOTO"><use href="#moto-wordmark"/></svg></span><span class="menues__title-word">MENÜS</span>
         </h2>
-        <p class="deals__slogan reveal" data-reveal data-delay="2">
-Wer Käse liebt, liebt <svg class="moto-mark" role="img" aria-label="MOTO"><use href="#moto-wordmark"/></svg>.</p>
+        <p class="menues__slogan reveal" data-reveal data-delay="2">
+Mehr <svg class="moto-mark" role="img" aria-label="MOTO"><use href="#moto-wordmark"/></svg>. Mehr Geschmack.</p>
       </div>
 
-      <div class="deals__slider reveal" data-reveal data-delay="3">
-        <button class="deals__arrow deals__arrow--prev" id="dealsPrev" type="button" aria-label="Vorheriger Deal" hidden>
+      <div class="menues__slider reveal" data-reveal data-delay="3">
+        <button class="menues__arrow menues__arrow--prev" id="menuesPrev" type="button" aria-label="Vorheriges Menü" hidden>
           <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 4l-8 8 8 8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
 
-        <div class="deals__track" id="dealsTrack" tabindex="0" role="group" aria-label="MOTO Deals, horizontal scrollbar"><!-- injected by js/main.js from data/menu.js --></div>
+        <div class="menues__track" id="menuesTrack" tabindex="0" role="group" aria-label="MOTO Menüs, horizontal scrollbar"><!-- injected by js/main.js from data/menu.js --></div>
 
-        <button class="deals__arrow deals__arrow--next" id="dealsNext" type="button" aria-label="Nächster Deal" hidden>
+        <button class="menues__arrow menues__arrow--next" id="menuesNext" type="button" aria-label="Nächstes Menü" hidden>
           <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 4l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
 
-        <div class="deals__dots" id="dealsDots" role="tablist" aria-label="Deal auswählen" hidden><!-- injected by js/main.js --></div>
+        <div class="menues__nav" id="menuesNav" hidden>
+          <p class="menues__count" id="menuesCount" aria-live="polite" aria-atomic="true"><span class="menues__count-now">01</span><span class="menues__count-sep" aria-hidden="true">/</span><span class="menues__count-all">08</span></p>
+          <div class="menues__dots" id="menuesDots" role="tablist" aria-label="Menü auswählen"><!-- injected by js/main.js --></div>
+        </div>
       </div>
     </div>
   </section>

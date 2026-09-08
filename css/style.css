@@ -1190,131 +1190,129 @@ body {
 }
 
 /* ==========================================================================
-   MOTO DEALS
-   Sits between two white sections (menu above, dessert below), so it needs
-   its own ground to read as a distinct offer block. That ground is the
-   thinnest wash of MOTO blue over white — a tint of a colour the brand
-   already owns, not a fourth colour — with rounded corners echoing .menu.
-   Everything on top is pink, blue and white.
+   MOTO MENÜS
+   Steht zwischen zwei weissen Sektionen (Speisekarte oben, Dessert unten)
+   und braucht deshalb einen eigenen Grund, um als eigener Block zu lesen.
+   Dieser Grund ist derselbe hauchdünne Hauch MOTO-Blau über Weiss wie zuvor
+   bei den Deals — ein Ton einer Farbe, die die Marke schon besitzt, keine
+   vierte Farbe. Alles darüber ist Pink, Blau und Weiss.
 
-   The racing note is two dashed arcs behind the cards, the same dashed
-   language as the selector's spinning ring, at low opacity. Decoration only:
-   aria-hidden, pointer-events:none, and it never moves.
+   Die acht Aktionsmotive sind der Star. Alles hier ordnet sich ihnen unter:
+   der Rahmen ist ein schlichtes weisses Blatt, die Bildunterschrift eine
+   einzige Zeile, die Dekoration bleibt hinter den Karten.
    ========================================================================== */
-.deals {
+.menues {
   position: relative;
   overflow: hidden;
   padding: 84px 0 92px;
-  /* the wash is painted over an explicit white ground: composited straight
-     onto the page's cream body it turns grey instead of blue */
+  /* der Hauch wird über einen ausdrücklich weissen Grund gelegt: direkt auf
+     den cremefarbenen Body komponiert würde er grau statt blau */
   background:
     linear-gradient(rgba(22, 163, 230, 0.06), rgba(22, 163, 230, 0.06)),
     var(--white);
 }
-.deals[hidden] { display: none; }
-@media (max-width: 640px) { .deals { padding: 62px 0 70px; } }
+.menues[hidden] { display: none; }
+@media (max-width: 640px) { .menues { padding: 62px 0 70px; } }
 
-.deals__inner {
-  position: relative; z-index: 1;
-  max-width: var(--container); margin: 0 auto;
+.menues__inner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--container);
+  margin: 0 auto;
 }
 
-/* the two arcs. Sized off the section, anchored off-canvas so only the sweep
-   shows — no element of the layout has to make room for them. */
-.deals::before,
-.deals::after {
+/* Die Rennnotiz sind zwei gestrichelte Bögen hinter den Karten, dieselbe
+   gestrichelte Sprache wie der drehende Ring des Selectors, bei geringer
+   Deckkraft. Reine Dekoration: aria-hidden, pointer-events:none, unbewegt. */
+.menues::before,
+.menues::after {
   content: "";
   position: absolute;
   border-radius: 50%;
+  border: 2px dashed rgba(236, 30, 141, 0.16);
   pointer-events: none;
 }
-.deals::before {
-  width: 620px; height: 620px;
-  top: -230px; right: -190px;
-  border: 2px dashed rgba(236, 30, 141, 0.16);
+.menues::before {
+  width: 260px; height: 260px;
+  top: -90px; right: -90px;
+  border-color: rgba(22, 163, 230, 0.16);
 }
-.deals::after {
-  width: 460px; height: 460px;
-  bottom: -220px; left: -150px;
-  border: 2px dashed rgba(22, 163, 230, 0.2);
+.menues::after {
+  width: 220px; height: 220px;
+  bottom: -110px; left: -80px;
 }
-@media (max-width: 640px) {
-  .deals::before { width: 380px; height: 380px; top: -150px; right: -140px; }
-  .deals::after { width: 300px; height: 300px; bottom: -160px; left: -110px; }
+@media (min-width: 900px) {
+  .menues::before { width: 380px; height: 380px; top: -150px; right: -140px; }
+  .menues::after { width: 300px; height: 300px; bottom: -160px; left: -110px; }
 }
 
-.deals__head {
+.menues__head {
   padding: 0 var(--pad);
-  margin-bottom: clamp(30px, 4vw, 44px);
+  margin-bottom: clamp(28px, 3.4vw, 44px);
 }
 
-/* ---------- the limited-time flag ---------------------------------------
-   A pill in the brand pink with two speed lines running out of it — the
-   racing cue does the shouting, so the words do not have to. No exclamation
-   marks, no starburst, no "SALE": it reads as part of the branding rather
-   than as a discount sticker stuck on top. */
-.deals__limited {
-  display: inline-flex; align-items: center; gap: 9px;
-  padding: 7px 16px 7px 13px;
+/* ---------- Eyebrow ------------------------------------------------------
+   Dieselbe Pille wie zuvor die Limited-Flagge: das Auge kennt sie an dieser
+   Stelle bereits, sie sagt nur etwas anderes. */
+.menues__eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 15px 7px 12px;
   border-radius: 999px;
   background: var(--pink);
   color: var(--white);
   font-family: var(--font-display);
-  font-size: clamp(0.6rem, 0.84vw, 0.74rem);
-  letter-spacing: 0.16em; text-transform: uppercase;
-  white-space: nowrap;
-  margin-bottom: clamp(14px, 1.8vw, 20px);
-  box-shadow: 0 12px 26px -14px rgba(236, 30, 141, 0.9);
+  font-size: clamp(0.62rem, 1vw, 0.72rem);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: clamp(12px, 1.6vw, 18px);
 }
-.deals__limited-dot {
-  width: 7px; height: 7px; border-radius: 50%; flex: none;
+.menues__eyebrow .moto-mark { color: var(--white); }
+.menues__eyebrow-dot {
+  width: 7px; height: 7px; border-radius: 50%;
   background: var(--white);
-  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.28);
+  flex: none;
 }
-.deals__limited-sep { margin: 0 0.5em; opacity: 0.65; }
-/* the speed lines — three tapering strokes trailing the pill, drawn with a
-   repeating gradient so there is no extra markup and nothing to load */
-.deals__limited::after {
-  content: "";
-  width: clamp(18px, 2.6vw, 30px); height: 9px;
-  margin-left: 3px; flex: none;
-  background:
-    linear-gradient(to right, rgba(255,255,255,0.85), rgba(255,255,255,0)) top left / 100% 1.5px no-repeat,
-    linear-gradient(to right, rgba(255,255,255,0.6), rgba(255,255,255,0)) center left / 78% 1.5px no-repeat,
-    linear-gradient(to right, rgba(255,255,255,0.85), rgba(255,255,255,0)) bottom left / 90% 1.5px no-repeat;
-}
-@media (max-width: 640px) {
-  .deals__limited { padding: 6px 13px 6px 11px; gap: 7px; letter-spacing: 0.12em; }
-  .deals__limited-dot { width: 6px; height: 6px; box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3); }
+.menues__eyebrow-sep { margin: 0 0.5em; opacity: 0.65; }
+@media (max-width: 380px) {
+  .menues__eyebrow { padding: 6px 13px 6px 11px; gap: 7px; letter-spacing: 0.12em; }
+  .menues__eyebrow-dot { width: 6px; height: 6px; box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3); }
 }
 
-/* MOTO in pink, DEALS in blue — the wordmark carries the M-O-T-O, so the
-   brand name is the logotype here exactly as it is everywhere else. */
-.deals__title { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.28em; }
-.deals__title-moto { color: var(--pink); display: inline-flex; align-items: baseline; }
-.deals__title-word { color: var(--blue); }
+.menues__title { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.28em; }
+.menues__title-moto { color: var(--pink); display: inline-flex; align-items: baseline; }
+.menues__title-word { color: var(--blue); }
 
-.deals__slogan {
-  margin-top: clamp(12px, 1.6vw, 18px);
-  font-family: var(--font-display);
-  font-size: clamp(0.95rem, 1.9vw, 1.45rem);
-  letter-spacing: 0.02em; text-transform: uppercase;
-  color: var(--ink);
+.menues__slogan {
+  margin-top: clamp(10px, 1.4vw, 16px);
+  max-width: 46ch;
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  color: rgba(20, 17, 22, 0.72);
 }
-.deals__slogan .moto-mark { color: var(--pink); }
+.menues__slogan .moto-mark { color: var(--pink); }
 
-/* ---------- the slider --------------------------------------------------
-   The track is the scroll container. Cards scroll inside it, so the page
-   itself never gains a horizontal scrollbar however narrow the viewport is.
-   scroll-padding + the matching track padding keep a snapped card aligned
-   with the section's own left edge instead of the raw container edge. */
-.deals__slider { position: relative; }
+/* ---------- die Bahn -----------------------------------------------------
+   Die Bahn ist der Scrollcontainer. Die Karten scrollen darin, die Seite
+   selbst kann deshalb nie eine Querscrollbar bekommen, wie schmal der
+   Viewport auch wird.
 
-.deals__track {
+   Anders als bei den Deals rasten die Karten MITTIG ein: ein Menü ist ein
+   ganzes Werbemotiv und bekommt die Bühne für sich. Das seitliche Polster
+   ist deshalb genau so breit, dass auch die erste und die letzte Karte in
+   die Mitte fahren können — ohne dieses Polster bliebe die erste Karte links
+   kleben und der Fokus wäre gelogen. */
+.menues__slider { position: relative; }
+
+.menues__track {
+  /* Absolut, nicht in Prozent: das mittige Polster wird AUS dieser Breite
+     berechnet, und eine Prozentangabe würde sich gegen die dadurch bereits
+     verkleinerte Innenbreite auflösen — die Karte schrumpfte sich selbst. */
+  --karte: 72vw;
   display: flex;
-  gap: clamp(14px, 2vw, 24px);
-  padding: 6px var(--pad) 10px;
-  scroll-padding-left: var(--pad);
+  align-items: stretch;
+  gap: clamp(14px, 2vw, 26px);
+  padding-block: 6px 10px;
+  padding-inline: max(var(--pad), calc((100% - var(--karte)) / 2));
   overflow-x: auto;
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
@@ -1323,127 +1321,158 @@ body {
   scrollbar-width: none;
   outline: none;
 }
-.deals__track::-webkit-scrollbar { display: none; }
-.deals__track.is-dragging { cursor: grabbing; scroll-snap-type: none; }
-.deals__track:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; border-radius: 8px; }
+.menues__track::-webkit-scrollbar { display: none; }
+.menues__track.is-dragging { cursor: grabbing; scroll-snap-type: none; }
+.menues__track:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; border-radius: 8px; }
 
-/* one card at a time on a phone with the next one clearly peeking, two on a
-   tablet, all three at once from the point they fit without shrinking the
-   photo — the picture is the point of the card, so it never gets squeezed */
-.deal-card {
-  flex: 0 0 82%;
-  scroll-snap-align: start;
+/* Ein Menü im Fokus, der Nachbar schaut an. Auf dem Telefon reicht der
+   Anschnitt, um den Swipe erklärungsfrei anzubieten; ab Tablet wird die
+   Karte breiter, damit die Preise und Produktzeilen im Motiv lesbar bleiben,
+   ohne dass sie die Bühne verliert. */
+@media (min-width: 620px)  { .menues__track { --karte: min(58vw, 470px); } }
+@media (min-width: 900px)  { .menues__track { --karte: min(56vw, 560px); } }
+@media (min-width: 1180px) { .menues__track { --karte: min(48vw, 680px); } }
+
+.menue-card {
+  flex: 0 0 var(--karte);
+  scroll-snap-align: center;
   min-width: 0;
   display: flex; flex-direction: column;
   background: var(--white);
   border-radius: var(--radius);
   overflow: hidden;
   box-shadow: 0 22px 44px -28px rgba(20, 17, 22, 0.45);
+  transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease), opacity 0.45s var(--ease);
 }
-@media (min-width: 620px)  { .deal-card { flex-basis: 54%; } }
-@media (min-width: 900px)  { .deal-card { flex-basis: 40%; } }
-@media (min-width: 1180px) { .deal-card { flex-basis: calc((100% - 2 * clamp(14px, 2vw, 24px)) / 3); } }
+/* die Fokuskarte tritt einen Schritt vor — leicht genug, dass beim Wechsel
+   nichts springt, deutlich genug, dass klar ist, welches Menü gemeint ist */
+@media (min-width: 900px) {
+  .menue-card { transform: scale(0.94); opacity: 0.72; }
+  .menue-card.is-active { transform: scale(1); opacity: 1; box-shadow: 0 30px 60px -30px rgba(20, 17, 22, 0.5); }
+  .menues__track.is-dragging .menue-card { transition: none; }
+}
 
-/* the photo sits on the same blue wash as the section, so the product's own
-   white cut-out has a ground instead of dissolving into the card */
-.deal-card__media {
+/* Das Motiv trägt Logo, Menünummer, Produkte, Texte und Preis bereits in
+   sich. Es darf deshalb NIE beschnitten werden: die Breite gibt die Karte
+   vor, die Höhe folgt dem Seitenverhältnis des Bildes. Damit ist jedes Motiv
+   vollständig sichtbar und keines verzerrt — auch Menü 7, das als einziges
+   nicht quadratisch ist. */
+.menue-card__media {
   background: rgba(22, 163, 230, 0.07);
-  border-bottom: 1px dashed rgba(22, 163, 230, 0.28);
-  aspect-ratio: 3 / 2;
-  display: flex; align-items: center; justify-content: center;
-  padding: 10px;
+  display: block;
 }
-.deal-card__media img {
-  width: 100%; height: 100%;
-  object-fit: contain;      /* full slice and full can, never cropped */
+.menue-card__media img {
+  display: block;
+  width: 100%;
+  height: auto;             /* kein Zuschnitt, keine Verzerrung */
   -webkit-user-drag: none;
   user-select: none;
 }
 
-.deal-card__body {
-  display: flex; flex-direction: column;
-  flex: 1;
-  padding: clamp(18px, 2.2vw, 26px) clamp(16px, 2vw, 24px) clamp(18px, 2.2vw, 24px);
-}
-.deal-card__name {
-  font-family: var(--font-display); text-transform: uppercase;
-  font-size: clamp(1.05rem, 1.7vw, 1.4rem);
-  line-height: 1.1; letter-spacing: 0.01em;
-  color: var(--ink);
-  margin-bottom: clamp(10px, 1.3vw, 14px);
-}
-.deal-card__items {
-  list-style: none;
-  display: flex; flex-direction: column; gap: 5px;
-  margin-bottom: clamp(14px, 1.8vw, 20px);
-}
-.deal-card__items li {
-  position: relative;
-  padding-left: 16px;
-  font-size: clamp(0.86rem, 1.05vw, 0.95rem);
-  line-height: 1.45;
-  color: rgba(20, 17, 22, 0.7);
-}
-/* a short pink dash instead of a bullet — same racing shorthand as the rest
-   of the section, and it lines the two rows up on their own left edge */
-.deal-card__items li::before {
-  content: "";
-  position: absolute; left: 0; top: 0.66em;
-  width: 9px; height: 2px;
-  background: var(--pink);
-  border-radius: 1px;
-}
-/* the price is the loudest thing on the card, and it is pushed to the
-   bottom so all three read on one line however long the item list gets */
-.deal-card__price {
+/* Eine einzige schmale Zeile. Alles Weitere steht bereits im Motiv, und ein
+   zweites Mal danebengeschrieben würde die Sektion nur zustellen.
+   margin-top:auto setzt die Zeile bei allen Karten auf dieselbe Grundlinie,
+   auch wenn ein Motiv wie Menü 7 flacher ist als die übrigen. */
+.menue-card__caption {
   margin-top: auto;
+  display: flex; align-items: baseline; flex-wrap: wrap;
+  gap: 6px 10px;
+  padding: clamp(13px, 1.6vw, 18px) clamp(14px, 1.8vw, 22px);
+  border-top: 1px dashed rgba(22, 163, 230, 0.28);
+}
+.menue-card__nr {
+  font-family: var(--font-display); text-transform: uppercase;
+  font-size: clamp(0.6rem, 0.9vw, 0.7rem);
+  letter-spacing: 0.14em;
+  color: var(--blue);
+  flex: none;
+}
+.menue-card__name {
+  font-family: var(--font-display); text-transform: uppercase;
+  font-size: clamp(0.95rem, 1.4vw, 1.2rem);
+  line-height: 1.1;
+  color: var(--ink);
+}
+.menue-card__name .moto-mark { color: var(--pink); }
+.menue-card__stil {
+  font-size: clamp(0.72rem, 0.95vw, 0.82rem);
+  color: rgba(20, 17, 22, 0.55);
+  flex: 1 1 auto;
+}
+.menue-card__price {
+  margin-left: auto;
+  flex: none;
   font-family: var(--font-display);
-  font-size: clamp(1.7rem, 3vw, 2.3rem);
+  font-size: clamp(1.05rem, 1.7vw, 1.35rem);
   line-height: 1;
   color: var(--pink);
+  white-space: nowrap;
+}
+.menue-card__ab {
+  font-size: 0.6em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(20, 17, 22, 0.5);
 }
 
-/* ---------- slider controls ---------------------------------------------
-   Both are hidden by js/main.js whenever the track does not overflow. */
-.deals__arrow[hidden], .deals__dots[hidden] { display: none; }
+/* ---------- Bedienelemente ----------------------------------------------
+   Beide werden von js/main.js ausgeblendet, sobald die Bahn nicht überläuft. */
+.menues__arrow[hidden], .menues__nav[hidden] { display: none; }
 
-.deals__arrow {
-  position: absolute; top: calc(50% - 46px); z-index: 3;
-  transform: translateY(-50%);
+.menues__arrow {
+  position: absolute; top: 42%; transform: translateY(-50%);
+  z-index: 2;
   width: 46px; height: 46px;
-  border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
   background: var(--white);
-  color: var(--blue);
-  box-shadow: 0 14px 28px -14px rgba(20, 17, 22, 0.5);
-  transition: background 0.25s var(--ease), color 0.25s var(--ease),
-              transform 0.2s var(--ease), opacity 0.25s var(--ease);
+  color: var(--ink);
+  box-shadow: 0 12px 26px -12px rgba(20, 17, 22, 0.45);
+  cursor: pointer;
+  transition: background 0.25s var(--ease), color 0.25s var(--ease), transform 0.25s var(--ease), opacity 0.25s var(--ease);
 }
-.deals__arrow--prev { left: calc(var(--pad) - 23px); }
-.deals__arrow--next { right: calc(var(--pad) - 23px); }
-.deals__arrow:hover { background: var(--blue); color: var(--white); }
-.deals__arrow:active { transform: translateY(-50%) scale(0.9); }
-.deals__arrow:disabled { opacity: 0; pointer-events: none; }
-.deals__arrow:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
-@media (max-width: 767px) { .deals__arrow { display: none; } }
+.menues__arrow--prev { left: calc(var(--pad) - 23px); }
+.menues__arrow--next { right: calc(var(--pad) - 23px); }
+.menues__arrow:hover { background: var(--blue); color: var(--white); }
+.menues__arrow:active { transform: translateY(-50%) scale(0.9); }
+.menues__arrow:disabled { opacity: 0; pointer-events: none; }
+.menues__arrow:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+@media (max-width: 767px) { .menues__arrow { display: none; } }
 
-.deals__dots {
-  display: flex; justify-content: center; align-items: center;
-  gap: 9px;
+/* Zähler und Punkte teilen sich eine Zeile: die Zahl sagt genau, wo man
+   steht, die Punkte machen jedes Menü direkt anspringbar. */
+.menues__nav {
+  display: flex; align-items: center; justify-content: center;
+  gap: clamp(14px, 2vw, 22px);
   margin-top: clamp(16px, 2vw, 22px);
   padding: 0 var(--pad);
 }
-.deals__dot {
+.menues__count {
+  display: inline-flex; align-items: baseline; gap: 4px;
+  font-family: var(--font-display);
+  font-size: clamp(0.78rem, 1.1vw, 0.9rem);
+  letter-spacing: 0.08em;
+  color: rgba(20, 17, 22, 0.45);
+  font-variant-numeric: tabular-nums;
+}
+.menues__count-now { color: var(--pink); }
+.menues__count-sep { opacity: 0.5; }
+
+.menues__dots {
+  display: flex; justify-content: center; align-items: center;
+  gap: 9px;
+}
+.menues__dot {
   width: 8px; height: 8px; border-radius: 50%;
   background: rgba(20, 17, 22, 0.18);
   transition: background 0.25s var(--ease), transform 0.25s var(--ease);
   cursor: pointer;
 }
-.deals__dot.is-active { background: var(--pink); transform: scale(1.35); }
-.deals__dot:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+.menues__dot.is-active { background: var(--pink); transform: scale(1.35); }
+.menues__dot:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) {
-  .deals__dot, .deals__arrow { transition: none; }
-  .deals__dot.is-active { transform: none; }
+  .menues__dot, .menues__arrow, .menue-card { transition: none; }
+  .menues__dot.is-active { transform: none; }
 }
 
 /* ==========================================================================

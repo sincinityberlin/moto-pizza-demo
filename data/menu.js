@@ -186,59 +186,100 @@ const MOTO_MENU = [
 ];
 
 /* ==========================================================================
-   MOTO DEALS — limited-time combo offers
-   Own list, deliberately separate from MOTO_MENU: a deal is a combination at
-   its own price, not a pizza, and the ten pizzas must stay untouched by it.
+   MOTO MENÜS — die acht Kombi-Menüs
+   Eigene Liste, bewusst getrennt von MOTO_MENU: ein Menü ist eine
+   Kombination zu eigenem Preis, keine Pizza — die zehn Pizzen bleiben davon
+   unberührt.
 
-   id matches assets/images/deal-<id>.png. `items` is the deal's contents, one
-   line per entry, rendered in order. Price is per deal — all six share 6,90
-   today, but each carries its own so one can change alone.
+   Zu jedem Menü gehört ein fertig gestaltetes Aktionsmotiv unter `bild`.
+   `bw`/`bh` sind dessen echte Pixelmasse — sie stehen als width/height im
+   Markup, damit der Browser den Platz vor dem Laden kennt und nichts
+   springt. Menü 7 ist als einziges nicht quadratisch, deshalb je Motiv.
+   Dieses Motiv trägt Menünummer, Namen, Inhalt und Preis bereits selbst;
+   die Felder hier sind die Textfassung davon — für den Bildtext, die
+   Vorlesbarkeit und die schmale Bildunterschrift. Sie dürfen deshalb nie
+   vom Motiv abweichen.
 
-   Order is Detroit first, then New York; the slider shows them in exactly
-   this order and adapts its dots to however many entries are here.
+   `stil` unterscheidet Detroit (Menü 1–6) von New York (Menü 7–8) und wird
+   als kleiner Chip ausgegeben, ohne die Sektion zu teilen.
 
-   To end the promotion, empty this list: the section renders nothing and
-   hides itself, with no change in index.html or js/main.js.
+   Reihenfolge = Anzeigereihenfolge. Leert man die Liste, rendert die Sektion
+   nichts und blendet sich aus, ohne Änderung in index.html oder js/main.js.
    ========================================================================== */
-const MOTO_DEALS = [
+const MOTO_MENUES = [
   {
-    id: "frico",
-    name: "Frico Deal",
-    items: ["1× Detroit Pizza Slice Frico", "1× Dose nach Wahl"],
-    price: "6,90",
+    nr: 1,
+    name: "MOTO Solo",
+    stil: "Detroit Style · 25 × 25 cm",
+    bild: "menue-1-moto-solo",
+    bw: 1254, bh: 1254,
+    items: ["1× Detroit Pizza 25 × 25 cm", "1× Getränk 0,33 l"],
+    price: "16,90",
   },
   {
-    id: "pepperoniking",
-    name: "Pepperoni King Deal",
-    items: ["1× Detroit Pizza Slice Pepperoni King", "1× Dose nach Wahl"],
-    price: "6,90",
+    nr: 2,
+    name: "MOTO Full Tank",
+    stil: "Detroit Style · 25 × 25 cm",
+    bild: "menue-2-moto-full-tank",
+    bw: 1254, bh: 1254,
+    items: ["1× Detroit Pizza 25 × 25 cm", "1× Getränk 0,33 l", "1× MO MISU"],
+    price: "20,90",
   },
   {
-    id: "beeflover",
-    name: "Beef Lover Deal",
-    items: ["1× Detroit Pizza Slice Beef Lover", "1× Dose nach Wahl"],
-    price: "6,90",
+    nr: 3,
+    name: "MOTO Double",
+    stil: "Detroit Style · 25 × 25 cm",
+    bild: "menue-3-moto-double",
+    bw: 1254, bh: 1254,
+    items: ["2× Detroit Pizza 25 × 25 cm", "2× Getränke 0,33 l"],
+    price: "31,90",
   },
   {
-    id: "ny-frico",
-    name: "New York Frico Deal",
-    items: ["1× New York Style Pizza Slice Frico", "1× Dose nach Wahl"],
-    price: "6,90",
+    nr: 4,
+    name: "MOTO Date Night",
+    stil: "Detroit Style · 25 × 25 cm",
+    bild: "menue-4-moto-date-night",
+    bw: 1254, bh: 1254,
+    items: ["2× Detroit Pizza 25 × 25 cm", "2× Getränke 0,33 l", "1× MO MISU"],
+    price: "35,90",
   },
   {
-    id: "ny-pepperoniking",
-    name: "New York Pepperoni King Deal",
-    items: ["1× New York Style Pizza Slice Pepperoni King", "1× Dose nach Wahl"],
-    price: "6,90",
+    nr: 5,
+    name: "MOTO Crew",
+    stil: "Detroit Style · 25 × 25 cm",
+    bild: "menue-5-moto-crew",
+    bw: 1254, bh: 1254,
+    items: ["3× Detroit Pizza 25 × 25 cm", "3× Getränke 0,33 l", "2× MO MISU"],
+    price: "49,90",
   },
   {
-    id: "ny-beeflover",
-    name: "New York Beef Lover Deal",
-    items: ["1× New York Style Pizza Slice Beef Lover", "1× Dose nach Wahl"],
-    price: "6,90",
+    nr: 6,
+    name: "MOTO Family",
+    stil: "Detroit Style · 25 × 25 cm",
+    bild: "menue-6-moto-family",
+    bw: 1254, bh: 1254,
+    items: ["4× Detroit Pizza 25 × 25 cm", "4× Getränke 0,33 l", "2× MO MISU"],
+    price: "64,90",
+  },
+  {
+    nr: 7,
+    name: "NY Solo",
+    stil: "New York Style · 45 cm",
+    bild: "menue-7-ny-solo",
+    bw: 1370, bh: 1148,
+    items: ["1× New York Style Pizza 45 cm", "1× Getränk 0,33 l"],
+    price: "19,90",
+  },
+  {
+    nr: 8,
+    name: "NY Full Tank",
+    stil: "New York Style · 45 cm",
+    bild: "menue-8-ny-full-tank",
+    bw: 1254, bh: 1254,
+    items: ["1× New York Style Pizza 45 cm", "2× Getränke 0,33 l", "1× MO MISU"],
+    price: "24,90",
   },
 ];
-
 /* id matches assets/images/snack-<id>.png. price: "" renders the
    "Preis folgt" placeholder in renderProductGrid (js/main.js) instead of
    inventing a number — swap in the real price string (e.g. "4,50") once

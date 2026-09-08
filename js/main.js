@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
   initPizzaStyles(karussells);
   renderGallery();
-  initDeals();
+  initMenues();
   renderProductGrid("snacksGrid", MOTO_SNACKS, "snack");
   renderProductGrid("drinksGrid", MOTO_DRINKS, "drink");
   initNavScroll();
@@ -613,49 +613,58 @@ function renderGallery() {
   track.innerHTML = items + items;
 }
 
-/* ---------- MOTO DEALS slider ---------------------------------------------
-   A different animal from the pizza selector on purpose: that one is an arc
-   of ten slides driven frame by frame from JS. Three deals need none of
-   that, so the motion here is the browser's own — a scroll container with
-   CSS scroll-snap. Touch swipe, trackpad, shift-wheel, arrow keys and the
-   scrollbar all work for free, momentum feels native on every device, and
-   because the cards scroll *inside* the track the page itself can never gain
-   a horizontal scrollbar.
+/* ---------- MOTO MENÜS slider ---------------------------------------------
+   Dieselbe Mechanik wie zuvor die Deals, weil sie sich bewährt hat: der
+   Transport ist CSS scroll-snap. Touch-Swipe, Trackpad, Shift-Wheel,
+   Pfeiltasten und die Scrollbar funktionieren dadurch von selbst, die
+   Trägheit fühlt sich auf jedem Gerät nativ an, und weil die Karten INNERHALB
+   der Bahn scrollen, kann die Seite selbst nie eine Querscrollbar bekommen.
 
-   JS only does what CSS cannot: keep the dots in sync with the scroll
-   position, move the track when a dot or arrow is used, and hide both
-   controls when everything already fits (wide desktop shows all three, and
-   controls for a scroller that cannot scroll would be a lie).
+   Ein Unterschied zu den Deals: dort lagen mehrere Karten nebeneinander und
+   die Bahn rastete links ein. Ein Menü ist ein ganzes Werbemotiv und will die
+   Bühne für sich — die Karten rasten deshalb MITTIG ein. Auf dem Desktop
+   steht ein Menü im Fokus, links und rechts schauen die Nachbarn an, damit
+   ohne Erklärung sichtbar ist, dass es weitergeht.
 
-   The section starts `hidden` in index.html and is only revealed once there
-   is something to show, so emptying MOTO_DEALS ends the promotion with no
-   other change anywhere.
+   JS macht nur, was CSS nicht kann: Zähler und Punkte mit der Scrollposition
+   synchron halten, die Bahn bewegen, wenn Pfeil oder Punkt benutzt wird, und
+   die Bedienelemente ausblenden, wenn ohnehin alles passt.
+
+   Die Sektion startet `hidden` in index.html und wird erst sichtbar, wenn es
+   etwas zu zeigen gibt: leert man MOTO_MENUES, verschwindet sie ohne weitere
+   Änderung.
    ---------------------------------------------------------------------- */
-function initDeals() {
-  const section = document.getElementById("deals");
-  const track = document.getElementById("dealsTrack");
-  const dots = document.getElementById("dealsDots");
-  const prev = document.getElementById("dealsPrev");
-  const next = document.getElementById("dealsNext");
-  if (!section || !track || typeof MOTO_DEALS === "undefined" || !MOTO_DEALS.length) return;
+function initMenues() {
+  const section = document.getElementById("menues");
+  const track = document.getElementById("menuesTrack");
+  const nav = document.getElementById("menuesNav");
+  const dots = document.getElementById("menuesDots");
+  const zaehler = document.getElementById("menuesCount");
+  const prev = document.getElementById("menuesPrev");
+  const next = document.getElementById("menuesNext");
+  if (!section || !track || typeof MOTO_MENUES === "undefined" || !MOTO_MENUES.length) return;
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const scrollBehavior = reducedMotion ? "auto" : "smooth";
+  const zwei = (n) => String(n).padStart(2, "0");
 
-  track.innerHTML = MOTO_DEALS.map(
-    (d) => `
-    <article class="deal-card">
-      <div class="deal-card__media">
-        <img src="assets/images/deal-${escapeHtml(d.id)}.png"
-             alt="${escapeHtml(d.name)} — ${escapeHtml(d.items.join(" und "))}" loading="lazy" draggable="false" />
+  /* Das Motiv trägt Nummer, Namen, Inhalt und Preis selbst. Der Alternativtext
+     spricht genau das aus, damit Vorlesen und Bildausfall dieselbe Information
+     liefern wie das Bild — die Bildunterschrift darunter bleibt dafür schmal. */
+  track.innerHTML = MOTO_MENUES.map(
+    (m) => `
+    <article class="menue-card" aria-roledescription="Menü">
+      <div class="menue-card__media">
+        <img src="assets/images/${escapeHtml(m.bild)}.png"
+             alt="Menü ${m.nr} — ${escapeHtml(m.name)}: ${escapeHtml(m.items.join(", "))}. Ab ${escapeHtml(m.price)} €."
+             width="${m.bw}" height="${m.bh}" loading="lazy" decoding="async" draggable="false" />
       </div>
-      <div class="deal-card__body">
-        <h3 class="deal-card__name">${withMotoMark(d.name)}</h3>
-        <ul class="deal-card__items">
-          ${d.items.map((i) => `<li>${withMotoMark(i)}</li>`).join("")}
-        </ul>
-        <p class="deal-card__price">${escapeHtml(d.price)}&nbsp;€</p>
-      </div>
+      <figcaption class="menue-card__caption">
+        <span class="menue-card__nr">Menü ${zwei(m.nr)}</span>
+        <span class="menue-card__name">${withMotoMark(m.name)}</span>
+        <span class="menue-card__stil">${escapeHtml(m.stil)}</span>
+        <span class="menue-card__price"><span class="menue-card__ab">ab</span> ${escapeHtml(m.price)}&nbsp;€</span>
+      </figcaption>
     </article>`
   ).join("");
 
@@ -663,20 +672,37 @@ function initDeals() {
 
   const cards = [...track.children];
 
-  dots.innerHTML = MOTO_DEALS.map(
-    (d, i) => `<button type="button" role="tab" class="deals__dot" data-idx="${i}"
-                 aria-selected="${i === 0}" aria-label="Deal ${i + 1} von ${MOTO_DEALS.length}: ${escapeHtml(d.name)}"></button>`
+  dots.innerHTML = MOTO_MENUES.map(
+    (m, i) => `<button type="button" role="tab" class="menues__dot" data-idx="${i}"
+                 aria-selected="${i === 0}" aria-label="Menü ${i + 1} von ${MOTO_MENUES.length}: ${escapeHtml(m.name)}"></button>`
   ).join("");
   const dotEls = [...dots.children];
+  const jetzt = zaehler ? zaehler.querySelector(".menues__count-now") : null;
+  const alle = zaehler ? zaehler.querySelector(".menues__count-all") : null;
+  if (alle) alle.textContent = zwei(MOTO_MENUES.length);
 
-  /* the card nearest the track's left edge is the one being read — same
-     answer the snap points settle on, so the dots never disagree with what
-     the eye sees */
+  /* Die Karten rasten mittig ein, also entscheidet die Bildmitte — nicht die
+     linke Kante wie bei einer links ausgerichteten Bahn. Das ist dieselbe
+     Antwort, auf die scroll-snap selbst zuläuft, sodass Zähler und Punkte
+     nie etwas anderes behaupten als das Auge sieht. */
+  /* Gemessen wird über die tatsächlichen Rechtecke, nicht über offsetLeft:
+     offsetLeft zählt ab dem positionierten Vorfahren und weiß nichts von der
+     Scrollposition der Bahn — damit läge die Mitte je nach Scrollstand
+     woanders. Der Versatz zwischen Kartenmitte und Bahnmitte ist dagegen
+     immer genau die Strecke, die noch zu scrollen ist. Die Fokuskarte ist
+     zudem skaliert; ihre Mitte bleibt davon unberührt, ihre Breite nicht —
+     deshalb wird ausschließlich die Mitte verwendet. */
+  function versatz(card) {
+    const c = card.getBoundingClientRect();
+    const t = track.getBoundingClientRect();
+    return c.left + c.width / 2 - (t.left + t.width / 2);
+  }
+
   function activeIndex() {
     let best = 0;
     let bestDist = Infinity;
     cards.forEach((card, i) => {
-      const dist = Math.abs(card.offsetLeft - track.scrollLeft - parseFloat(getComputedStyle(track).paddingLeft));
+      const dist = Math.abs(versatz(card));
       if (dist < bestDist) {
         bestDist = dist;
         best = i;
@@ -686,8 +712,8 @@ function initDeals() {
   }
 
   function scrollToCard(i) {
-    const target = cards[Math.max(0, Math.min(cards.length - 1, i))];
-    track.scrollTo({ left: target.offsetLeft - parseFloat(getComputedStyle(track).paddingLeft), behavior: scrollBehavior });
+    const card = cards[Math.max(0, Math.min(cards.length - 1, i))];
+    track.scrollTo({ left: track.scrollLeft + versatz(card), behavior: scrollBehavior });
   }
 
   let syncFrame = null;
@@ -696,26 +722,27 @@ function initDeals() {
     syncFrame = requestAnimationFrame(() => {
       syncFrame = null;
       const i = activeIndex();
+      cards.forEach((card, ci) => card.classList.toggle("is-active", ci === i));
       dotEls.forEach((dot, di) => {
         dot.classList.toggle("is-active", di === i);
         dot.setAttribute("aria-selected", String(di === i));
       });
-      // at the ends there is nowhere left to go — say so rather than
-      // offering a control that does nothing
+      if (jetzt) jetzt.textContent = zwei(i + 1);
+      // an den Enden gibt es nichts mehr zu holen — das zu zeigen ist
+      // ehrlicher, als eine Schaltfläche anzubieten, die nichts tut
       const max = track.scrollWidth - track.clientWidth;
       prev.disabled = track.scrollLeft <= 1;
       next.disabled = track.scrollLeft >= max - 1;
     });
   }
 
-  /* controls only exist while the track actually overflows: on a wide desktop
-     all three deals are on screen at once and there is nothing to navigate */
+  /* Bedienelemente gibt es nur, solange die Bahn wirklich überläuft */
   function updateControls() {
     const overflows = track.scrollWidth - track.clientWidth > 2;
-    dots.hidden = !overflows;
+    nav.hidden = !overflows;
     prev.hidden = !overflows;
     next.hidden = !overflows;
-    if (overflows) sync();
+    sync();
   }
 
   track.addEventListener("scroll", sync, { passive: true });
@@ -723,9 +750,9 @@ function initDeals() {
   prev.addEventListener("click", () => scrollToCard(activeIndex() - 1));
   next.addEventListener("click", () => scrollToCard(activeIndex() + 1));
 
-  /* mouse drag, for pointers that have no swipe. Touch is left entirely to
-     the browser so native momentum and snap stay intact. The 6px deadzone
-     keeps a plain click from being read as a drag. */
+  /* Maus-Drag, für Zeiger ohne Swipe. Touch bleibt vollständig dem Browser
+     überlassen, damit native Trägheit und Snap unangetastet bleiben. Die 6px
+     Totzone verhindert, dass ein simpler Klick als Zug gelesen wird. */
   if (window.matchMedia("(pointer: fine)").matches) {
     let dragging = false;
     let startX = 0;
@@ -752,24 +779,23 @@ function initDeals() {
       if (!dragging) return;
       dragging = false;
       track.classList.remove("is-dragging");
-      if (moved) scrollToCard(activeIndex()); // settle onto the nearest snap point
+      if (moved) scrollToCard(activeIndex()); // auf den nächsten Rastpunkt setzen
     };
     track.addEventListener("pointerup", endDrag);
     track.addEventListener("pointercancel", endDrag);
     track.addEventListener("pointerleave", endDrag);
   }
 
-  let dealsResizeTimer;
+  let menuesResizeTimer;
   window.addEventListener("resize", () => {
-    clearTimeout(dealsResizeTimer);
-    dealsResizeTimer = setTimeout(updateControls, 120);
+    clearTimeout(menuesResizeTimer);
+    menuesResizeTimer = setTimeout(updateControls, 120);
   });
 
-  /* the first measurement happens before the webfonts and the deal photos
-     have settled the card heights, so whether the track overflows can still
-     change under us. Watch the track itself and re-decide when it does —
-     otherwise a first paint that overflowed leaves dots on a slider that no
-     longer scrolls. */
+  /* Die erste Messung fällt, bevor Webfonts und Motive die Kartenhöhe
+     festgelegt haben — ob die Bahn überläuft, kann sich also noch unter uns
+     ändern. Die Bahn selbst beobachten und neu entscheiden, wenn sie sich
+     ändert. */
   if ("ResizeObserver" in window) {
     new ResizeObserver(() => updateControls()).observe(track);
   }
