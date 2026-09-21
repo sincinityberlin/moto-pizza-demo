@@ -1,8 +1,10 @@
 # MOTO PIZZA — Projektübergabe
 
-**Stand:** 09.09.2026 · **Live auf motopizza.de:** `327805a` · Working Tree sauber
+**Stand:** 21.09.2026 · **Live auf motopizza.de:** `2ba65a3` · Working Tree sauber
 
-> **Zuerst Abschnitt 15 lesen.** Er beschreibt den aktuellen, live geprüften Stand.
+> **Zuerst Abschnitt 16 lesen**, dann 15. Abschnitt 16 beschreibt den aktuellen, live
+> geprüften Stand der MOTO MENÜS; Abschnitt 15 bleibt für Aufbau, Carousel und die
+> beiden Fallen gültig, ist aber bei den Bildern überholt.
 > Danach Abschnitt 14 — er gilt weiterhin für Netlify, die Karussells und die
 > Stückpizza-Bilder, ist aber bei der Angebotssektion überholt: die dort beschriebenen
 > MOTO DEALS gibt es nicht mehr, an ihrer Stelle stehen die MOTO MENÜS aus Abschnitt 15.
@@ -494,6 +496,10 @@ zuvor bei den Deals, damit die Sektion an ihrem Platz nicht wie ein Fremdkörper
 
 ### 15.2 Die acht Menüs — Reihenfolge, Preise, Bilddateien
 
+> **Bilder und Inhalt von Menü 8 sind seit 21.09.2026 überholt — siehe Abschnitt 16.**
+> Die Dateinamen sind gleich geblieben, dahinter stecken jetzt andere Motive. Die
+> UUID-Zuordnung unten gilt nur noch für die Git-Historie bis `e3ae9d2`.
+
 Reihenfolge in `MOTO_MENUES` (`data/menu.js`) = Anzeigereihenfolge.
 
 | Nr | Name | Inhalt | Preis | Bilddatei in `assets/images/` |
@@ -623,3 +629,95 @@ Sektion zwischen Speisekarte und Dessert · die mittige Rastung und die absolute
 Kartenbreite (siehe die beiden Fallen in 15.4) · dass Höhe dem Bildseitenverhältnis folgt.
 
 Die MOTO-MENÜS-Sektion ist **eine** Sektion. Menü 7 und 8 bekommen keine eigene.
+
+
+---
+
+## 16. AKTUELLER STAND — live geprüft am 21.09.2026
+
+**Live auf motopizza.de:** Commit `2ba65a3` „MOTO Menues: neue Produktfreisteller,
+Beschreibung und Inhalt auf der Karte". Vorgänger `e3ae9d2` (nur HANDOVER) und `327805a`.
+Deployment über `git push origin main`, Netlify baut selbst; live nach rund 20 Sekunden.
+Keine Änderung an Konfiguration, Branches, Domain.
+
+### 16.1 Was sich gegenüber Abschnitt 15 geändert hat
+
+Die acht Menübilder sind ausgetauscht. Die bisherigen Motive waren fertig gestaltete
+Werbebilder mit Menünummer, Namen und Preis im Bild. Die neuen sind **reine
+Produktfreisteller auf Weiss, ohne Text** — Pizzen, Dosen und MO-MISU-Boxen in genau der
+Anzahl des Menüs. Alle acht **1536 × 1024** (3:2), vorher 1254 × 1254 bzw. 1370 × 1148.
+
+Weil das Bild nichts mehr beschriftet, **trägt jetzt die Karte die Information**, in der
+Lesereihenfolge **Bild → Name → Beschreibung → Inhalt → Preis**. Neu in `MOTO_MENUES` ist
+das Feld `desc` (ein Satz im MOTO-Ton); die schmale Bildunterschrift aus Abschnitt 15.5 ist
+durch den Kartenkörper `.menue-card__body` ersetzt. Carousel, Pfeile, Punkte, Zähler,
+Scroll-Snap, Drag und die beiden Fallen aus 15.4 sind unverändert.
+
+**Menü 8 hat einen neuen Inhalt:** 2× New York Style Pizza (vorher 1×), 2× Getränke,
+1× MO MISU — auf Vorgabe des Nutzers, Preis unverändert 24,90 €. Das neue Bild zeigt zwei
+runde Pizzen. Die übrigen sieben Inhalte sind gleich geblieben, nur die Formulierung ist
+„deiner Wahl" statt „0,33 l".
+
+### 16.2 Die acht Menüs — Stand 21.09.2026
+
+Dateinamen sind gleich geblieben; die Zuordnung zu den Originalen ist neu. Zugeordnet
+wurde nach den **sichtbaren Mengen** auf dem Bild, nicht nach Dateinamen.
+
+| Nr | Name | Inhalt | Preis | Datei | Original in `~/Desktop/moto/Moto pizza/` |
+|---|---|---|---|---|---|
+| 1 | MOTO Solo | 1× Detroit Pizza + 1× Getränk | ab 16,90 € | `menue-1-moto-solo.png` | `AE9CBC87-1AF1-4CD9-835C-C959C00F0093.PNG` |
+| 2 | MOTO Full Tank | 1× Detroit + 1× Getränk + 1× MO MISU | ab 20,90 € | `menue-2-moto-full-tank.png` | `0E95C14B-CE70-4ECA-9642-9CC24525029F.PNG` |
+| 3 | MOTO Double | 2× Detroit + 2× Getränke | ab 31,90 € | `menue-3-moto-double.png` | `7049F9D0-AC4B-4372-B29B-6DA22C4D39DD.PNG` |
+| 4 | MOTO Date Night | 2× Detroit + 2× Getränke + 1× MO MISU | ab 35,90 € | `menue-4-moto-date-night.png` | `E2157927-0176-4528-AC04-D87A266552B9.PNG` |
+| 5 | MOTO Crew | 3× Detroit + 3× Getränke + 2× MO MISU | ab 49,90 € | `menue-5-moto-crew.png` | `C29E96DB-F6FA-4077-A011-509DF36CD428.PNG` |
+| 6 | MOTO Family | 4× Detroit + 4× Getränke + 2× MO MISU | ab 64,90 € | `menue-6-moto-family.png` | `303261ED-148A-4CDC-B3DF-CF370D04F845.PNG` |
+| **7** | **NY Solo** | 1× New York 45 cm + 1× Getränk | ab 19,90 € | `menue-7-ny-solo.png` | `56AE09C6-53C4-4F50-B0E3-3E4D816DFF07.PNG` |
+| **8** | **NY Full Tank** | **2×** New York 45 cm + 2× Getränke + 1× MO MISU | ab 24,90 € | `menue-8-ny-full-tank.png` | `FEA6F5BF-A93B-483C-9B9F-A804DF721898.PNG` |
+
+Alle acht byte-identisch kopiert (MD5 geprüft) — nichts generiert, skaliert oder
+umkodiert. **Sie sind final und dürfen nicht bearbeitet werden.** Die vorherigen Motive
+stecken in der Git-Historie bis `e3ae9d2`.
+
+Die acht Beschreibungen stehen in `data/menu.js` unter `desc`. Regel: ein Satz, MOTO-Ton,
+nur nennen, was im Menü enthalten ist — nichts erfinden. „MOTO" darin wird über
+`withMotoMark()` zum pinken Schriftzug.
+
+### 16.3 Die Karte
+
+```
+.menue-card
+  .menue-card__media   img 1536×1024, width:100%, height:auto — nie beschneiden
+  .menue-card__body
+    .menue-card__meta  „Menü 01" · Stil-Chip
+    h3.menue-card__name
+    p.menue-card__desc
+    ul.menue-card__items  (pinker Strich statt Punkt)
+    p.menue-card__price   margin-top:auto → gemeinsame Grundlinie
+```
+
+Das Bild ist ein Freisteller auf Weiss und füllt die Kartenbreite; die Höhe folgt dem
+Seitenverhältnis. Kein `object-fit: cover`, kein festes `aspect-ratio`. Der Kartenkörper
+ist vom Bild durch die gestrichelte blaue Linie getrennt, die auch die Deals schon nutzten.
+Kartenhöhe auf dem Desktop rund 750 px, die Sektion damit höher als ein Viewport — gewollt.
+
+### 16.4 Live-Prüfung am 21.09.2026
+
+Auf motopizza.de selbst geprüft, Desktop 1440 / Tablet 834 / Mobile 390:
+
+| Prüfpunkt | Ergebnis |
+|---|---|
+| `css/style.css`, `js/main.js`, `data/menu.js`, 8 Motive live = lokal (MD5) | **11 / 11 identisch** |
+| 8 Bilder geladen, alle 1536 × 1024 | ✓ |
+| Reihenfolge, Beschreibungen, Inhalte, Preise | ✓ alle acht |
+| Bild beschnitten oder verzerrt | nein |
+| Pfeile bis 08/08 und zurück, Endzustände deaktiviert | ✓ alle drei |
+| Punkt 7 → NY Solo exakt mittig | ✓ 0 px |
+| Karten überlappen / horizontaler Overflow | nein / 0 |
+| Konsolenfehler | keine |
+| Pizza-Karussells und Dessert unverändert | ✓ |
+
+### 16.5 Nicht verändern
+
+Zusätzlich zu 14.5 und 15.7: die acht Freisteller · das Feld `desc` und die Reihenfolge
+Bild → Name → Beschreibung → Inhalt → Preis · der Inhalt von Menü 8 mit zwei Pizzen (vom
+Nutzer so vorgegeben) · alle Preise.
