@@ -1352,13 +1352,12 @@ body {
   .menues__track.is-dragging .menue-card { transition: none; }
 }
 
-/* Das Motiv trägt Logo, Menünummer, Produkte, Texte und Preis bereits in
-   sich. Es darf deshalb NIE beschnitten werden: die Breite gibt die Karte
-   vor, die Höhe folgt dem Seitenverhältnis des Bildes. Damit ist jedes Motiv
-   vollständig sichtbar und keines verzerrt — auch Menü 7, das als einziges
-   nicht quadratisch ist. */
+/* Das Bild ist ein Produktfreisteller auf Weiss und darf NIE beschnitten
+   werden: die Breite gibt die Karte vor, die Höhe folgt dem Seitenverhältnis
+   des Bildes. Damit ist jede Pizza, jede Dose und jede MO-MISU-Box vollständig
+   sichtbar und nichts verzerrt. Alle acht sind 3:2. */
 .menue-card__media {
-  background: rgba(22, 163, 230, 0.07);
+  background: var(--white);
   display: block;
 }
 .menue-card__media img {
@@ -1369,50 +1368,80 @@ body {
   user-select: none;
 }
 
-/* Eine einzige schmale Zeile. Alles Weitere steht bereits im Motiv, und ein
-   zweites Mal danebengeschrieben würde die Sektion nur zustellen.
-   margin-top:auto setzt die Zeile bei allen Karten auf dieselbe Grundlinie,
-   auch wenn ein Motiv wie Menü 7 flacher ist als die übrigen. */
-.menue-card__caption {
-  margin-top: auto;
-  display: flex; align-items: baseline; flex-wrap: wrap;
-  gap: 6px 10px;
-  padding: clamp(13px, 1.6vw, 18px) clamp(14px, 1.8vw, 22px);
+/* Die Karte trägt die Information, weil das Bild es nicht mehr tut —
+   in der Lesereihenfolge Name, ein Satz, Inhalt, Preis. Der Preis sitzt
+   unten und wird über margin-top:auto auf allen Karten auf dieselbe
+   Grundlinie gesetzt, wie lang der Inhalt darüber auch wird. */
+.menue-card__body {
+  display: flex; flex-direction: column;
+  flex: 1;
+  padding: clamp(16px, 2vw, 24px) clamp(16px, 2vw, 24px) clamp(18px, 2.2vw, 24px);
   border-top: 1px dashed rgba(22, 163, 230, 0.28);
+}
+.menue-card__meta {
+  display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px;
+  margin-bottom: 6px;
 }
 .menue-card__nr {
   font-family: var(--font-display); text-transform: uppercase;
   font-size: clamp(0.6rem, 0.9vw, 0.7rem);
   letter-spacing: 0.14em;
   color: var(--blue);
-  flex: none;
 }
-.menue-card__name {
-  font-family: var(--font-display); text-transform: uppercase;
-  font-size: clamp(0.95rem, 1.4vw, 1.2rem);
-  line-height: 1.1;
-  color: var(--ink);
-}
-.menue-card__name .moto-mark { color: var(--pink); }
 .menue-card__stil {
   font-size: clamp(0.72rem, 0.95vw, 0.82rem);
   color: rgba(20, 17, 22, 0.55);
-  flex: 1 1 auto;
+}
+.menue-card__name {
+  font-family: var(--font-display); text-transform: uppercase;
+  font-size: clamp(1.15rem, 1.8vw, 1.5rem);
+  line-height: 1.1;
+  color: var(--ink);
+  margin-bottom: clamp(8px, 1vw, 10px);
+}
+.menue-card__name .moto-mark { color: var(--pink); }
+.menue-card__desc {
+  font-size: clamp(0.9rem, 1.1vw, 1rem);
+  line-height: 1.5;
+  color: rgba(20, 17, 22, 0.72);
+  margin-bottom: clamp(12px, 1.5vw, 16px);
+}
+.menue-card__desc .moto-mark { color: var(--pink); }
+.menue-card__items {
+  list-style: none;
+  display: flex; flex-direction: column; gap: 5px;
+  margin-bottom: clamp(14px, 1.8vw, 20px);
+}
+.menue-card__items li {
+  position: relative;
+  padding-left: 16px;
+  font-size: clamp(0.86rem, 1.05vw, 0.95rem);
+  line-height: 1.45;
+  color: rgba(20, 17, 22, 0.7);
+}
+/* ein kurzer pinker Strich statt Aufzählungspunkt — dieselbe Rennschrift wie
+   im Rest der Sektion, und er richtet die Zeilen auf einer linken Kante aus */
+.menue-card__items li::before {
+  content: "";
+  position: absolute; left: 0; top: 0.66em;
+  width: 9px; height: 2px;
+  background: var(--pink);
+  border-radius: 1px;
 }
 .menue-card__price {
-  margin-left: auto;
-  flex: none;
+  margin-top: auto;
   font-family: var(--font-display);
-  font-size: clamp(1.05rem, 1.7vw, 1.35rem);
+  font-size: clamp(1.6rem, 2.6vw, 2.1rem);
   line-height: 1;
   color: var(--pink);
   white-space: nowrap;
 }
 .menue-card__ab {
-  font-size: 0.6em;
+  font-size: 0.5em;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: rgba(20, 17, 22, 0.5);
+  margin-right: 0.15em;
 }
 
 /* ---------- Bedienelemente ----------------------------------------------

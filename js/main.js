@@ -648,23 +648,30 @@ function initMenues() {
   const scrollBehavior = reducedMotion ? "auto" : "smooth";
   const zwei = (n) => String(n).padStart(2, "0");
 
-  /* Das Motiv trägt Nummer, Namen, Inhalt und Preis selbst. Der Alternativtext
-     spricht genau das aus, damit Vorlesen und Bildausfall dieselbe Information
-     liefern wie das Bild — die Bildunterschrift darunter bleibt dafür schmal. */
+  /* Das Bild zeigt nur die Produkte, die Karte trägt die Information — in
+     der Lesereihenfolge Bild, Name, ein Satz, Inhalt, Preis. Der Alternativtext
+     beschreibt, was auf dem Freisteller zu sehen ist, damit Vorlesen und
+     Bildausfall dieselbe Information liefern. */
   track.innerHTML = MOTO_MENUES.map(
     (m) => `
     <article class="menue-card" aria-roledescription="Menü">
       <div class="menue-card__media">
         <img src="assets/images/${escapeHtml(m.bild)}.png"
-             alt="Menü ${m.nr} — ${escapeHtml(m.name)}: ${escapeHtml(m.items.join(", "))}. Ab ${escapeHtml(m.price)} €."
+             alt="${escapeHtml(m.items.join(", "))} — Menü ${m.nr}, ${escapeHtml(m.name)}"
              width="${m.bw}" height="${m.bh}" loading="lazy" decoding="async" draggable="false" />
       </div>
-      <figcaption class="menue-card__caption">
-        <span class="menue-card__nr">Menü ${zwei(m.nr)}</span>
-        <span class="menue-card__name">${withMotoMark(m.name)}</span>
-        <span class="menue-card__stil">${escapeHtml(m.stil)}</span>
-        <span class="menue-card__price"><span class="menue-card__ab">ab</span> ${escapeHtml(m.price)}&nbsp;€</span>
-      </figcaption>
+      <div class="menue-card__body">
+        <p class="menue-card__meta">
+          <span class="menue-card__nr">Menü ${zwei(m.nr)}</span>
+          <span class="menue-card__stil">${escapeHtml(m.stil)}</span>
+        </p>
+        <h3 class="menue-card__name">${withMotoMark(m.name)}</h3>
+        <p class="menue-card__desc">${withMotoMark(m.desc)}</p>
+        <ul class="menue-card__items">
+          ${m.items.map((i) => `<li>${escapeHtml(i)}</li>`).join("")}
+        </ul>
+        <p class="menue-card__price"><span class="menue-card__ab">ab</span> ${escapeHtml(m.price)}&nbsp;€</p>
+      </div>
     </article>`
   ).join("");
 

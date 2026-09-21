@@ -191,14 +191,15 @@ const MOTO_MENU = [
    Kombination zu eigenem Preis, keine Pizza — die zehn Pizzen bleiben davon
    unberührt.
 
-   Zu jedem Menü gehört ein fertig gestaltetes Aktionsmotiv unter `bild`.
-   `bw`/`bh` sind dessen echte Pixelmasse — sie stehen als width/height im
-   Markup, damit der Browser den Platz vor dem Laden kennt und nichts
-   springt. Menü 7 ist als einziges nicht quadratisch, deshalb je Motiv.
-   Dieses Motiv trägt Menünummer, Namen, Inhalt und Preis bereits selbst;
-   die Felder hier sind die Textfassung davon — für den Bildtext, die
-   Vorlesbarkeit und die schmale Bildunterschrift. Sie dürfen deshalb nie
-   vom Motiv abweichen.
+   Zu jedem Menü gehört ein Produktfreisteller unter `bild` (seit 21.09.2026:
+   nur die Produkte auf Weiss, ohne Text — Pizzen, Dosen und MO-MISU-Boxen in
+   genau der Anzahl, die `items` nennt). `bw`/`bh` sind dessen echte
+   Pixelmasse und stehen als width/height im Markup, damit der Browser den
+   Platz vor dem Laden kennt und nichts springt; alle acht sind 1536 × 1024.
+
+   Weil das Bild nichts mehr beschriftet, trägt die Karte die Information:
+   `name`, `desc` (ein Satz im MOTO-Ton, nichts erfinden, was nicht im Menü
+   ist), `items` (Inhalt, eine Zeile je Eintrag) und `price`.
 
    `stil` unterscheidet Detroit (Menü 1–6) von New York (Menü 7–8) und wird
    als kleiner Chip ausgegeben, ohne die Sektion zu teilen.
@@ -211,72 +212,80 @@ const MOTO_MENUES = [
     nr: 1,
     name: "MOTO Solo",
     stil: "Detroit Style · 25 × 25 cm",
+    desc: "Dein MOTO Einstieg: eine knusprige Detroit Style Pizza mit einem Drink deiner Wahl.",
     bild: "menue-1-moto-solo",
-    bw: 1254, bh: 1254,
-    items: ["1× Detroit Pizza 25 × 25 cm", "1× Getränk 0,33 l"],
+    bw: 1536, bh: 1024,
+    items: ["1× Detroit Pizza 25 × 25 cm", "1× Getränk deiner Wahl"],
     price: "16,90",
   },
   {
     nr: 2,
     name: "MOTO Full Tank",
     stil: "Detroit Style · 25 × 25 cm",
+    desc: "Das volle MOTO Erlebnis: Detroit Style Pizza, dein Lieblingsdrink und ein MO MISU zum Abschluss.",
     bild: "menue-2-moto-full-tank",
-    bw: 1254, bh: 1254,
-    items: ["1× Detroit Pizza 25 × 25 cm", "1× Getränk 0,33 l", "1× MO MISU"],
+    bw: 1536, bh: 1024,
+    items: ["1× Detroit Pizza 25 × 25 cm", "1× Getränk deiner Wahl", "1× MO MISU"],
     price: "20,90",
   },
   {
     nr: 3,
     name: "MOTO Double",
     stil: "Detroit Style · 25 × 25 cm",
+    desc: "Doppelt MOTO: zwei Detroit Style Pizzen und zwei Drinks deiner Wahl. Teilen ist optional.",
     bild: "menue-3-moto-double",
-    bw: 1254, bh: 1254,
-    items: ["2× Detroit Pizza 25 × 25 cm", "2× Getränke 0,33 l"],
+    bw: 1536, bh: 1024,
+    items: ["2× Detroit Pizza 25 × 25 cm", "2× Getränke deiner Wahl"],
     price: "31,90",
   },
   {
     nr: 4,
     name: "MOTO Date Night",
     stil: "Detroit Style · 25 × 25 cm",
+    desc: "Für zwei, die es sich gut gehen lassen: zwei Detroit Style Pizzen, zwei Drinks und ein MO MISU zum Teilen.",
     bild: "menue-4-moto-date-night",
-    bw: 1254, bh: 1254,
-    items: ["2× Detroit Pizza 25 × 25 cm", "2× Getränke 0,33 l", "1× MO MISU"],
+    bw: 1536, bh: 1024,
+    items: ["2× Detroit Pizza 25 × 25 cm", "2× Getränke deiner Wahl", "1× MO MISU"],
     price: "35,90",
   },
   {
     nr: 5,
     name: "MOTO Crew",
     stil: "Detroit Style · 25 × 25 cm",
+    desc: "Für die ganze Crew: drei Detroit Style Pizzen, drei Drinks und zwei MO MISU. Reicht für alle, die mitfahren.",
     bild: "menue-5-moto-crew",
-    bw: 1254, bh: 1254,
-    items: ["3× Detroit Pizza 25 × 25 cm", "3× Getränke 0,33 l", "2× MO MISU"],
+    bw: 1536, bh: 1024,
+    items: ["3× Detroit Pizza 25 × 25 cm", "3× Getränke deiner Wahl", "2× MO MISU"],
     price: "49,90",
   },
   {
     nr: 6,
     name: "MOTO Family",
     stil: "Detroit Style · 25 × 25 cm",
+    desc: "Das große Paket: vier Detroit Style Pizzen, vier Drinks und zwei MO MISU. Alle satt, alle happy.",
     bild: "menue-6-moto-family",
-    bw: 1254, bh: 1254,
-    items: ["4× Detroit Pizza 25 × 25 cm", "4× Getränke 0,33 l", "2× MO MISU"],
+    bw: 1536, bh: 1024,
+    items: ["4× Detroit Pizza 25 × 25 cm", "4× Getränke deiner Wahl", "2× MO MISU"],
     price: "64,90",
   },
   {
     nr: 7,
     name: "NY Solo",
     stil: "New York Style · 45 cm",
+    desc: "Bigger Pizza, bigger Moments: eine New York Style Pizza mit 45 cm und ein Drink deiner Wahl.",
     bild: "menue-7-ny-solo",
-    bw: 1370, bh: 1148,
-    items: ["1× New York Style Pizza 45 cm", "1× Getränk 0,33 l"],
+    bw: 1536, bh: 1024,
+    items: ["1× New York Style Pizza 45 cm", "1× Getränk deiner Wahl"],
     price: "19,90",
   },
   {
     nr: 8,
     name: "NY Full Tank",
     stil: "New York Style · 45 cm",
+    desc: "Volltanken auf New Yorker Art: zwei Pizzen mit 45 cm, zwei Drinks und ein MO MISU zum Abschluss.",
     bild: "menue-8-ny-full-tank",
-    bw: 1254, bh: 1254,
-    items: ["1× New York Style Pizza 45 cm", "2× Getränke 0,33 l", "1× MO MISU"],
+    bw: 1536, bh: 1024,
+    items: ["2× New York Style Pizza 45 cm", "2× Getränke deiner Wahl", "1× MO MISU"],
     price: "24,90",
   },
 ];
