@@ -1,6 +1,6 @@
 # MOTO PIZZA — Projektübergabe
 
-**Stand:** 07.10.2026 · **Live auf motopizza.de:** `04923f8` · Working Tree sauber
+**Stand:** 07.10.2026 · **Live auf motopizza.de:** `d10608a` · Working Tree sauber
 
 > **Zuerst Abschnitt 17 lesen**, dann 16 und 15. Abschnitt 16 beschreibt den aktuellen, live
 > geprüften Stand der MOTO MENÜS; Abschnitt 15 bleibt für Aufbau, Carousel und die
@@ -740,7 +740,7 @@ abgelöst und dürfen nicht zurückkommen.**
 | # | Sorte | Preis | Datei | Original in `~/Desktop/moto/Moto pizza/` |
 |---|---|---|---|---|
 | 1 | Classic Tiramisu | 5,90 € | `snack-misu-classic.png` | `577e09cc-…` |
-| 2 | Dark-Cookies Tiramisu | 5,90 € | `snack-misu-dark-cookies.png` | `4D7261A5-…` |
+| 2 | Dark-Cookies Tiramisu | 5,90 € | `snack-misu-dark-cookies.png` | `EA906F4E-…` |
 | 3 | Golden-Biskuit Tiramisu | 5,90 € | `snack-misu-golden-biskuit.png` | `7442c2b1-…` |
 | 4 | Pistachio-Tiramisu | 5,90 € | `snack-misu-pistachio.png` | `88e3f623-…` |
 | 5 | Chocolate Tiramisu | 5,90 € | `snack-misu-chocolate.png` | `f9d8f1c6-…` |
@@ -749,11 +749,12 @@ abgelöst und dürfen nicht zurückkommen.**
 Allergencode **B** nur bei Pistachio; alle sechs tragen weiterhin
 `allergensPending: true`, die Angaben sind also noch nicht bestätigt.
 
-**Dark-Cookies kam in drei Fassungen.** Verwendet ist die letzte (`4D7261A5-…`): sie
-bringt als einzige echtes Alpha mit und ihr Karton hat Seitenverhältnis 1,267 statt
-1,50 der beiden Vorgänger, passt also zu den übrigen. Die Vorgänger
-`89bc7078-…` (schwarzer Grund) und `D6CC296E-…` (eingebranntes Schachbrett, **kein**
-Alphakanal) nicht mehr verwenden.
+**Dark-Cookies kam in vier Fassungen.** Verwendet ist die letzte,
+`EA906F4E-F33D-4099-B06A-5442B4650FF8.PNG` (Kartonverhältnis 1,261). Sie bringt
+eigenes Alpha mit und wird deshalb **nicht neu freigestellt**, sondern nur auf die
+Kontur zugeschnitten. Die drei Vorgänger nicht mehr verwenden:
+`89bc7078-…` (schwarzer Grund, Verhältnis 1,50), `D6CC296E-…` (eingebranntes
+Schachbrett, **kein** Alphakanal, 1,507) und `4D7261A5-…` (1,267).
 
 ### 17.2 Freistellen
 
@@ -794,7 +795,7 @@ nichts. Wer das will, braucht neue Fotos aus identischem Winkel.
 
 | Prüfpunkt | Ergebnis |
 |---|---|
-| 6 Bilder live = lokal (MD5) | **6 / 6 identisch** |
+| 6 Bilder live = lokal (MD5) | **6 / 6 identisch**, zuletzt geprüft zu `d10608a` |
 | Leinwand aller sechs | 1200 × 900 |
 | Sichtbare Breite / Höhe, Spanne | 4,4 % / 6,6 % |
 | Mittelpunkt | bei allen 599/449 |
