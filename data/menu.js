@@ -289,41 +289,15 @@ const MOTO_MENUES = [
     price: "24,90",
   },
 ];
-/* id matches assets/images/snack-<id>.png. price: "" renders the
-   "Preis folgt" placeholder in renderProductGrid (js/main.js) instead of
-   inventing a number — swap in the real price string (e.g. "4,50") once
-   Misu has one. */
+/* id matches assets/images/snack-<id>.png. price: "" rendert in
+   renderProductGrid (js/main.js) den Platzhalter "Preis folgt", statt eine
+   Zahl zu erfinden.
+
+   Die sechs Sorten und ihre Schreibweise stammen vom Aufdruck der fertigen
+   Verpackungen (Stand 06.10.2026) und sind final. Die früheren Bezeichnungen
+   Lotus, Oreo, Dubai Schokolade und "Salted Caramel & Schokolade" sind damit
+   abgelöst und dürfen nicht zurückkommen. */
 const MOTO_SNACKS = [
-  {
-    id: "misu-lotus",
-    name: "Misu",
-    tag: "Lotus Tiramisu",
-    desc: "Cremiges Tiramisu mit knusprigen Lotus-Keksen und Karamell.",
-    price: "5,90",
-    allergens: [],
-    allergensPending: true,
-    additives: [],
-  },
-  {
-    id: "misu-oreo",
-    name: "Misu",
-    tag: "Oreo Tiramisu",
-    desc: "Cremiges Tiramisu mit reichlich Oreo-Keksstückchen.",
-    price: "5,90",
-    allergens: [],
-    allergensPending: true,
-    additives: [],
-  },
-  {
-    id: "misu-pistazie",
-    name: "Misu",
-    tag: "Pistazien Tiramisu",
-    desc: "Cremiges Tiramisu mit gerösteten Pistazien.",
-    price: "5,90",
-    allergens: ["B"],
-    allergensPending: true,
-    additives: [],
-  },
   {
     id: "misu-classic",
     name: "Misu",
@@ -335,22 +309,52 @@ const MOTO_SNACKS = [
     additives: [],
   },
   {
-    id: "misu-saltedcaramel",
+    id: "misu-dark-cookies",
     name: "Misu",
-    tag: "Salted Caramel & Schokolade",
-    desc: "Cremiges Tiramisu mit gesalzenem Karamell und Schokolade.",
+    tag: "Dark-Cookies Tiramisu",
+    desc: "Cremiges Tiramisu mit reichlich dunklen Keksstückchen.",
     price: "5,90",
     allergens: [],
     allergensPending: true,
     additives: [],
   },
   {
-    id: "misu-dubai",
+    id: "misu-golden-biskuit",
     name: "Misu",
-    tag: "Dubai Schokolade",
-    desc: "Cremiges Tiramisu mit Pistazie und knuspriger Kadayif-Schokolade.",
+    tag: "Golden-Biskuit Tiramisu",
+    desc: "Cremiges Tiramisu mit knusprigem Karamellkeks.",
+    price: "5,90",
+    allergens: [],
+    allergensPending: true,
+    additives: [],
+  },
+  {
+    id: "misu-pistachio",
+    name: "Misu",
+    tag: "Pistachio-Tiramisu",
+    desc: "Cremiges Tiramisu mit gerösteten Pistazien.",
     price: "5,90",
     allergens: ["B"],
+    allergensPending: true,
+    additives: [],
+  },
+  {
+    id: "misu-chocolate",
+    name: "Misu",
+    tag: "Chocolate Tiramisu",
+    desc: "Cremiges Tiramisu mit Schokolade und Schokoladenlocken.",
+    price: "5,90",
+    allergens: [],
+    allergensPending: true,
+    additives: [],
+  },
+  {
+    id: "misu-salted-caramel",
+    name: "Misu",
+    tag: "Salted-Caramel Tiramisu",
+    desc: "Cremiges Tiramisu mit gesalzenem Karamell.",
+    price: "5,90",
+    allergens: [],
     allergensPending: true,
     additives: [],
   },
