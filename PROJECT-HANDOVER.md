@@ -1,8 +1,8 @@
 # MOTO PIZZA — Projektübergabe
 
-**Stand:** 21.09.2026 · **Live auf motopizza.de:** `2ba65a3` · Working Tree sauber
+**Stand:** 07.10.2026 · **Live auf motopizza.de:** `04923f8` · Working Tree sauber
 
-> **Zuerst Abschnitt 16 lesen**, dann 15. Abschnitt 16 beschreibt den aktuellen, live
+> **Zuerst Abschnitt 17 lesen**, dann 16 und 15. Abschnitt 16 beschreibt den aktuellen, live
 > geprüften Stand der MOTO MENÜS; Abschnitt 15 bleibt für Aufbau, Carousel und die
 > beiden Fallen gültig, ist aber bei den Bildern überholt.
 > Danach Abschnitt 14 — er gilt weiterhin für Netlify, die Karussells und die
@@ -721,3 +721,92 @@ Auf motopizza.de selbst geprüft, Desktop 1440 / Tablet 834 / Mobile 390:
 Zusätzlich zu 14.5 und 15.7: die acht Freisteller · das Feld `desc` und die Reihenfolge
 Bild → Name → Beschreibung → Inhalt → Preis · der Inhalt von Menü 8 mit zwei Pizzen (vom
 Nutzer so vorgegeben) · alle Preise.
+
+---
+
+## 17. AKTUELLER STAND — live geprüft am 07.10.2026
+
+**Live auf motopizza.de:** Commit `04923f8`. Davor `a3b3b89` (neue MO-MISU-Bilder
+und Sortennamen) und `0e95079` (New-York-Stückbilder). Deployment über
+`git push origin main`, Netlify baut selbst; live nach rund 20 Sekunden.
+
+### 17.1 Die sechs MO-MISU-Sorten
+
+Die Dessert-Sektion (`#snacks`, `MOTO_SNACKS` in `data/menu.js`) führt sechs Sorten.
+Die Namen stammen vom Aufdruck der fertigen Verpackungen und sind final; die früheren
+Bezeichnungen **Lotus, Oreo, Dubai Schokolade und „Salted Caramel & Schokolade" sind
+abgelöst und dürfen nicht zurückkommen.**
+
+| # | Sorte | Preis | Datei | Original in `~/Desktop/moto/Moto pizza/` |
+|---|---|---|---|---|
+| 1 | Classic Tiramisu | 5,90 € | `snack-misu-classic.png` | `577e09cc-…` |
+| 2 | Dark-Cookies Tiramisu | 5,90 € | `snack-misu-dark-cookies.png` | `4D7261A5-…` |
+| 3 | Golden-Biskuit Tiramisu | 5,90 € | `snack-misu-golden-biskuit.png` | `7442c2b1-…` |
+| 4 | Pistachio-Tiramisu | 5,90 € | `snack-misu-pistachio.png` | `88e3f623-…` |
+| 5 | Chocolate Tiramisu | 5,90 € | `snack-misu-chocolate.png` | `f9d8f1c6-…` |
+| 6 | Salted-Caramel Tiramisu | 5,90 € | `snack-misu-salted-caramel.png` | `8e751f7b-…` |
+
+Allergencode **B** nur bei Pistachio; alle sechs tragen weiterhin
+`allergensPending: true`, die Angaben sind also noch nicht bestätigt.
+
+**Dark-Cookies kam in drei Fassungen.** Verwendet ist die letzte (`4D7261A5-…`): sie
+bringt als einzige echtes Alpha mit und ihr Karton hat Seitenverhältnis 1,267 statt
+1,50 der beiden Vorgänger, passt also zu den übrigen. Die Vorgänger
+`89bc7078-…` (schwarzer Grund) und `D6CC296E-…` (eingebranntes Schachbrett, **kein**
+Alphakanal) nicht mehr verwenden.
+
+### 17.2 Freistellen
+
+Der Studiohintergrund der fünf JPG-Originale ist praktisch reines Schwarz, **die
+Verpackungen enthalten aber selbst Pixel mit Wert 0** — eine Helligkeitsschwelle
+allein stanzt Löcher in den Karton. Als Karton gilt deshalb, was **hell ODER
+texturiert** ist; davon die größte zusammenhängende Fläche, Löcher gefüllt. Dunkle
+Stellen im Inneren sind damit strukturell geschützt, auch bei der schwarzen
+Dark-Cookies-Packung. Die Alphakante liegt 1 px weiter innen und die Randfarbe kommt
+aus dem Inneren — sonst bleibt auf dem hellen Kartenhintergrund ein dunkler Saum.
+
+Dark-Cookies wird **nicht** neu freigestellt: die Datei bringt ihr Alpha mit und wird
+nur auf die Kontur zugeschnitten.
+
+### 17.3 Größe — über die Diagonale, nicht über die Breite
+
+Alle sechs liegen auf derselben Leinwand **1200 × 900** (4:3 wie die Medienbox der
+Produktkarte), Mittelpunkt bei allen **599/449**.
+
+Normalisiert wird über die **Diagonale der sichtbaren Kontur**. Der Weg dorthin, damit
+er nicht erneut durchlaufen wird:
+
+- **Gleiche Fläche** → Breiten- und Höhenspanne je rund 7,9 %.
+- **Gleiche Breite** → 0 % Breite, aber **11,3 % Höhe**; der flachste Karton wirkte
+  dadurch kleiner. Das war der gemeldete Fehler.
+- **Gleiche Diagonale** → **4,4 % Breite und 6,6 % Höhe**, in beiden Maßen besser als
+  die anderen beiden.
+
+Gemessen wird immer die **Bounding-Box der sichtbaren Pixel**, nie die Dateigröße —
+unterschiedlich viel transparenter Rand ergäbe sonst trotz gleicher Datei
+unterschiedlich große Kartons.
+
+Gleiche Breite **und** gleiche Höhe sind nicht erreichbar: dafür müssten die
+Seitenverhältnisse identisch sein (sie liegen bei 1,151 bis 1,281), und verzerrt wird
+nichts. Wer das will, braucht neue Fotos aus identischem Winkel.
+
+### 17.4 Live-Prüfung am 07.10.2026
+
+| Prüfpunkt | Ergebnis |
+|---|---|
+| 6 Bilder live = lokal (MD5) | **6 / 6 identisch** |
+| Leinwand aller sechs | 1200 × 900 |
+| Sichtbare Breite / Höhe, Spanne | 4,4 % / 6,6 % |
+| Mittelpunkt | bei allen 599/449 |
+| `object-fit: contain`, kein Zuschnitt, keine Verzerrung | ✓ |
+| Sortennamen im Live-DOM | alle sechs korrekt |
+| Desktop 1440 / Mobile 390 | ✓ |
+| Horizontaler Overflow / Console Errors | keiner / keine |
+| Pizza-Karussells (2), MOTO MENÜS (8), Getränke (8) | unverändert |
+
+### 17.5 Offen
+
+Die fünf alten Sortendateien `snack-misu-oreo.png`, `-lotus.png`, `-pistazie.png`,
+`-saltedcaramel.png` und `-dubai.png` werden nirgends mehr referenziert, liegen aber
+noch im Repo und sind live abrufbar (rund 2,9 MB). Löschen ist beim Nutzer angefragt
+und noch nicht entschieden.
